@@ -12,87 +12,109 @@
             padding: 20px; 
             border-radius: 8px; 
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1); 
-            width: 1100px !important;  /* Forces the actual container to be wider */
-            margin: 0 auto;            /* Keeps it beautifully centered */
+            width: 1100px !important;  
+            margin: 0 auto;            
             box-sizing: border-box;
         }
 
-        /* Forces the inner Roll20 rows to stretch out and use the new 1100px width */
         .charsheet .sheet-main_char, 
         .charsheet .sheet-equipment, 
         .charsheet section {
             width: 100% !important;
         }
 
-        /* FIX: Pinpoints ONLY the first two identity rows at the very top */
-        .sheet-main_char > .f-row:nth-of-type(1),
-        .sheet-main_char > .f-row:nth-of-type(2) {
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important; /* 3 clean boxes per row */
-            gap: 20px !important;  /* Creates comfortable padding between fields */
+        /* 1. CUSTOM SYSTEM OVERRIDES: Bypasses the broken stylesheet rules */
+        .custom-title-row {
             width: 100% !important;
             margin-bottom: 20px !important;
+            display: block !important;
         }
 
-        /* FIX: Forces labels inside those top two identity rows to stack vertically */
-        .sheet-main_char > .f-row:nth-of-type(1) > .f-col,
-        .sheet-main_char > .f-row:nth-of-type(2) > .f-col {
+        /* 2. CUSTOM IDENTITY GRID: Smooth, airtight 3-column dashboard grid */
+        .custom-identity-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
+            width: 100% !important;
+            margin-bottom: 25px !important;
+            box-sizing: border-box !important;
+        }
+
+        .custom-identity-grid .custom-panel {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             width: 100% !important;
             gap: 4px !important;
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
         }
 
-        /* FIX: Prevents the green header banners from bleeding horizontally */
-        .sheet-main_char > .f-row:nth-of-type(1) label,
-        .sheet-main_char > .f-row:nth-of-type(2) label {
+        /* Enforces top green banners precisely matching image_08a71a.png */
+        .custom-identity-grid .custom-panel label {
             display: block !important;
             width: 100% !important;
-            text-align: left !important;
+            background: #4a5d34 !important; /* Rich military green header background */
+            color: #ffffff !important;
+            padding: 6px 12px !important;
             margin: 0 !important;
-            padding: 6px 10px !important;
+            font-weight: bold;
+            text-align: left !important;
             box-sizing: border-box !important;
             height: auto !important;
         }
 
-        /* FIX: Contains text inputs neatly underneath their green headers */
-        .sheet-main_char > .f-row:nth-of-type(1) input[type="text"],
-        .sheet-main_char > .f-row:nth-of-type(2) input[type="text"] {
+        .custom-identity-grid .custom-panel input[type="text"] {
             display: block !important;
             width: 100% !important;
             margin: 0 !important;
+            padding: 8px !important;
+            box-sizing: border-box !important;
+            border: 1px solid #ccc !important;
+            border-radius: 4px !important;
+        }
+
+        /* 3. CUSTOM TRUTHS LAYOUT: Completely immune to structural collisions */
+        .custom-truths-section {
+            width: 100% !important;
+            margin-bottom: 25px !important;
+            display: block !important;
+            clear: both !important;
+        }
+
+        .custom-truths-header {
+            background: #4a5d34 !important;
+            color: #ffffff !important;
+            padding: 6px 12px !important;
+            font-weight: bold;
+            text-align: left !important;
+            margin-bottom: 8px !important;
+            width: 100% !important;
             box-sizing: border-box !important;
         }
 
-        /* FIX: Protects Personal Truths & Scars layout from the grid logic entirely */
-        .sheet-main_char .truth_text,
-        .sheet-main_char .injuries {
-            display: block !important;
-            width: 100% !important;
-            clear: both !important;
-            margin-top: 15px !important;
-        }
-
-        .sheet-main_char .truth_text .f-row,
-        .sheet-main_char .injuries .f-row {
+        .custom-truths-row {
             display: flex !important;
             flex-direction: row !important;
             justify-content: space-between !important;
-            width: 100% !important;
             gap: 15px !important;
+            width: 100% !important;
         }
 
-        .sheet-main_char .truth_text .f-col,
-        .sheet-main_char .injuries .f-col {
-            display: block !important;
+        .custom-truths-row .custom-cell {
             flex: 1 !important;
+            display: block !important;
         }
 
-        /* Forces the attributes to align side-by-side neatly with plenty of room */
+        .custom-truths-row textarea {
+            width: 100% !important;
+            min-height: 55px;
+            box-sizing: border-box !important;
+            padding: 6px !important;
+            border: 1px solid #ccc !important;
+            border-radius: 4px !important;
+            resize: vertical;
+        }
+
+        /* Core Attributes Framework */
         .attr.f-row.nowrap {
             display: flex !important;
             flex-direction: row !important;
@@ -111,49 +133,158 @@
             text-align: center !important;
         }
 
-        .attr .f-col label {
-            text-align: center !important;
-            display: block !important;
-            width: 100% !important;
-        }
-
-        /* Forces number boxes to stay inside their lanes */
-        input[type="number"] {
-            width: 100% !important;
-            max-width: 70px;
-            box-sizing: border-box;
-            padding: 4px;
-            margin: 4px auto !important;
-            display: block;
-            text-align: center;
-        }
-
-        /* FIX: Pulls the math symbols (+, -, =) back up next to the stress inputs */
-        .stress .f1 {
-            display: inline-flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px;
-        }
-
-        .stress .f1 input[type="number"] {
-            display: inline-block !important;
-            margin: 0 !important;
-        }
-
-        /* FIX: Adds spacing around the stress checkbox rows so they don't bleed into languages */
-        .stress_box_row {
-            margin: 10px 0 !important;
-            display: block;
-        }
-
-        input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .truth_text textarea, .injuries textarea { width: 100%; min-height: 50px; margin: 3px; }
+        .attr .f-col label { text-align: center !important; display: block !important; width: 100% !important; }
+        input[type="number"] { width: 100% !important; max-width: 70px; box-sizing: border-box; padding: 4px; margin: 4px auto !important; display: block; text-align: center; }
+        .stress .f1 { display: inline-flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; gap: 6px; }
+        .stress .f1 input[type="number"] { display: inline-block !important; margin: 0 !important; }
+        .stress_box_row { margin: 10px 0 !important; display: block; }
     </style>
 </head>
 <body>
 
 <div class="charsheet">
     <div class="sheet-main_char">
-        <div class="f-row visual
+        
+        <div class="custom-title-row">
+            <h1 class="sheet-header" style="color: #ffffff !important; margin: 0; padding: 10px 0;">Achtung! Cthulhu Character Record Sheet 2d20</h1>
+        </div>
+
+        <div class="custom-identity-grid">
+            <div class="custom-panel">
+                <label>Name</label>
+                <input type="text" name="attr_character_name">
+            </div>
+            <div class="custom-panel">
+                <label>Nationality</label>
+                <input type="text" name="attr_nationality">
+            </div>
+            <div class="custom-panel">
+                <label>Rank</label>
+                <input type="text" name="attr_rank">
+            </div>
+            <div class="custom-panel">
+                <label>Archetype</label>
+                <input type="text" name="attr_archetype">
+            </div>
+            <div class="custom-panel">
+                <label>Background</label>
+                <input type="text" name="attr_background">
+            </div>
+            <div class="custom-panel">
+                <label>Characteristic</label>
+                <input type="text" name="attr_characteristic">
+            </div>
+        </div>
+
+        <div class="custom-truths-section">
+            <div class="custom-truths-header">Personal Truths & Scars</div>
+            <div class="custom-truths-row">
+                <div class="custom-cell"><textarea name="attr_truth_1"></textarea></div>
+                <div class="custom-cell"><textarea name="attr_truth_2"></textarea></div>
+                <div class="custom-cell"><textarea name="attr_truth_3"></textarea></div>
+                <div class="custom-cell"><textarea name="attr_truth_4"></textarea></div>
+                <div class="custom-cell"><textarea name="attr_truth_5"></textarea></div>
+            </div>
+        </div>
+
+        <div class="attr f-row nowrap">
+            <div class="f-col">
+                <label data-i18n="agility">Agility</label>
+                <input type="number" name="attr_agility" id="attr_agility" value="7">
+            </div>
+            <div class="f-col">
+                <label data-i18n="brawn">Brawn</label>
+                <input type="number" name="attr_brawn" id="attr_brawn" value="7">
+            </div>
+            <div class="f-col">
+                <label data-i18n="coordination">Coordination</label>
+                <input type="number" name="attr_coordination" id="attr_coordination" value="7">
+            </div>
+            <div class="f-col">
+                <label data-i18n="insight">Insight</label>
+                <input type="number" name="attr_insight" id="attr_insight" value="7">
+            </div>
+            <div class="f-col">
+                <label data-i18n="reason">Reason</label>
+                <input type="number" name="attr_reason" id="attr_reason" value="7">
+            </div>
+            <div class="f-col">
+                <label data-i18n="will">Will</label>
+                <input type="number" name="attr_will" id="attr_will" value="7">
+            </div>
+        </div>
+
+        <div class="stress f-row">
+            <div class="f-col">
+                <label data-i18n="physical-stress">Physical Stress</label>
+                <div class="f1">
+                    <input type="number" name="attr_brawn_dummy" id="attr_brawn_dummy" disabled value="7">
+                    <span>+</span>
+                    <input type="number" name="attr_max_physical_stress_bonus" id="attr_max_physical_stress_bonus" value="0">
+                    <span>=</span>
+                    <input type="number" name="attr_physical_max" id="attr_physical_max" value="7" readonly style="background:#eee;">
+                </div>
+                <div class="stress_box_row">
+                    <input type="checkbox" name="attr_p_stress_1">
+                    <input type="checkbox" name="attr_p_stress_2">
+                    <input type="checkbox" name="attr_p_stress_3">
+                    <input type="checkbox" name="attr_p_stress_4">
+                    <input type="checkbox" name="attr_p_stress_5">
+                </div>
+            </div>
+            <div class="f-col">
+                <label data-i18n="mental-stress">Mental Stress</label>
+                <div class="f1">
+                    <input type="number" name="attr_will_dummy" id="attr_will_dummy" disabled value="7">
+                    <span>+</span>
+                    <input type="number" name="attr_max_mental_stress_bonus" id="attr_max_mental_stress_bonus" value="0">
+                    <span>=</span>
+                    <input type="number" name="attr_mental_max" id="attr_mental_max" value="7" readonly style="background:#eee;">
+                </div>
+                <div class="stress_box_row">
+                    <input type="checkbox" name="attr_m_stress_1">
+                    <input type="checkbox" name="attr_m_stress_2">
+                    <input type="checkbox" name="attr_m_stress_3">
+                    <input type="checkbox" name="attr_m_stress_4">
+                    <input type="checkbox" name="attr_m_stress_5">
+                </div>
+            </div>
+        </div>
+
+        <div class="f-row injuries">
+            <label data-i18n="languages">Languages</label>
+            <div class="f-row">
+                <div class="f-col"><textarea name="attr_language_1" placeholder="Primary"></textarea></div>
+                <div class="f-col"><textarea name="attr_language_2"></textarea></div>
+                <div class="f-col"><textarea name="attr_language_3"></textarea></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function calculateStress() {
+        const brawn = parseInt(document.getElementById('attr_agility').value) || 0; 
+        const will = parseInt(document.getElementById('attr_reason').value) || 0; 
+        
+        const pBonus = parseInt(document.getElementById('attr_max_physical_stress_bonus').value) || 0;
+        const mBonus = parseInt(document.getElementById('attr_max_mental_stress_bonus').value) || 0;
+
+        document.getElementById('attr_brawn_dummy').value = brawn;
+        document.getElementById('attr_will_dummy').value = will;
+
+        document.getElementById('attr_physical_max').value = brawn + pBonus;
+        document.getElementById('attr_mental_max').value = will + mBonus;
+    }
+
+    document.getElementById('attr_agility').addEventListener('input', calculateStress);
+    document.getElementById('attr_reason').addEventListener('input', calculateStress);
+    document.getElementById('attr_max_physical_stress_bonus').addEventListener('input', calculateStress);
+    document.getElementById('attr_max_mental_stress_bonus').addEventListener('input', calculateStress);
+
+    calculateStress();
+</script>
+
+</body>
+</html>
