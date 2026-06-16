@@ -163,8 +163,8 @@
 
         /* Standardized Number Tickers with Arrows */
         input[type="number"] {
-            width: 60px; /* Standardized sizing box width */
-            height: 32px; /* Standardized box height cross-sheet */
+            width: 60px; 
+            height: 32px; 
             padding: 4px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -325,17 +325,17 @@
             background-color: #fafafa;
         }
 
-        /* RE-PROPORTIONED DUAL-COLUMN SKILLS MATRIX */
+        /* MATRIX SYSTEM FOR SKILLS SECTION */
         .skills-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             width: 100%;
         }
-        /* Adjusted layout tracking weights to pull Rank close to Skill and burst open focus space */
+        /* Adjusted grid columns to 110px and 60px to slide the rank ticker directly next to the skill names */
         .skills-column-header {
             display: grid;
-            grid-template-columns: 130px 65px 1fr;
+            grid-template-columns: 110px 60px 1fr;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 12px;
@@ -348,7 +348,7 @@
         }
         .skill-row {
             display: grid;
-            grid-template-columns: 130px 65px 1fr;
+            grid-template-columns: 110px 60px 1fr;
             align-items: center;
             padding: 6px 10px;
             background: #fdfdfd;
@@ -364,12 +364,12 @@
             text-transform: uppercase;
         }
         
-        /* Tightened Text Focus Divider Engine Setup */
+        /* Tightened Text Focus Divider Layout */
         .focus-links-div {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            color: #bbb; /* Subtle color for dash lines */
+            color: #ccc; 
             font-weight: normal;
             font-size: 11px;
         }
@@ -381,14 +381,13 @@
             transition: all 0.12s ease;
             padding: 2px 4px;
             border-radius: 3px;
-            margin: 0 1px; /* Pulled closer to the dashes */
+            margin: 0 1px;
             display: inline-block;
         }
         .focus-clickable-text:hover {
             color: #111;
             background: #eee;
         }
-        /* Highlight Active Toggled Green Badge State */
         .focus-clickable-text.active {
             background-color: #4a5d34 !important;
             color: white !important;
@@ -503,8 +502,7 @@
                 </div>
                 <div class="math-sign">+</div>
                 <div class="math-box-node">
-                    <label>Bonus (Resil)</label>
-                    <!-- Locked and bound to Resilience Skill Rank -->
+                    <label>Resilience</label>
                     <input type="number" id="input_stress_bonus" readonly value="0">
                 </div>
                 <div class="math-sign">-</div>
@@ -560,10 +558,11 @@
         </div>
     </div>
 
-    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT -->
+    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT (Strict 6 & 6 Column Format) -->
     <div class="section-banner">Skills & Focuses</div>
     <div class="skills-container">
-        <!-- Left Side Column -->
+        
+        <!-- Left Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -656,7 +655,7 @@
             </div>
         </div>
 
-        <!-- Right Side Column -->
+        <!-- Right Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -679,7 +678,7 @@
                 </div>
             </div>
 
-            <!-- Resilience (MATH DRIVER FOR STRESS BONUS) -->
+            <!-- Resilience -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
                 <input type="number" id="skill_resilience" value="0" min="0" max="5" oninput="updateStressCalculations()">
@@ -783,7 +782,22 @@
         }
     }
 
-    // 4. Interactive Stress Dynamic Cap Controller (With Resilience Auto-Mapping)
+    // 4. Track Cycling for Injuries Engine (Blank -> M -> P)
+    function cycleInjuryState(element) {
+        if (!element.classList.contains('state-M') && !element.classList.contains('state-P')) {
+            element.classList.add('state-M');
+            element.innerText = 'M';
+        } else if (element.classList.contains('state-M')) {
+            element.classList.remove('state-M');
+            element.classList.add('state-P');
+            element.innerText = 'P';
+        } else {
+            element.classList.remove('state-P');
+            element.innerText = '';
+        }
+    }
+
+    // 5. Interactive Stress Dynamic Cap Controller (With Resilience Auto-Mapping)
     function updateStressCalculations() {
         const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
         const willBase = parseInt(document.getElementById('attr_will').value) || 0;
@@ -792,7 +806,7 @@
         // Grab values directly from the Resilience skill rank ticker box
         const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
         
-        // Auto-populate the uneditable stress track bonus input box
+        // Auto-populate the uneditable stress track resilience input box
         document.getElementById('input_stress_bonus').value = resilienceSkillRank;
         
         const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
