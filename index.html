@@ -422,7 +422,7 @@
             box-sizing: border-box;
         }
 
-        /* Combat Tracker Grid: Specific asymmetric split to narrow resources */
+        /* Combat Tracker Grid */
         .dashboard-layout-grid {
             display: grid;
             grid-template-columns: 1fr 240px;
@@ -431,10 +431,10 @@
             box-sizing: border-box;
         }
 
-        /* NEW Independent Conditions & Languages Grid Layout Split */
+        /* Independent Conditions & Languages Grid Layout Split */
         .condition-layout-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr; /* Gives slightly more focus space to injuries text, but leaves plenty for language fields */
+            grid-template-columns: 1.1fr 0.9fr; 
             gap: 25px;
             width: 100%;
             box-sizing: border-box;
@@ -552,7 +552,6 @@
             box-sizing: border-box;
         }
 
-        /* Height-expanded variant explicitly scaled for the Thinner Resources container elements */
         .resource-ticker-expanded {
             flex-grow: 1;
             padding: 12px 10px;
@@ -600,7 +599,6 @@
             background: #fdfdfd;
         }
 
-        /* Scaled down text output frame optimized explicitly for Auxiliary parameters */
         .auxiliary-ticker-field {
             width: 34px;
             font-size: 12px;
@@ -665,11 +663,15 @@
             resize: none; 
         }
 
+        /* ====================================================
+           FIXED SKILLS GRID SYSTEM 
+        ====================================================== */
         .skills-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             width: 100%;
+            align-items: start; /* Fixes left/right container push desyncs */
         }
 
         .skills-column-header {
@@ -690,7 +692,7 @@
             display: grid;
             grid-template-columns: 110px 60px 1fr;
             align-items: center;
-            min-height: 90px;
+            height: 96px; /* Uniform structural card bounding heights */
             padding: 6px 10px;
             background: #fdfdfd;
             border: 1px solid #eee;
@@ -716,6 +718,8 @@
             font-weight: normal;
             font-size: 11px;
             line-height: 1.4;
+            max-height: 84px;
+            overflow-y: auto; /* Handles focus wrapping cleanly */
         }
 
         .focus-clickable-text {
@@ -762,9 +766,7 @@
 
 <div class="charsheet">
 
-    <!-- ====================================================
-       PERSISTENT CONTROL HEADER BLOCK
-    ====================================================== -->
+    <!-- PERSISTENT CONTROL HEADER BLOCK -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -792,9 +794,7 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 1: MAIN CHARACTER PROFILE
-    ====================================================== -->
+    <!-- TAB COMPARTMENT 1: MAIN CHARACTER PROFILE -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -863,13 +863,10 @@
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
-            
-            <!-- Left Side: Expanded Stress Tracker Block -->
+            <!-- Left Side: Stress Tracker -->
             <div class="dashboard-block">
                 <h3>Stress Tracking & Resistances</h3>
-                
                 <div class="stress-top-panel-wrapper">
-                    <!-- Stress Math Calculator Row -->
                     <div class="unified-math-row">
                         <div class="math-box-node">
                             <label>Attribute</label>
@@ -892,7 +889,6 @@
                         </div>
                     </div>
 
-                    <!-- Auxiliary Column: Clean, scaled down smaller tickers for Courage & Armour -->
                     <div class="resistances-column-stack">
                         <div class="ticker-item" style="padding: 4px 8px;">
                             <label style="font-size: 11px;">Courage</label>
@@ -913,13 +909,12 @@
                     </div>
                 </div>
 
-                <!-- Checkbox Grid underneath -->
                 <div class="checkbox-matrix-20" id="stress_checkbox_container">
                     <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
             </div>
 
-            <!-- Right Side: Thinned Resources Box with height-expanded items -->
+            <!-- Right Side: Resources -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
@@ -943,7 +938,7 @@
             </div>
         </div>
 
-        <!-- Independent Condition Row: Swapped out dashboard-layout-grid for condition-layout-grid -->
+        <!-- Independent Condition Row -->
         <div class="condition-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -964,6 +959,7 @@
             </div>
         </div>
 
+        <!-- STABILIZED SKILLS SECTION -->
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
             <div>
@@ -1104,125 +1100,63 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX
-    ====================================================== -->
+    <!-- TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX -->
     <div id="tab-equipment" class="tab-panel-content">
-        
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
-            <input type="text" id="eq_note_1">
-            <input type="text" id="eq_note_2">
-            <input type="text" id="eq_note_3">
-            <input type="text" id="eq_note_4">
-            <input type="text" id="eq_note_5">
-            <input type="text" id="eq_note_6">
-            <input type="text" id="eq_note_7">
-            <input type="text" id="eq_note_8">
-            <input type="text" id="eq_note_9">
-            <input type="text" id="eq_note_10">
-            <input type="text" id="eq_note_11">
-            <input type="text" id="eq_note_12">
+            <input type="text" id="eq_note_1"><input type="text" id="eq_note_2"><input type="text" id="eq_note_3"><input type="text" id="eq_note_4"><input type="text" id="eq_note_5"><input type="text" id="eq_note_6"><input type="text" id="eq_note_7"><input type="text" id="eq_note_8"><input type="text" id="eq_note_9"><input type="text" id="eq_note_10"><input type="text" id="eq_note_11"><input type="text" id="eq_note_12">
         </div>
 
         <div class="section-banner">Weapons & Armaments</div>
         <div class="weapons-grid-table">
             <div class="weapons-grid-header">
-                <span>Name</span>
-                <span>Focus</span>
-                <span>Range</span>
-                <span>Damage</span>
-                <span>Salvo</span>
-                <span>Size</span>
-                <span>Qualities</span>
-            </div>
-            
-            <div class="weapons-grid-row">
-                <textarea id="weapon_1_name" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_focus" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_range" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_damage" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_salvo" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_size" class="grid-textarea"></textarea>
-                <textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
+                <span>Name</span><span>Focus</span><span>Range</span><span>Damage</span><span>Salvo</span><span>Size</span><span>Qualities</span>
             </div>
             <div class="weapons-grid-row">
-                <textarea id="weapon_2_name" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_focus" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_range" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_damage" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_salvo" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_size" class="grid-textarea"></textarea>
-                <textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_name" class="grid-textarea"></textarea><textarea id="weapon_1_focus" class="grid-textarea"></textarea><textarea id="weapon_1_range" class="grid-textarea"></textarea><textarea id="weapon_1_damage" class="grid-textarea"></textarea><textarea id="weapon_1_salvo" class="grid-textarea"></textarea><textarea id="weapon_1_size" class="grid-textarea"></textarea><textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
             </div>
             <div class="weapons-grid-row">
-                <textarea id="weapon_3_name" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_focus" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_range" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_damage" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_salvo" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_size" class="grid-textarea"></textarea>
-                <textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_name" class="grid-textarea"></textarea><textarea id="weapon_2_focus" class="grid-textarea"></textarea><textarea id="weapon_2_range" class="grid-textarea"></textarea><textarea id="weapon_2_damage" class="grid-textarea"></textarea><textarea id="weapon_2_salvo" class="grid-textarea"></textarea><textarea id="weapon_2_size" class="grid-textarea"></textarea><textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_3_name" class="grid-textarea"></textarea><textarea id="weapon_3_focus" class="grid-textarea"></textarea><textarea id="weapon_3_range" class="grid-textarea"></textarea><textarea id="weapon_3_damage" class="grid-textarea"></textarea><textarea id="weapon_3_salvo" class="grid-textarea"></textarea><textarea id="weapon_3_size" class="grid-textarea"></textarea><textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
             </div>
         </div>
 
-        <!-- Footnote Split Panel (Biography & Talents) -->
         <div class="footer-split-dashboard" style="margin-top: 15px;">
             <div class="bio-entry-box">
                 <div class="section-banner" style="margin-top:0;">Biography</div>
-                <textarea id="char_bio" placeholder="Write character origin history, background dossier notes, and service records here..."></textarea>
+                <textarea id="char_bio" placeholder="Write character origin history..."></textarea>
             </div>
-            
             <div class="talents-grid-table">
                 <div class="section-banner" style="margin-top:0;">Talents</div>
-                <div class="talents-grid-header">
-                    <span>Name</span>
-                    <span>Keywords</span>
-                    <span>Effect</span>
-                </div>
-                
+                <div class="talents-grid-header"><span>Name</span><span>Keywords</span><span>Effect</span></div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_1_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_1_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_1_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_1_name" class="talent-textarea"></textarea><textarea id="talent_1_keys" class="talent-textarea"></textarea><textarea id="talent_1_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_2_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_2_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_2_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_2_name" class="talent-textarea"></textarea><textarea id="talent_2_keys" class="talent-textarea"></textarea><textarea id="talent_2_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_3_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_3_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_3_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_3_name" class="talent-textarea"></textarea><textarea id="talent_3_keys" class="talent-textarea"></textarea><textarea id="talent_3_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_4_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_4_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_4_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_4_name" class="talent-textarea"></textarea><textarea id="talent_4_keys" class="talent-textarea"></textarea><textarea id="talent_4_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_5_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_5_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_5_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_5_name" class="talent-textarea"></textarea><textarea id="talent_5_keys" class="talent-textarea"></textarea><textarea id="talent_5_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_6_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_6_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_6_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_6_name" class="talent-textarea"></textarea><textarea id="talent_6_keys" class="talent-textarea"></textarea><textarea id="talent_6_effect" class="talent-textarea"></textarea>
                 </div>
                 <div class="talents-grid-row">
-                    <textarea id="talent_7_name" class="talent-textarea"></textarea>
-                    <textarea id="talent_7_keys" class="talent-textarea"></textarea>
-                    <textarea id="talent_7_effect" class="talent-textarea"></textarea>
+                    <textarea id="talent_7_name" class="talent-textarea"></textarea><textarea id="talent_7_keys" class="talent-textarea"></textarea><textarea id="talent_7_effect" class="talent-textarea"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 3: SPELLS & MYSTICISM
-    ====================================================== -->
+    <!-- TAB COMPARTMENT 3: SPELLS & MYSTICISM -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="section-banner">Spells & Sorcery</div>
         <div class="blank-slate-wrapper">
@@ -1235,14 +1169,7 @@
 <!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
-
-// Track custom offsets for tickers so manual gameplay adjustments are preserved
-let tickerManualOffsets = {
-    ticker_courage: 0,
-    ticker_armour: 0,
-    ticker_fortune: 0,
-    ticker_exp: 0
-};
+let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0 };
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
@@ -1259,29 +1186,23 @@ function queueAutosave() {
 }
 
 function newCharacter() {
-    if (!confirm("Are you sure you want to clear this sheet? All unsaved current changes will be lost.")) return;
+    if (!confirm("Are you sure you want to clear this sheet?")) return;
     localStorage.removeItem("achtung_cthulhu_save");
-
     document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
     document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
     document.querySelectorAll('input[type="number"]').forEach(el => {
         if (!el.id.startsWith("attr_")) el.value = 0;
     });
-
     ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
         const input = document.getElementById("attr_" + attr);
         if (input) input.value = 6;
     });
-
     document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
     document.querySelectorAll(".injury-cycle-box").forEach(box => {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
     });
-
-    // Reset offsets
     tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0 };
-
     updateAllCalculations();
 }
 
@@ -1313,14 +1234,12 @@ function cycleInjuryState(element) {
     queueAutosave();
 }
 
-// Global Orchestrator for all linked attribute data updates
 function updateAllCalculations() {
     updateAttributeCDFields();
     updateStressCalculations();
     updateResistanceCalculations();
 }
 
-// Converts raw attribute metrics to dynamic operational +Xcd challenge dice strings
 function calculateCDValue(score) {
     if (score <= 8) return "—";
     if (score === 9) return "+1cd";
@@ -1334,13 +1253,10 @@ function updateAttributeCDFields() {
     ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
         const baseVal = parseInt(document.getElementById("attr_" + attr).value) || 0;
         const targetBonusField = document.getElementById("bonus_" + attr);
-        if (targetBonusField) {
-            targetBonusField.value = calculateCDValue(baseVal);
-        }
+        if (targetBonusField) targetBonusField.value = calculateCDValue(baseVal);
     });
 }
 
-// Converts Brawn/Will scores directly to corresponding integer baselines
 function calculateResistanceBase(score) {
     if (score <= 8) return 0; 
     if (score === 9) return 1;
@@ -1353,40 +1269,23 @@ function calculateResistanceBase(score) {
 function updateResistanceCalculations() {
     const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
     const willScore = parseInt(document.getElementById('attr_will').value) || 0;
+    const totalArmour = calculateResistanceBase(brawnScore) + tickerManualOffsets.ticker_armour;
+    const totalCourage = calculateResistanceBase(willScore) + tickerManualOffsets.ticker_courage;
 
-    const baseArmour = calculateResistanceBase(brawnScore);
-    const baseCourage = calculateResistanceBase(willScore);
-
-    // Compute unified outcomes including custom offsets
-    const totalArmour = baseArmour + tickerManualOffsets.ticker_armour;
-    const totalCourage = baseCourage + tickerManualOffsets.ticker_courage;
-
-    // Display updates: Fall back to Em-Dash if total value is 0 or less AND base attribute is 8 or less
     const armourDisplay = document.getElementById("ticker_armour");
-    if (brawnScore <= 8 && totalArmour <= 0) {
-        armourDisplay.value = "—";
-    } else {
-        armourDisplay.value = totalArmour;
-    }
+    armourDisplay.value = (brawnScore <= 8 && totalArmour <= 0) ? "—" : totalArmour;
 
     const courageDisplay = document.getElementById("ticker_courage");
-    if (willScore <= 8 && totalCourage <= 0) {
-        courageDisplay.value = "—";
-    } else {
-        courageDisplay.value = totalCourage;
-    }
+    courageDisplay.value = (willScore <= 8 && totalCourage <= 0) ? "—" : totalCourage;
 
-    // Direct standalone resource displays
     document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
     document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
 }
 
 function adjustTickerField(id, amount) {
-    // Modify tracking configurations safely
     if (id === "ticker_fortune" || id === "ticker_exp") {
         tickerManualOffsets[id] = Math.max(0, tickerManualOffsets[id] + amount);
     } else {
-        // Allow variance around bases for tracking temporary damage/buff modifiers
         tickerManualOffsets[id] += amount;
     }
     updateResistanceCalculations();
@@ -1464,15 +1363,14 @@ function setInjuryStates(injuries) {
     });
 }
 
+// Data Handling Engines
 function compileCharacterData() {
     const saveData = {};
     document.querySelectorAll("input, textarea").forEach(el => {
         if (!el.id || el.id === "loadFile" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
         if (el.id.startsWith("ticker_")) return;
-
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
     });
-    
     saveData.tickerOffsets = tickerManualOffsets;
     saveData.focuses = getActiveFocuses();
     saveData.injuries = getInjuryStates();
@@ -1490,11 +1388,7 @@ function applyCharacterData(saveData) {
             el.value = saveData[id];
         }
     });
-
-    if (saveData.tickerOffsets) {
-        tickerManualOffsets = saveData.tickerOffsets;
-    }
-    
+    if (saveData.tickerOffsets) tickerManualOffsets = saveData.tickerOffsets;
     setActiveFocuses(saveData.focuses);
     setInjuryStates(saveData.injuries);
     updateAllCalculations();
@@ -1543,7 +1437,6 @@ document.addEventListener("change", function (e) {
     queueAutosave();
 });
 
-// Run initial evaluation
 updateAllCalculations();
 
 (function loadFromLocal() {
