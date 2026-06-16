@@ -86,6 +86,11 @@
             text-transform: uppercase;
         }
 
+        /* Distinct look for Reset Button */
+        .save-load-bar button.reset-btn {
+            background-color: #8b2626;
+        }
+
         .save-load-bar button:hover,
         .load-button:hover {
             opacity: 0.9;
@@ -479,12 +484,15 @@
 
 <div class="charsheet">
 
+    <!-- 1. Title Header Banner -->
     <div class="main-header-banner">
         <h1>Achtung! Cthulhu Character Record Sheet</h1>
     </div>
     
+    <!-- SAVE / LOAD BAR -->
     <div class="save-area">
         <div class="save-load-bar">
+            <button class="reset-btn" onclick="newCharacter()">New Character</button>
             <button onclick="saveCharacter()">Save Character</button>
 
             <label for="loadFile" class="load-button">
@@ -506,6 +514,7 @@
         </div>
     </div>
 
+    <!-- 2. Identity Grid -->
     <div class="identity-grid">
         <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
         <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
@@ -515,6 +524,7 @@
         <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
     </div>
 
+    <!-- 3. Personal Truths Row -->
     <div class="section-banner">Personal Truths & Scars</div>
     <div class="truths-row">
         <textarea id="truth_1" placeholder="Truth / Scar 1"></textarea>
@@ -524,6 +534,7 @@
         <textarea id="truth_5" placeholder="Truth / Scar 5"></textarea>
     </div>
 
+    <!-- 4. Core System Attributes Grid (Hard-Capped at 12) -->
     <div class="section-banner">Attributes</div>
     <div class="attributes-row">
         <div class="attribute-card">
@@ -582,6 +593,7 @@
         </div>
     </div>
 
+    <!-- 5. COMBAT STATUS TRACKERS -->
     <div class="section-banner">Combat & Status Trackers</div>
     <div class="dashboard-layout-grid">
         
@@ -600,7 +612,7 @@
                 <div class="math-sign">-</div>
                 <div class="math-box-node">
                     <label>Fatigue</label>
-                    <input type="number" id="input_stress_fatigue">
+                    <input type="number" id="input_stress_fatigue" value="0">
                 </div>
                 <div class="math-sign">=</div>
                 <div class="math-box-node">
@@ -645,6 +657,7 @@
 
     </div>
 
+    <!-- 6. CONDITION PANEL -->
     <div class="dashboard-layout-grid" style="margin-top: 15px;">
         <div>
             <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -665,9 +678,11 @@
         </div>
     </div>
 
+    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT -->
     <div class="section-banner">Skills & Focuses</div>
     <div class="skills-container">
         
+        <!-- Left Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -675,6 +690,7 @@
                 <span>Focuses</span>
             </div>
             
+            <!-- Academia -->
             <div class="skill-row">
                 <span class="skill-name">Academia</span>
                 <input type="number" id="skill_academia" value="0" min="0" max="5">
@@ -689,6 +705,7 @@
                 </div>
             </div>
 
+            <!-- Athletics -->
             <div class="skill-row">
                 <span class="skill-name">Athletics</span>
                 <input type="number" id="skill_athletics" value="0" min="0" max="5">
@@ -702,6 +719,7 @@
                 </div>
             </div>
 
+            <!-- Engineering -->
             <div class="skill-row">
                 <span class="skill-name">Engineering</span>
                 <input type="number" id="skill_engineering" value="0" min="0" max="5">
@@ -714,6 +732,7 @@
                 </div>
             </div>
 
+            <!-- Fighting -->
             <div class="skill-row">
                 <span class="skill-name">Fighting</span>
                 <input type="number" id="skill_fighting" value="0" min="0" max="5">
@@ -729,6 +748,7 @@
                 </div>
             </div>
 
+            <!-- Medicine -->
             <div class="skill-row">
                 <span class="skill-name">Medicine</span>
                 <input type="number" id="skill_medicine" value="0" min="0" max="5">
@@ -742,6 +762,7 @@
                 </div>
             </div>
 
+            <!-- Observation -->
             <div class="skill-row">
                 <span class="skill-name">Observation</span>
                 <input type="number" id="skill_observation" value="0" min="0" max="5">
@@ -754,6 +775,7 @@
             </div>
         </div>
 
+        <!-- Right Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -761,6 +783,7 @@
                 <span>Focuses</span>
             </div>
 
+            <!-- Persuasion -->
             <div class="skill-row">
                 <span class="skill-name">Persuasion</span>
                 <input type="number" id="skill_persuasion" value="0" min="0" max="5">
@@ -775,6 +798,7 @@
                 </div>
             </div>
 
+            <!-- Resilience -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
                 <input type="number" id="skill_resilience" value="0" min="0" max="5">
@@ -785,6 +809,7 @@
                 </div>
             </div>
 
+            <!-- Stealth -->
             <div class="skill-row">
                 <span class="skill-name">Stealth</span>
                 <input type="number" id="skill_stealth" value="0" min="0" max="5">
@@ -796,6 +821,7 @@
                 </div>
             </div>
 
+            <!-- Survival -->
             <div class="skill-row">
                 <span class="skill-name">Survival</span>
                <input type="number" id="skill_survival" value="0" min="0" max="5">
@@ -809,6 +835,7 @@
                 </div>
             </div>
 
+            <!-- Tactics -->
             <div class="skill-row">
                 <span class="skill-name">Tactics</span>
                 <input type="number" id="skill_tactics" value="0" min="0" max="5">
@@ -822,6 +849,7 @@
                 </div>
             </div>
 
+            <!-- Vehicles -->
             <div class="skill-row">
                 <span class="skill-name">Vehicles</span>
                 <input type="number" id="skill_vehicles" value="0" min="0" max="5">
@@ -839,6 +867,7 @@
 
 </div>
 
+<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 /* =========================
    STATE FLAGS & TIMERS
@@ -853,6 +882,48 @@ function queueAutosave() {
     saveTimer = setTimeout(() => {
         localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
     }, 1000);
+}
+
+/* =========================
+   NEW CHARACTER RESET
+========================= */
+function newCharacter() {
+    if (!confirm("Are you sure you want to clear this sheet? All unsaved current changes will be lost.")) return;
+    
+    // Wipe local cache
+    localStorage.removeItem("achtung_cthulhu_save");
+
+    // Clear Text Inputs & Textareas
+    document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
+
+    // Clear Checked Boxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+
+    // Reset Standard Numbers to 0
+    document.querySelectorAll('input[type="number"]').forEach(el => {
+        if (!el.id.startsWith("attr_")) {
+            el.value = 0;
+        }
+    });
+
+    // Reset Core Attributes to System Defaults (6)
+    const attributes = ["agility", "brawn", "coordination", "insight", "reason", "will"];
+    attributes.forEach(attr => {
+        const input = document.getElementById("attr_" + attr);
+        if (input) input.value = 6;
+    });
+
+    // Strip Active Highlights from Focus Sub-menus
+    document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+
+    // Reset Damage Condition Blocks
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+    });
+
+    // Force Math Refresh
+    updateStressCalculations();
 }
 
 /* =========================
