@@ -77,6 +77,14 @@
 .load-button:hover {
     opacity: 0.9;
 }
+        .save-status {
+    font-size: 11px;
+    color: #777;
+    font-style: italic;
+    margin-right: auto;
+    opacity: 0.85;
+    white-space: nowrap;
+}
 
         /* IDENTITY SYSTEM */
         .identity-grid {
@@ -440,6 +448,11 @@
     
     <!-- SAVE / LOAD BAR -->
 <div class="save-load-bar">
+
+    <div id="saveStatusText" class="save-status">
+        Changes saved.
+    </div>
+
     <button onclick="saveCharacter()">Save Character</button>
 
     <label for="loadFile" class="load-button">
@@ -810,135 +823,187 @@
 
 <!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
-const SAVE_KEY = "achtung_cthulhu_autosave";
+/* =========================
+   STATE FLAGS
+========================= */
+let saveTimer = null;
 
-let rawCDValues = {
-    bonus_agility: 0, bonus_brawn: 0, bonus_coordination: 0,
-    bonus_insight: 0, bonus_reason: 0, bonus_will: 0
-};
+/* =========================
+   SAVE STATUS UI
+========================= */
+function setSaveStatus(text) {
+    const el = document.getElementById("saveStatusText");
+    if (!el) return;
+    el.textContent = text;
+}
 
-let autosaveTimer = null;
-
-// -----------------------------
-// ATTRIBUTE VALIDATION
-// -----------------------------
+/* =========================
+   ATTR VALIDATION
+========================= */
 function validateAttrCap(input) {
     let val = parseInt(input.value);
+    if (isNaN(val)) val = 0;
     if (val > 12) input.value = 12;
     if (val < 0) input.value = 0;
     updateStressCalculations();
 }
 
-// -----------------------------
-// FOCUS TOGGLE
-// -----------------------------
-function toggleFocus(element) {
-    element.classList.toggle('active');
-    triggerAutosave();
+/* =========================
+   FOCUS TOGGLE
+========================= */
+function toggleFocus(el) {
+    el.classList.toggle("active");
+    markDirty();
 }
 
-// -----------------------------
-// CHALLENGE DICE
-// -----------------------------
-function adjustCD(fieldId, changeAmount) {
-    rawCDValues[fieldId] += changeAmount;
-    const currentInt = rawCDValues[fieldId];
-    const inputElement = document.getElementById(fieldId);
-
-    if (currentInt > 0) inputElement.value = "+" + currentInt + "cd";
-    else if (currentInt < 0) inputElement.value = currentInt + "cd";
-    else inputElement.value = "0";
-
-    triggerAutosave();
-}
-
-// -----------------------------
-// INJURY CYCLING
-// -----------------------------
+/* =========================
+   INJURY CYCLER
+========================= */
 function cycleInjuryState(element) {
-    if (!element.classList.contains('state-M') && !element.classList.contains('state-P')) {
-        element.classList.add('state-M');
-        element.innerText = 'M';
-    } else if (element.classList.contains('state-M')) {
-        element.classList.remove('state-M');
-        element.classList.add('state-P');
-        element.innerText = 'P';
+    if (!element.classList.contains("state-M") && !element.classList.contains("state-P")) {
+        element.classList.add("state-M");
+        element.innerText = "M";
+    } else if (element.classList.contains("state-M")) {
+        element.classList.remove("state-M");
+        element.classList.add("state-P");
+        element.innerText = "P";
     } else {
-        element.classList.remove('state-P');
-        element.innerText = '';
+        element.classList.remove("state-P");
+        element.innerText = "";
     }
-    triggerAutosave();
+
+    markDirty();
 }
 
-// -----------------------------
-// STRESS ENGINE
-// -----------------------------
+/* =========================
+   STRESS CALCULATION ENGINE
+========================= */
 function updateStressCalculations() {
     const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
     const willBase = parseInt(document.getElementById('attr_will').value) || 0;
-
     const highestBase = Math.max(brawnBase, willBase);
 
     const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
-    document.getElementById('input_stress_bonus').value = resilienceSkillRank;
-
     const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
 
     document.getElementById('calc_highest_attr').value = highestBase;
+    document.getElementById('input_stress_bonus').value = resilienceSkillRank;
 
-    const totalCalculatedCap = highestBase + resilienceSkillRank - fatigue;
-    document.getElementById('output_stress_max').value = totalCalculatedCap;
+    const total = highestBase + resilienceSkillRank - fatigue;
+    document.getElementById('output_stress_max').value = total;
 
-    const checkBoxes = document.getElementById('stress_checkbox_container').getElementsByTagName('input');
+    const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
 
-    for (let i = 0; i < checkBoxes.length; i++) {
-        if (i < totalCalculatedCap) checkBoxes[i].disabled = false;
-        else {
-            checkBoxes[i].checked = false;
-            checkBoxes[i].disabled = true;
+    for (let i = 0; i < boxes.length; i++) {
+        if (i < total) {
+            boxes[i].disabled = false;
+        } else {
+            boxes[i].checked = false;
+            boxes[i].disabled = true;
         }
     }
-
-    triggerAutosave();
 }
 
-// -----------------------------
-// MANUAL SAVE (DOWNLOAD JSON)
-// -----------------------------
-function saveCharacter() {
+/* =========================
+   DIRTY STATE + AUTOSAVE TRIGGER
+========================= */
+function markDirty() {
+    setSaveStatus("Unsaved changes...");
 
+    if (saveTimer) clearTimeout(saveTimer);
+
+    saveTimer = setTimeout(() => {
+        autosaveToLocal();
+    }, 1000);
+}
+
+/* =========================
+   AUTOSAVE (LOCALSTORAGE)
+========================= */
+function autosaveToLocal() {
     const saveData = {};
 
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (!element.id || element.id === "loadFile") return;
+    document.querySelectorAll("input, textarea").forEach(el => {
+        if (!el.id || el.id === "loadFile") return;
 
-        if (element.type === "checkbox") {
-            saveData[element.id] = element.checked;
+        if (el.type === "checkbox") {
+            saveData[el.id] = el.checked;
         } else {
-            saveData[element.id] = element.value;
+            saveData[el.id] = el.value;
         }
     });
 
-    // FOCUSES
+    /* =========================
+       FOCUSES SAVE
+    ========================= */
     const focusData = {};
     document.querySelectorAll(".skill-row").forEach(row => {
         const skillInput = row.querySelector("input");
         if (!skillInput) return;
 
         const active = [];
-        row.querySelectorAll(".focus-clickable-text.active").forEach(el => {
-            active.push(el.innerText.trim());
+        row.querySelectorAll(".focus-clickable-text.active").forEach(f => {
+            active.push(f.innerText.trim());
         });
 
         focusData[skillInput.id] = active;
     });
+
     saveData.focuses = focusData;
 
-    // INJURIES
+    /* =========================
+       INJURIES SAVE
+    ========================= */
     const injuryData = {};
     document.querySelectorAll(".injury-cycle-box").forEach(box => {
-        injuryData[box.id] = box.innerText.trim();
+        injuryData[box.id] = box.innerText || "";
     });
+
+    saveData.injuries = injuryData;
+
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
+
+    setSaveStatus("Changes saved.");
+}
+
+/* =========================
+   MANUAL SAVE (JSON EXPORT)
+========================= */
+function saveCharacter() {
+    const saveData = {};
+
+    document.querySelectorAll("input, textarea").forEach(el => {
+        if (!el.id || el.id === "loadFile") return;
+
+        if (el.type === "checkbox") {
+            saveData[el.id] = el.checked;
+        } else {
+            saveData[el.id] = el.value;
+        }
+    });
+
+    /* focuses */
+    const focusData = {};
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+
+        const active = [];
+        row.querySelectorAll(".focus-clickable-text.active").forEach(f => {
+            active.push(f.innerText.trim());
+        });
+
+        focusData[skillInput.id] = active;
+    });
+
+    saveData.focuses = focusData;
+
+    /* injuries */
+    const injuryData = {};
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        injuryData[box.id] = box.innerText || "";
+    });
+
     saveData.injuries = injuryData;
 
     const blob = new Blob([JSON.stringify(saveData, null, 2)], {
@@ -952,90 +1017,53 @@ function saveCharacter() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    setSaveStatus("Changes saved.");
 }
 
-// -----------------------------
-// LOCAL AUTOSAVE (DEBOUNCED)
-// -----------------------------
-function saveToLocalStorage() {
-
-    const saveData = {};
-
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (!element.id || element.id === "loadFile") return;
-
-        if (element.type === "checkbox") saveData[element.id] = element.checked;
-        else saveData[element.id] = element.value;
-    });
-
-    const focusData = {};
-    document.querySelectorAll(".skill-row").forEach(row => {
-        const skillInput = row.querySelector("input");
-        if (!skillInput) return;
-
-        const active = [];
-        row.querySelectorAll(".focus-clickable-text.active").forEach(el => {
-            active.push(el.innerText.trim());
-        });
-
-        focusData[skillInput.id] = active;
-    });
-
-    saveData.focuses = focusData;
-
-    const injuryData = {};
-    document.querySelectorAll(".injury-cycle-box").forEach(box => {
-        injuryData[box.id] = box.innerText.trim();
-    });
-
-    saveData.injuries = injuryData;
-
-    localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
-}
-
-// debounce wrapper
-function triggerAutosave() {
-    clearTimeout(autosaveTimer);
-    autosaveTimer = setTimeout(saveToLocalStorage, 1000);
-}
-
-// -----------------------------
-// LOAD FROM FILE
-// -----------------------------
+/* =========================
+   LOAD CHARACTER (JSON FILE)
+========================= */
 function loadCharacter(event) {
-
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
-
+    reader.onload = function (e) {
         const saveData = JSON.parse(e.target.result);
 
+        /* basic fields */
         Object.keys(saveData).forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
 
-            if (el.type === "checkbox") el.checked = saveData[id];
-            else el.value = saveData[id];
+            if (el.type === "checkbox") {
+                el.checked = saveData[id];
+            } else {
+                el.value = saveData[id];
+            }
         });
 
-        // FOCUSES
+        /* focuses */
         if (saveData.focuses) {
             document.querySelectorAll(".skill-row").forEach(row => {
                 const skillInput = row.querySelector("input");
                 if (!skillInput) return;
 
-                const list = saveData.focuses[skillInput.id] || [];
+                const active = saveData.focuses[skillInput.id] || [];
 
-                row.querySelectorAll(".focus-clickable-text").forEach(el => {
-                    el.classList.toggle("active", list.includes(el.innerText.trim()));
+                row.querySelectorAll(".focus-clickable-text").forEach(f => {
+                    if (active.includes(f.innerText.trim())) {
+                        f.classList.add("active");
+                    } else {
+                        f.classList.remove("active");
+                    }
                 });
             });
         }
 
-        // INJURIES
+        /* injuries */
         if (saveData.injuries) {
             Object.keys(saveData.injuries).forEach(id => {
                 const box = document.getElementById(id);
@@ -1057,27 +1085,46 @@ function loadCharacter(event) {
         }
 
         updateStressCalculations();
+        setSaveStatus("Changes saved.");
     };
 
     reader.readAsText(file);
 }
 
-// -----------------------------
-// AUTOSAVE LOAD ON START
-// -----------------------------
-window.addEventListener("load", () => {
+/* =========================
+   INPUT HOOKS (AUTOSAVE TRIGGER)
+========================= */
+document.addEventListener("input", function (e) {
+    if (e.target.id === "loadFile") return;
+    markDirty();
+});
 
-    const saved = localStorage.getItem(SAVE_KEY);
-    if (!saved) return;
+document.addEventListener("change", function (e) {
+    if (e.target.id === "loadFile") return;
+    markDirty();
+});
 
-    const saveData = JSON.parse(saved);
+/* =========================
+   INITIAL LOAD
+========================= */
+updateStressCalculations();
+
+/* load browser autosave */
+(function loadFromLocal() {
+    const data = localStorage.getItem("achtung_cthulhu_save");
+    if (!data) return;
+
+    const saveData = JSON.parse(data);
 
     Object.keys(saveData).forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
 
-        if (el.type === "checkbox") el.checked = saveData[id];
-        else el.value = saveData[id];
+        if (el.type === "checkbox") {
+            el.checked = saveData[id];
+        } else {
+            el.value = saveData[id];
+        }
     });
 
     if (saveData.focuses) {
@@ -1085,10 +1132,10 @@ window.addEventListener("load", () => {
             const skillInput = row.querySelector("input");
             if (!skillInput) return;
 
-            const list = saveData.focuses[skillInput.id] || [];
+            const active = saveData.focuses[skillInput.id] || [];
 
-            row.querySelectorAll(".focus-clickable-text").forEach(el => {
-                el.classList.toggle("active", list.includes(el.innerText.trim()));
+            row.querySelectorAll(".focus-clickable-text").forEach(f => {
+                f.classList.toggle("active", active.includes(f.innerText.trim()));
             });
         });
     }
@@ -1114,15 +1161,5 @@ window.addEventListener("load", () => {
     }
 
     updateStressCalculations();
-});
-
-// -----------------------------
-// EVENT HOOKS
-// -----------------------------
-document.addEventListener("input", triggerAutosave);
-document.addEventListener("change", triggerAutosave);
-
-// initial run
-updateStressCalculations();
-
+})();
 </script>
