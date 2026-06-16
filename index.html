@@ -225,7 +225,6 @@
 
         .weapons-grid-header, .weapons-grid-row {
             display: grid;
-            /* 10 horizontal fractional slices: 2 (Name) + 1 (Focus) + 1 (Range) + 2 (Damage) + 1 (Salvo) + 1 (Size) + 2 (Qualities) */
             grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
             gap: 8px;
             align-items: center;
@@ -250,14 +249,20 @@
             margin-bottom: 8px;
         }
 
-        .weapons-grid-row input[type="text"] {
+        /* Scrollable, wrapping textareas to replace raw text fields in grid structures */
+        .grid-textarea {
             width: 100%;
+            height: 38px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
             background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
         }
 
         /* Split Footer Biography / Talent Section Dashboard */
@@ -278,7 +283,8 @@
 
         .bio-entry-box textarea {
             width: 100%;
-            height: 382px; /* Keeps perfectly matching height alignment with 7-row talents container */
+            /* Calculated to align perfectly to the bottom border of the taller 7-row talents panel */
+            height: 522px; 
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -297,7 +303,6 @@
 
         .talents-grid-header, .talents-grid-row {
             display: grid;
-            /* Proportions: Name (slightly bigger), Keywords (standard), Effect (largest) */
             grid-template-columns: 1.25fr 1fr 2.5fr;
             gap: 8px;
             align-items: center;
@@ -322,14 +327,20 @@
             margin-bottom: 6px;
         }
 
-        .talents-grid-row input[type="text"] {
+        /* Taller, scrollable text areas for deep talent rule description tracking */
+        .talent-textarea {
             width: 100%;
-            padding: 8px;
+            height: 54px; /* Doubled height footprint for multi-line rules text */
+            padding: 6px 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 13px;
+            font-family: Arial, sans-serif;
             background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
         }
 
         /* PERSONAL TRUTHS GRID */
@@ -347,7 +358,7 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 14px;
-            resize: vertical;
+            resize: none; /* Removed manual resizing drag anchor */
             background-color: #fafafa;
         }
 
@@ -589,6 +600,7 @@
             border-radius: 4px;
             box-sizing: border-box;
             background-color: #fafafa;
+            resize: none; /* Removed drag sizing framework */
         }
 
         .skills-container {
@@ -672,7 +684,6 @@
             background-color: #fff !important;
         }
 
-        /* Temp Blank Slate Structural Formatting */
         .blank-slate-wrapper {
             background: #fdfdfd;
             border: 1px dashed #4a5d34;
@@ -688,13 +699,15 @@
 
 <div class="charsheet">
 
+    <!-- ====================================================
+       PERSISTENT CONTROL HEADER BLOCK
+    ====================================================== -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
         </div>
         
         <div class="control-panel-row">
-            
             <div class="tab-navigation-bar">
                 <button class="tab-btn active" onclick="switchSheetTab('tab-main', this)">Main</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
@@ -705,30 +718,20 @@
                 <div class="save-load-bar">
                     <button class="reset-btn" onclick="newCharacter()">New Character</button>
                     <button onclick="saveCharacter()">Save Character</button>
-
-                    <label for="loadFile" class="load-button">
-                        Load Character
-                    </label>
-
-                    <input
-                        type="file"
-                        id="loadFile"
-                        accept=".json"
-                        onchange="loadCharacter(event)"
-                        style="display:none;"
-                    >
+                    <label for="loadFile" class="load-button">Load Character</label>
+                    <input type="file" id="loadFile" accept=".json" onchange="loadCharacter(event)" style="display:none;">
                 </div>
-
                 <div class="save-warning-text">
                     ⚠ Changes are saved in local browser storage.<br>
                     Character export recommended at end of session.
                 </div>
             </div>
-
         </div>
     </div>
 
-
+    <!-- ====================================================
+       TAB COMPARTMENT 1: MAIN CHARACTER PROFILE
+    ====================================================== -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -739,13 +742,14 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
+        <!-- Personal Truths Row (Placeholders stripped away completely) -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
-            <textarea id="truth_1" placeholder="Truth / Scar 1"></textarea>
-            <textarea id="truth_2" placeholder="Truth / Scar 2"></textarea>
-            <textarea id="truth_3" placeholder="Truth / Scar 3"></textarea>
-            <textarea id="truth_4" placeholder="Truth / Scar 4"></textarea>
-            <textarea id="truth_5" placeholder="Truth / Scar 5"></textarea>
+            <textarea id="truth_1"></textarea>
+            <textarea id="truth_2"></textarea>
+            <textarea id="truth_3"></textarea>
+            <textarea id="truth_4"></textarea>
+            <textarea id="truth_5"></textarea>
         </div>
 
         <div class="section-banner">Attributes</div>
@@ -808,7 +812,6 @@
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
-            
             <div class="dashboard-block">
                 <h3>Stress Tracking</h3>
                 <div class="unified-math-row">
@@ -834,26 +837,7 @@
                 </div>
 
                 <div class="checkbox-matrix-20" id="stress_checkbox_container">
-                    <input type="checkbox" id="stress_1">
-                    <input type="checkbox" id="stress_2">
-                    <input type="checkbox" id="stress_3">
-                    <input type="checkbox" id="stress_4">
-                    <input type="checkbox" id="stress_5">
-                    <input type="checkbox" id="stress_6">
-                    <input type="checkbox" id="stress_7">
-                    <input type="checkbox" id="stress_8">
-                    <input type="checkbox" id="stress_9">
-                    <input type="checkbox" id="stress_10">
-                    <input type="checkbox" id="stress_11">
-                    <input type="checkbox" id="stress_12">
-                    <input type="checkbox" id="stress_13">
-                    <input type="checkbox" id="stress_14">
-                    <input type="checkbox" id="stress_15">
-                    <input type="checkbox" id="stress_16">
-                    <input type="checkbox" id="stress_17">
-                    <input type="checkbox" id="stress_18">
-                    <input type="checkbox" id="stress_19">
-                    <input type="checkbox" id="stress_20">
+                    <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
             </div>
 
@@ -866,9 +850,9 @@
                     <div class="ticker-item"><label>Armour</label><input type="number" id="ticker_armour" min="0" value="0"></div>
                 </div>
             </div>
-
         </div>
 
+        <!-- Condition Row (Language tracking placeholders KEPT explicitly) -->
         <div class="dashboard-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -892,15 +876,9 @@
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
             <div>
-                <div class="skills-column-header">
-                    <span>Skill Name</span>
-                    <span style="text-align:center;">Rank</span>
-                    <span>Focuses</span>
-                </div>
-                
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
                 <div class="skill-row">
-                    <span class="skill-name">Academia</span>
-                    <input type="number" id="skill_academia" value="0" min="0" max="5">
+                    <span class="skill-name">Academia</span><input type="number" id="skill_academia" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
@@ -911,10 +889,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Science</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Athletics</span>
-                    <input type="number" id="skill_athletics" value="0" min="0" max="5">
+                    <span class="skill-name">Athletics</span><input type="number" id="skill_athletics" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
@@ -924,10 +900,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Throwing</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Engineering</span>
-                    <input type="number" id="skill_engineering" value="0" min="0" max="5">
+                    <span class="skill-name">Engineering</span><input type="number" id="skill_engineering" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
@@ -936,10 +910,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Mechanical Engineering</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Fighting</span>
-                    <input type="number" id="skill_fighting" value="0" min="0" max="5">
+                    <span class="skill-name">Fighting</span><input type="number" id="skill_fighting" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
@@ -951,10 +923,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Exotic</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Medicine</span>
-                    <input type="number" id="skill_medicine" value="0" min="0" max="5">
+                    <span class="skill-name">Medicine</span><input type="number" id="skill_medicine" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
@@ -964,10 +934,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Toxicology</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Observation</span>
-                    <input type="number" id="skill_observation" value="0" min="0" max="5">
+                    <span class="skill-name">Observation</span><input type="number" id="skill_observation" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
@@ -978,15 +946,9 @@
             </div>
 
             <div>
-                <div class="skills-column-header">
-                    <span>Skill Name</span>
-                    <span style="text-align:center;">Rank</span>
-                    <span>Focuses</span>
-                </div>
-
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
                 <div class="skill-row">
-                    <span class="skill-name">Persuasion</span>
-                    <input type="number" id="skill_persuasion" value="0" min="0" max="5">
+                    <span class="skill-name">Persuasion</span><input type="number" id="skill_persuasion" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
@@ -997,20 +959,16 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Invocation</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Resilience</span>
-                    <input type="number" id="skill_resilience" value="0" min="0" max="5">
+                    <span class="skill-name">Resilience</span><input type="number" id="skill_resilience" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Immunity</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Stealth</span>
-                    <input type="number" id="skill_stealth" value="0" min="0" max="5">
+                    <span class="skill-name">Stealth</span><input type="number" id="skill_stealth" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
@@ -1018,10 +976,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Urban Stealth</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Survival</span>
-                   <input type="number" id="skill_survival" value="0" min="0" max="5">
+                    <span class="skill-name">Survival</span><input type="number" id="skill_survival" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
@@ -1031,10 +987,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Tactics</span>
-                    <input type="number" id="skill_tactics" value="0" min="0" max="5">
+                    <span class="skill-name">Tactics</span><input type="number" id="skill_tactics" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
@@ -1044,10 +998,8 @@
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Technical Projects</span>
                     </div>
                 </div>
-
                 <div class="skill-row">
-                    <span class="skill-name">Vehicles</span>
-                    <input type="number" id="skill_vehicles" value="0" min="0" max="5">
+                    <span class="skill-name">Vehicles</span><input type="number" id="skill_vehicles" value="0" min="0" max="5">
                     <div class="focus-links-div">
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
                         <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
@@ -1061,24 +1013,29 @@
         </div>
     </div>
 
+    <!-- ====================================================
+       TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX
+    ====================================================== -->
     <div id="tab-equipment" class="tab-panel-content">
         
+        <!-- 1. Equipment of Note Section (All placeholders stripped clean) -->
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
-            <input type="text" id="eq_note_1" placeholder="Item 1">
-            <input type="text" id="eq_note_2" placeholder="Item 2">
-            <input type="text" id="eq_note_3" placeholder="Item 3">
-            <input type="text" id="eq_note_4" placeholder="Item 4">
-            <input type="text" id="eq_note_5" placeholder="Item 5">
-            <input type="text" id="eq_note_6" placeholder="Item 6">
-            <input type="text" id="eq_note_7" placeholder="Item 7">
-            <input type="text" id="eq_note_8" placeholder="Item 8">
-            <input type="text" id="eq_note_9" placeholder="Item 9">
-            <input type="text" id="eq_note_10" placeholder="Item 10">
-            <input type="text" id="eq_note_11" placeholder="Item 11">
-            <input type="text" id="eq_note_12" placeholder="Item 12">
+            <input type="text" id="eq_note_1">
+            <input type="text" id="eq_note_2">
+            <input type="text" id="eq_note_3">
+            <input type="text" id="eq_note_4">
+            <input type="text" id="eq_note_5">
+            <input type="text" id="eq_note_6">
+            <input type="text" id="eq_note_7">
+            <input type="text" id="eq_note_8">
+            <input type="text" id="eq_note_9">
+            <input type="text" id="eq_note_10">
+            <input type="text" id="eq_note_11">
+            <input type="text" id="eq_note_12">
         </div>
 
+        <!-- 2. Weapons Tracking Section Matrix (All placeholders stripped clean, text wraps and scrolls) -->
         <div class="section-banner">Weapons & Armaments</div>
         <div class="weapons-grid-table">
             <div class="weapons-grid-header">
@@ -1091,37 +1048,41 @@
                 <span>Qualities</span>
             </div>
             
+            <!-- Row 1 -->
             <div class="weapons-grid-row">
-                <input type="text" id="weapon_1_name" placeholder="Weapon Name">
-                <input type="text" id="weapon_1_focus" placeholder="Focus">
-                <input type="text" id="weapon_1_range" placeholder="Range">
-                <input type="text" id="weapon_1_damage" placeholder="Damage">
-                <input type="text" id="weapon_1_salvo" placeholder="Salvo">
-                <input type="text" id="weapon_1_size" placeholder="Size">
-                <input type="text" id="weapon_1_qualities" placeholder="Qualities / Traits">
+                <textarea id="weapon_1_name" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_focus" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_range" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_damage" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_salvo" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_size" class="grid-textarea"></textarea>
+                <textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
             </div>
 
+            <!-- Row 2 -->
             <div class="weapons-grid-row">
-                <input type="text" id="weapon_2_name" placeholder="Weapon Name">
-                <input type="text" id="weapon_2_focus" placeholder="Focus">
-                <input type="text" id="weapon_2_range" placeholder="Range">
-                <input type="text" id="weapon_2_damage" placeholder="Damage">
-                <input type="text" id="weapon_2_salvo" placeholder="Salvo">
-                <input type="text" id="weapon_2_size" placeholder="Size">
-                <input type="text" id="weapon_2_qualities" placeholder="Qualities / Traits">
+                <textarea id="weapon_2_name" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_focus" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_range" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_damage" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_salvo" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_size" class="grid-textarea"></textarea>
+                <textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
             </div>
 
+            <!-- Row 3 -->
             <div class="weapons-grid-row">
-                <input type="text" id="weapon_3_name" placeholder="Weapon Name">
-                <input type="text" id="weapon_3_focus" placeholder="Focus">
-                <input type="text" id="weapon_3_range" placeholder="Range">
-                <input type="text" id="weapon_3_damage" placeholder="Damage">
-                <input type="text" id="weapon_3_salvo" placeholder="Salvo">
-                <input type="text" id="weapon_3_size" placeholder="Size">
-                <input type="text" id="weapon_3_qualities" placeholder="Qualities / Traits">
+                <textarea id="weapon_3_name" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_focus" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_range" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_damage" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_salvo" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_size" class="grid-textarea"></textarea>
+                <textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
             </div>
         </div>
 
+        <!-- 3. Parallel Footnote Split Panel (Biography & Talents) -->
         <div class="footer-split-dashboard" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0;">Biography</div>
@@ -1138,40 +1099,47 @@
                         <span>Effect</span>
                     </div>
                     
+                    <!-- Row 1 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_1_name" placeholder="Talent Name">
-                        <input type="text" id="talent_1_keys" placeholder="Keywords">
-                        <input type="text" id="talent_1_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_1_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_1_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_1_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 2 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_2_name" placeholder="Talent Name">
-                        <input type="text" id="talent_2_keys" placeholder="Keywords">
-                        <input type="text" id="talent_2_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_2_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_2_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_2_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 3 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_3_name" placeholder="Talent Name">
-                        <input type="text" id="talent_3_keys" placeholder="Keywords">
-                        <input type="text" id="talent_3_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_3_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_3_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_3_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 4 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_4_name" placeholder="Talent Name">
-                        <input type="text" id="talent_4_keys" placeholder="Keywords">
-                        <input type="text" id="talent_4_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_4_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_4_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_4_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 5 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_5_name" placeholder="Talent Name">
-                        <input type="text" id="talent_5_keys" placeholder="Keywords">
-                        <input type="text" id="talent_5_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_5_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_5_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_5_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 6 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_6_name" placeholder="Talent Name">
-                        <input type="text" id="talent_6_keys" placeholder="Keywords">
-                        <input type="text" id="talent_6_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_6_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_6_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_6_effect" class="talent-textarea"></textarea>
                     </div>
+                    <!-- Row 7 -->
                     <div class="talents-grid-row">
-                        <input type="text" id="talent_7_name" placeholder="Talent Name">
-                        <input type="text" id="talent_7_keys" placeholder="Keywords">
-                        <input type="text" id="talent_7_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                        <textarea id="talent_7_name" class="talent-textarea"></textarea>
+                        <textarea id="talent_7_keys" class="talent-textarea"></textarea>
+                        <textarea id="talent_7_effect" class="talent-textarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -1179,6 +1147,9 @@
 
     </div>
 
+    <!-- ====================================================
+       TAB COMPARTMENT 3: SPELLS & MYSTICISM
+    ====================================================== -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="section-banner">Spells & Sorcery</div>
         <div class="blank-slate-wrapper">
@@ -1188,31 +1159,17 @@
 
 </div>
 
+<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
-/* =========================
-   STATE FLAGS & TIMERS
-========================= */
 let saveTimer = null;
 
-/* =========================
-   TAB SWITCHING MATRIX ENGINE
-========================= */
 function switchSheetTab(tabId, buttonElement) {
-    document.querySelectorAll('.tab-panel-content').forEach(panel => {
-        panel.classList.remove('active');
-    });
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-
+    document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     buttonElement.classList.add('active');
 }
 
-/* =========================
-   AUTOSAVE CACHE ENGINE (Silent Background Runner)
-========================= */
 function queueAutosave() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
@@ -1220,31 +1177,22 @@ function queueAutosave() {
     }, 1000);
 }
 
-/* =========================
-   NEW CHARACTER RESET
-========================= */
 function newCharacter() {
     if (!confirm("Are you sure you want to clear this sheet? All unsaved current changes will be lost.")) return;
-    
     localStorage.removeItem("achtung_cthulhu_save");
 
     document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
     document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
-
     document.querySelectorAll('input[type="number"]').forEach(el => {
-        if (!el.id.startsWith("attr_")) {
-            el.value = 0;
-        }
+        if (!el.id.startsWith("attr_")) el.value = 0;
     });
 
-    const attributes = ["agility", "brawn", "coordination", "insight", "reason", "will"];
-    attributes.forEach(attr => {
+    ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
         const input = document.getElementById("attr_" + attr);
         if (input) input.value = 6;
     });
 
     document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
-
     document.querySelectorAll(".injury-cycle-box").forEach(box => {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
@@ -1253,9 +1201,6 @@ function newCharacter() {
     updateStressCalculations();
 }
 
-/* =========================
-   ATTR TICKER BONUS ACTIONS
-========================= */
 function adjustCD(id, amount) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1264,9 +1209,6 @@ function adjustCD(id, amount) {
     queueAutosave();
 }
 
-/* =========================
-   ATTR VALIDATION
-========================= */
 function validateAttrCap(input) {
     let val = parseInt(input.value);
     if (isNaN(val)) val = 0; 
@@ -1275,17 +1217,11 @@ function validateAttrCap(input) {
     updateStressCalculations();
 }
 
-/* =========================
-   FOCUS TOGGLE
-========================= */
 function toggleFocus(el) {
     el.classList.toggle("active");
     queueAutosave();
 }
 
-/* =========================
-   INJURY CYCLER
-========================= */
 function cycleInjuryState(element) {
     if (!element.classList.contains("state-M") && !element.classList.contains("state-P")) {
         element.classList.add("state-M");
@@ -1301,14 +1237,10 @@ function cycleInjuryState(element) {
     queueAutosave();
 }
 
-/* =========================
-   STRESS CALCULATION ENGINE
-========================= */
 function updateStressCalculations() {
     const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
     const willBase = parseInt(document.getElementById('attr_will').value) || 0;
     const highestBase = Math.max(brawnBase, willBase);
-
     const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
     const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
 
@@ -1319,7 +1251,6 @@ function updateStressCalculations() {
     document.getElementById('output_stress_max').value = total;
 
     const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
-
     for (let i = 0; i < boxes.length; i++) {
         if (i < total) {
             boxes[i].disabled = false;
@@ -1330,19 +1261,13 @@ function updateStressCalculations() {
     }
 }
 
-/* =========================
-   REUSABLE DATA SCRAPING HELPERS
-========================= */
 function getActiveFocuses() {
     const focusData = {};
     document.querySelectorAll(".skill-row").forEach(row => {
         const skillInput = row.querySelector("input");
         if (!skillInput) return;
-
         const active = [];
-        row.querySelectorAll(".focus-clickable-text.active").forEach(f => {
-            active.push(f.innerText.trim());
-        });
+        row.querySelectorAll(".focus-clickable-text.active").forEach(f => active.push(f.innerText.trim()));
         focusData[skillInput.id] = active;
     });
     return focusData;
@@ -1353,7 +1278,6 @@ function setActiveFocuses(focuses) {
     document.querySelectorAll(".skill-row").forEach(row => {
         const skillInput = row.querySelector("input");
         if (!skillInput) return;
-
         const active = focuses[skillInput.id] || [];
         row.querySelectorAll(".focus-clickable-text").forEach(f => {
             f.classList.toggle("active", active.includes(f.innerText.trim()));
@@ -1374,11 +1298,9 @@ function setInjuryStates(injuries) {
     Object.keys(injuries).forEach(id => {
         const box = document.getElementById(id);
         if (!box) return;
-
         const state = injuries[id];
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
-
         if (state === "M" || state === "P") {
             box.classList.add("state-" + state);
             box.innerText = state;
@@ -1413,33 +1335,21 @@ function applyCharacterData(saveData) {
     updateStressCalculations();
 }
 
-/* =========================
-   MANUAL SAVE (JSON DOWNLOAD & FORCE TRIGGER)
-========================= */
 function saveCharacter() {
     const dataPayload = compileCharacterData();
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
-
-    const blob = new Blob([JSON.stringify(dataPayload, null, 2)], {
-        type: "application/json"
-    });
-
+    const blob = new Blob([JSON.stringify(dataPayload, null, 2)], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "AchtungCthulhuCharacter.json";
-
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
-/* =========================
-   LOAD CHARACTER (JSON FILE)
-========================= */
 function loadCharacter(event) {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = function (e) {
         try {
@@ -1453,9 +1363,6 @@ function loadCharacter(event) {
     reader.readAsText(file);
 }
 
-/* =========================
-   CLEAN COUPLING GLOBAL EVENT CAPTURE
-========================= */
 document.addEventListener("input", function (e) {
     if (e.target.id === "loadFile") return;
     if (e.target.id.startsWith("attr_")) {
@@ -1471,9 +1378,6 @@ document.addEventListener("change", function (e) {
     queueAutosave();
 });
 
-/* =========================
-   INITIAL LOAD EXECUTION
-========================= */
 updateStressCalculations();
 
 (function loadFromLocal() {
