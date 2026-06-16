@@ -265,16 +265,13 @@
             line-height: 1.3;
         }
 
-        /* =========================================================================
-           FIXED SPLIT DASHBOARD LAYOUT
-           Uses flex containers to auto-stretch the Bio textbox alongside Talents
-        =========================================================================== */
+        /* FIXED SPLIT DASHBOARD LAYOUT */
         .footer-split-dashboard {
             display: grid;
             grid-template-columns: 320px 1fr;
             gap: 25px;
             width: 100%;
-            align-items: stretch; /* Forces both grid tracks to share unified max-height */
+            align-items: stretch; 
             box-sizing: border-box;
         }
 
@@ -284,7 +281,6 @@
             height: 100%;
         }
 
-        /* flex-grow automatically expands height to cleanly match the bottom row */
         .bio-entry-box textarea {
             width: 100%;
             flex-grow: 1; 
@@ -334,7 +330,6 @@
             margin-bottom: 0;
         }
 
-        /* Taller, scrollable text areas for deep talent rule description tracking */
         .talent-textarea {
             width: 100%;
             height: 54px; 
@@ -365,11 +360,11 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 14px;
-            resize: none; /* Resize handle completely removed */
+            resize: none; 
             background-color: #fafafa;
         }
 
-        /* ATTRIBUTES & BONUS FRAMEWORK */
+        /* ATTRIBUTES FRAMEWORK */
         .attributes-row {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -391,41 +386,26 @@
             color: #555;
         }
 
-        /* Custom Suffix Spliced Ticker Layout */
-        .cd-ticker-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
+        /* Updated Suffix Read-Only Bonus Display Box */
+        .cd-bonus-container {
             margin-top: 10px;
             border-top: 1px dashed #ddd;
             padding-top: 10px;
-        }
-        .cd-ticker-btn {
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            width: 20px;
-            height: 24px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
             display: flex;
-            align-items: center;
             justify-content: center;
-            user-select: none;
         }
-        .cd-ticker-btn:hover { background: #ddd; }
 
         .cd-display-input {
-            width: 55px;
+            width: 75px;
             text-align: center;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
-            padding: 3px;
+            padding: 4px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            background: #fdfdfd;
+            background: #e9ecef;
+            color: #495057;
+            cursor: not-allowed;
         }
 
         input[type="number"] {
@@ -442,9 +422,10 @@
             box-sizing: border-box;
         }
 
+        /* Re-proportioned Combat Tracker Grids (65% / 35% Split) */
         .dashboard-layout-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.65fr 1fr;
             gap: 25px;
             width: 100%;
             box-sizing: border-box;
@@ -515,6 +496,7 @@
             gap: 10px;
             justify-items: center;
             padding: 5px 0;
+            margin-bottom: 20px;
         }
 
         .checkbox-matrix-20 input[type="checkbox"] {
@@ -530,11 +512,21 @@
             cursor: not-allowed;
         }
 
+        /* Dynamic Section Ticker Row Styles */
+        .ticker-section-title {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #555;
+            margin: 15px 0 8px 0;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 3px;
+        }
+
         .ticker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 5px;
         }
 
         .ticker-item {
@@ -543,19 +535,49 @@
             justify-content: space-between;
             background: #fafafa;
             border: 1px solid #eaeaea;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
         }
 
         .ticker-item label {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             color: #444;
         }
 
-        .ticker-item input[type="number"] {
-            margin: 0;
+        /* Spliced Ticker Controllers */
+        .interactive-ticker-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ticker-control-btn {
+            background: #eee;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 22px;
+            height: 26px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        .ticker-control-btn:hover { background: #ddd; }
+
+        .ticker-val-field {
+            width: 45px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fdfdfd;
         }
 
         .injuries-container {
@@ -607,7 +629,7 @@
             border-radius: 4px;
             box-sizing: border-box;
             background-color: #fafafa;
-            resize: none; /* Resize handle completely removed */
+            resize: none; 
         }
 
         .skills-container {
@@ -750,7 +772,7 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <!-- Personal Truths Row (Placeholders completely removed) -->
+        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -765,61 +787,51 @@
             <div class="attribute-card">
                 <label>Agility</label>
                 <input type="number" id="attr_agility" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_agility', -1)">-</div>
-                    <input type="text" id="bonus_agility" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_agility', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_agility" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Brawn</label>
                 <input type="number" id="attr_brawn" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_brawn', -1)">-</div>
-                    <input type="text" id="bonus_brawn" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_brawn', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_brawn" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Coordination</label>
                 <input type="number" id="attr_coordination" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_coordination', -1)">-</div>
-                    <input type="text" id="bonus_coordination" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_coordination', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_coordination" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Insight</label>
                 <input type="number" id="attr_insight" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_insight', -1)">-</div>
-                    <input type="text" id="bonus_insight" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_insight', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_insight" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Reason</label>
                 <input type="number" id="attr_reason" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_reason', -1)">-</div>
-                    <input type="text" id="bonus_reason" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_reason', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_reason" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Will</label>
                 <input type="number" id="attr_will" value="6" min="0" max="12">
-                <div class="cd-ticker-container">
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_will', -1)">-</div>
-                    <input type="text" id="bonus_will" class="cd-display-input" value="0" readonly>
-                    <div class="cd-ticker-btn" onclick="adjustCD('bonus_will', 1)">+</div>
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_will" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
         </div>
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
+            
+            <!-- Left Side: Widened Stress and Resistances Block -->
             <div class="dashboard-block">
                 <h3>Stress Tracking</h3>
                 <div class="unified-math-row">
@@ -847,20 +859,53 @@
                 <div class="checkbox-matrix-20" id="stress_checkbox_container">
                     <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
+
+                <div class="ticker-section-title">Resistances</div>
+                <div class="ticker-grid">
+                    <div class="ticker-item">
+                        <label>Courage</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
+                            <input type="text" id="ticker_courage" class="ticker-val-field" value="—" readonly>
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
+                        </div>
+                    </div>
+                    <div class="ticker-item">
+                        <label>Armour</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
+                            <input type="text" id="ticker_armour" class="ticker-val-field" value="—" readonly>
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Right Side: Clean Resources Block -->
             <div class="dashboard-block">
-                <h3>Resource Tickers</h3>
-                <div class="ticker-grid">
-                    <div class="ticker-item"><label>Fortune</label><input type="number" id="ticker_fortune" min="0" value="0"></div>
-                    <div class="ticker-item"><label>Courage</label><input type="number" id="ticker_courage" min="0" value="0"></div>
-                    <div class="ticker-item"><label>Exp</label><input type="number" id="ticker_exp" min="0" value="0"></div>
-                    <div class="ticker-item"><label>Armour</label><input type="number" id="ticker_armour" min="0" value="0"></div>
+                <h3>Resources</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
+                    <div class="ticker-item">
+                        <label>Fortune</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
+                            <input type="text" id="ticker_fortune" class="ticker-val-field" value="0" readonly>
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
+                        </div>
+                    </div>
+                    <div class="ticker-item">
+                        <label>Exp</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_exp', -1)">-</div>
+                            <input type="text" id="ticker_exp" class="ticker-val-field" value="0" readonly>
+                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_exp', 1)">+</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Condition Row (Language placeholders safely kept) -->
+        <!-- Condition Row -->
         <div class="dashboard-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -1026,7 +1071,6 @@
     ====================================================== -->
     <div id="tab-equipment" class="tab-panel-content">
         
-        <!-- 1. Equipment of Note (All placeholders removed) -->
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
             <input type="text" id="eq_note_1">
@@ -1043,7 +1087,6 @@
             <input type="text" id="eq_note_12">
         </div>
 
-        <!-- 2. Weapons Tracking Section Matrix (All placeholders removed) -->
         <div class="section-banner">Weapons & Armaments</div>
         <div class="weapons-grid-table">
             <div class="weapons-grid-header">
@@ -1056,7 +1099,6 @@
                 <span>Qualities</span>
             </div>
             
-            <!-- Row 1 -->
             <div class="weapons-grid-row">
                 <textarea id="weapon_1_name" class="grid-textarea"></textarea>
                 <textarea id="weapon_1_focus" class="grid-textarea"></textarea>
@@ -1066,8 +1108,6 @@
                 <textarea id="weapon_1_size" class="grid-textarea"></textarea>
                 <textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
             </div>
-
-            <!-- Row 2 -->
             <div class="weapons-grid-row">
                 <textarea id="weapon_2_name" class="grid-textarea"></textarea>
                 <textarea id="weapon_2_focus" class="grid-textarea"></textarea>
@@ -1077,8 +1117,6 @@
                 <textarea id="weapon_2_size" class="grid-textarea"></textarea>
                 <textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
             </div>
-
-            <!-- Row 3 -->
             <div class="weapons-grid-row">
                 <textarea id="weapon_3_name" class="grid-textarea"></textarea>
                 <textarea id="weapon_3_focus" class="grid-textarea"></textarea>
@@ -1090,7 +1128,7 @@
             </div>
         </div>
 
-        <!-- 3. Parallel Flex Footnote Split Panel (Biography & Talents) -->
+        <!-- Footnote Split Panel (Biography & Talents) -->
         <div class="footer-split-dashboard" style="margin-top: 15px;">
             <div class="bio-entry-box">
                 <div class="section-banner" style="margin-top:0;">Biography</div>
@@ -1105,43 +1143,36 @@
                     <span>Effect</span>
                 </div>
                 
-                <!-- Row 1 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_1_name" class="talent-textarea"></textarea>
                     <textarea id="talent_1_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_1_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 2 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_2_name" class="talent-textarea"></textarea>
                     <textarea id="talent_2_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_2_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 3 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_3_name" class="talent-textarea"></textarea>
                     <textarea id="talent_3_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_3_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 4 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_4_name" class="talent-textarea"></textarea>
                     <textarea id="talent_4_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_4_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 5 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_5_name" class="talent-textarea"></textarea>
                     <textarea id="talent_5_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_5_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 6 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_6_name" class="talent-textarea"></textarea>
                     <textarea id="talent_6_keys" class="talent-textarea"></textarea>
                     <textarea id="talent_6_effect" class="talent-textarea"></textarea>
                 </div>
-                <!-- Row 7 -->
                 <div class="talents-grid-row">
                     <textarea id="talent_7_name" class="talent-textarea"></textarea>
                     <textarea id="talent_7_keys" class="talent-textarea"></textarea>
@@ -1149,7 +1180,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- ====================================================
@@ -1167,6 +1197,14 @@
 <!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
+
+// Track custom offsets for tickers so manual gameplay adjustments are preserved
+let tickerManualOffsets = {
+    ticker_courage: 0,
+    ticker_armour: 0,
+    ticker_fortune: 0,
+    ticker_exp: 0
+};
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
@@ -1203,23 +1241,18 @@ function newCharacter() {
         box.innerText = "";
     });
 
-    updateStressCalculations();
-}
+    // Reset offsets
+    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0 };
 
-function adjustCD(id, amount) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    let val = parseInt(el.value) || 0;
-    el.value = val + amount;
-    queueAutosave();
+    updateAllCalculations();
 }
 
 function validateAttrCap(input) {
     let val = parseInt(input.value);
     if (isNaN(val)) val = 0; 
-    if (val > 12) input.value = 12;
+    if (val > 12) input.value = 12; // Cap threshold constraint remains safely at 12 for base attributes
     if (val < 0) input.value = 0;
-    updateStressCalculations();
+    updateAllCalculations();
 }
 
 function toggleFocus(el) {
@@ -1239,6 +1272,86 @@ function cycleInjuryState(element) {
         element.classList.remove("state-P");
         element.innerText = "";
     }
+    queueAutosave();
+}
+
+// Global Orchestrator for all linked attribute data updates
+function updateAllCalculations() {
+    updateAttributeCDFields();
+    updateStressCalculations();
+    updateResistanceCalculations();
+}
+
+// Converts raw attribute metrics to dynamic operational +Xcd challenge dice strings
+function calculateCDValue(score) {
+    if (score <= 8) return "—";
+    if (score === 9) return "+1cd";
+    if (score === 10 || score === 11) return "+2cd";
+    if (score === 12 || score === 13) return "+3cd";
+    if (score === 14 || score === 15) return "+4cd";
+    return "+5cd"; // 16 or higher
+}
+
+function updateAttributeCDFields() {
+    ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
+        const baseVal = parseInt(document.getElementById("attr_" + attr).value) || 0;
+        const targetBonusField = document.getElementById("bonus_" + attr);
+        if (targetBonusField) {
+            targetBonusField.value = calculateCDValue(baseVal);
+        }
+    });
+}
+
+// Converts Brawn/Will scores directly to corresponding integer baselines
+function calculateResistanceBase(score) {
+    if (score <= 8) return 0; // Display fallback evaluates to "—" when 0 baseline has no active offset
+    if (score === 9) return 1;
+    if (score === 10 || score === 11) return 2;
+    if (score === 12 || score === 13) return 3;
+    if (score === 14 || score === 15) return 4;
+    return 5; // 16 or higher
+}
+
+function updateResistanceCalculations() {
+    const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
+    const willScore = parseInt(document.getElementById('attr_will').value) || 0;
+
+    const baseArmour = calculateResistanceBase(brawnScore);
+    const baseCourage = calculateResistanceBase(willScore);
+
+    // Compute unified outcomes including custom offsets
+    const totalArmour = baseArmour + tickerManualOffsets.ticker_armour;
+    const totalCourage = baseCourage + tickerManualOffsets.ticker_courage;
+
+    // Display updates: Fall back to Em-Dash if total value is 0 or less AND base attribute is 8 or less
+    const armourDisplay = document.getElementById("ticker_armour");
+    if (brawnScore <= 8 && totalArmour <= 0) {
+        armourDisplay.value = "—";
+    } else {
+        armourDisplay.value = totalArmour;
+    }
+
+    const courageDisplay = document.getElementById("ticker_courage");
+    if (willScore <= 8 && totalCourage <= 0) {
+        courageDisplay.value = "—";
+    } else {
+        courageDisplay.value = totalCourage;
+    }
+
+    // Direct standalone resource displays
+    document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
+    document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
+}
+
+function adjustTickerField(id, amount) {
+    // Modify tracking configurations safely
+    if (id === "ticker_fortune" || id === "ticker_exp") {
+        tickerManualOffsets[id] = Math.max(0, tickerManualOffsets[id] + amount);
+    } else {
+        // Allow variance around bases for tracking temporary damage/buff modifiers
+        tickerManualOffsets[id] += amount;
+    }
+    updateResistanceCalculations();
     queueAutosave();
 }
 
@@ -1315,10 +1428,17 @@ function setInjuryStates(injuries) {
 
 function compileCharacterData() {
     const saveData = {};
+    // Grab all valid elements
     document.querySelectorAll("input, textarea").forEach(el => {
-        if (!el.id || el.id === "loadFile") return;
+        if (!el.id || el.id === "loadFile" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
+        
+        // Custom interactive read-only fields use the baseline offset state maps
+        if (el.id.startsWith("ticker_")) return;
+
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
     });
+    
+    saveData.tickerOffsets = tickerManualOffsets;
     saveData.focuses = getActiveFocuses();
     saveData.injuries = getInjuryStates();
     return saveData;
@@ -1328,16 +1448,21 @@ function applyCharacterData(saveData) {
     if (!saveData) return;
     Object.keys(saveData).forEach(id => {
         const el = document.getElementById(id);
-        if (!el || id === "focuses" || id === "injuries") return;
+        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets") return;
         if (el.type === "checkbox") {
             el.checked = saveData[id];
         } else {
             el.value = saveData[id];
         }
     });
+
+    if (saveData.tickerOffsets) {
+        tickerManualOffsets = saveData.tickerOffsets;
+    }
+    
     setActiveFocuses(saveData.focuses);
     setInjuryStates(saveData.injuries);
-    updateStressCalculations();
+    updateAllCalculations();
 }
 
 function saveCharacter() {
@@ -1383,7 +1508,8 @@ document.addEventListener("change", function (e) {
     queueAutosave();
 });
 
-updateStressCalculations();
+// Run initial evaluation
+updateAllCalculations();
 
 (function loadFromLocal() {
     const data = localStorage.getItem("achtung_cthulhu_save");
