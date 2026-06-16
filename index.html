@@ -24,7 +24,7 @@
 
         /* Thematic section banners */
         .section-banner {
-            background-color: #4a5d34; /* Military Olive Green */
+            background-color: #4a5d34;
             color: white;
             padding: 10px;
             font-weight: bold;
@@ -52,46 +52,55 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        /* =========================
+           SAVE / LOAD AREA
+        ========================== */
+
         .save-load-bar {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-}
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: -10px;
+            margin-bottom: 3px;
+        }
 
-.save-load-bar button,
-.load-button {
-    background-color: #4a5d34;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 11px;
-    text-transform: uppercase;
-}
+        .save-load-bar button,
+        .load-button {
+            background-color: #4a5d34;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
 
-.save-load-bar button:hover,
-.load-button:hover {
-    opacity: 0.9;
-}
+        .save-load-bar button:hover,
+        .load-button:hover {
+            opacity: 0.9;
+        }
+
         .save-status {
-    font-size: 11px;
-    color: #777;
-    font-style: italic;
-    margin-right: auto;
-    opacity: 0.85;
-    white-space: nowrap;
-}
+            font-size: 11px;
+            color: #777;
+            font-style: italic;
+            opacity: 0.85;
+            white-space: nowrap;
+        }
+
         .save-warning-text {
-    font-size: 10px;
-    color: #777;
-    opacity: 0.85;
-    text-align: right;
-    margin-top: 3px;
-}
+            font-size: 10px;
+            color: #777;
+            opacity: 0.85;
+            text-align: right;
+            line-height: 1.3;
+            margin-top: 4px;
+            max-width: 260px;
+        }
 
         /* IDENTITY SYSTEM */
         .identity-grid {
@@ -190,6 +199,7 @@
             user-select: none;
         }
         .cd-ticker-btn:hover { background: #ddd; }
+
         .cd-display-input {
             width: 55px;
             text-align: center;
@@ -201,7 +211,6 @@
             background: #fdfdfd;
         }
 
-        /* Standardized Number Tickers with Arrows */
         input[type="number"] {
             width: 60px; 
             height: 32px; 
@@ -216,7 +225,6 @@
             box-sizing: border-box;
         }
 
-        /* STRESS & TICKERS TWO-COLUMN GRID */
         .dashboard-layout-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -224,6 +232,7 @@
             width: 100%;
             box-sizing: border-box;
         }
+
         .dashboard-block {
             background: #fdfdfd;
             border: 1px solid #ddd;
@@ -231,6 +240,7 @@
             padding: 15px;
             box-sizing: border-box;
         }
+
         .dashboard-block h3 {
             margin: 0 0 15px 0;
             color: #4a5d34;
@@ -240,7 +250,6 @@
             padding-bottom: 5px;
         }
 
-        /* Single Unified Math Engine Styling */
         .unified-math-row {
             display: flex;
             justify-content: center;
@@ -252,12 +261,14 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
+
         .math-box-node {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
+
         .math-box-node label {
             font-size: 11px;
             font-weight: bold;
@@ -265,21 +276,22 @@
             color: #666;
             text-align: center;
         }
+
         .unified-math-row .math-sign {
             font-weight: bold;
             font-size: 20px;
             color: #888;
             margin-top: 18px;
         }
-        /* Lockout Styling for Uneditable Nodes */
-        .math-box-node input[readonly], .math-box-node input[disabled] {
+
+        .math-box-node input[readonly],
+        .math-box-node input[disabled] {
             background-color: #e9ecef !important;
             color: #495057;
             border-color: #ced4da;
             cursor: not-allowed;
         }
 
-        /* 20 Checkbox Tracking Cluster */
         .checkbox-matrix-20 {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -287,6 +299,7 @@
             justify-items: center;
             padding: 5px 0;
         }
+
         .checkbox-matrix-20 input[type="checkbox"] {
             width: 24px;
             height: 24px;
@@ -294,18 +307,19 @@
             margin: 0;
             transition: all 0.2s ease;
         }
+
         .checkbox-matrix-20 input[type="checkbox"]:disabled {
             opacity: 0.15;
             cursor: not-allowed;
         }
 
-        /* Resource Ticker Grid */
         .ticker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 5px;
         }
+
         .ticker-item {
             display: flex;
             align-items: center;
@@ -315,23 +329,25 @@
             padding: 10px 15px;
             border-radius: 6px;
         }
+
         .ticker-item label {
             font-weight: bold;
             font-size: 14px;
             text-transform: uppercase;
             color: #444;
         }
+
         .ticker-item input[type="number"] {
             margin: 0;
         }
 
-        /* INJURIES & LANGUAGES Layout Rows */
         .injuries-container {
             display: flex;
             gap: 15px;
             align-items: center;
             padding: 10px 0;
         }
+
         .injury-cycle-box {
             width: 45px;
             height: 45px;
@@ -346,8 +362,18 @@
             cursor: pointer;
             user-select: none;
         }
-        .injury-cycle-box.state-M { border-color: #31708f; color: #31708f; background: #d9edf7; }
-        .injury-cycle-box.state-P { border-color: #a94442; color: #a94442; background: #f2dede; }
+
+        .injury-cycle-box.state-M { 
+            border-color: #31708f; 
+            color: #31708f; 
+            background: #d9edf7; 
+        }
+
+        .injury-cycle-box.state-P { 
+            border-color: #a94442; 
+            color: #a94442; 
+            background: #f2dede; 
+        }
 
         .languages-row {
             display: grid;
@@ -355,6 +381,7 @@
             gap: 15px;
             padding: 10px 0;
         }
+
         .languages-row textarea {
             width: 100%;
             min-height: 55px;
@@ -365,14 +392,13 @@
             background-color: #fafafa;
         }
 
-        /* MATRIX SYSTEM FOR SKILLS SECTION */
         .skills-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             width: 100%;
         }
-        /* Adjusted grid columns to 110px and 60px to slide the rank ticker directly next to the skill names */
+
         .skills-column-header {
             display: grid;
             grid-template-columns: 110px 60px 1fr;
@@ -386,36 +412,38 @@
             padding-left: 10px;
             gap: 10px;
         }
+
         .skill-row {
-    display: grid;
-    grid-template-columns: 110px 60px 1fr;
-    align-items: center;
-    min-height: 90px; /* Forces all rows to match tallest content block */
-    padding: 6px 10px;
-    background: #fdfdfd;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    gap: 10px;
-    box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 110px 60px 1fr;
+            align-items: center;
+            min-height: 90px;
+            padding: 6px 10px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            gap: 10px;
+            box-sizing: border-box;
         }
+
         .skill-name {
             font-weight: bold;
             font-size: 13px;
             color: #333;
             text-transform: uppercase;
         }
-        
-        /* Tightened Text Focus Divider Layout */
+
         .focus-links-div {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: center;
-    color: #ccc;
-    font-weight: normal;
-    font-size: 11px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: center;
+            color: #ccc;
+            font-weight: normal;
+            font-size: 11px;
         }
+
         .focus-clickable-text {
             color: #555;
             font-size: 12px;
@@ -427,10 +455,12 @@
             margin: 0 1px;
             display: inline-block;
         }
+
         .focus-clickable-text:hover {
             color: #111;
             background: #eee;
         }
+
         .focus-clickable-text.active {
             background-color: #4a5d34 !important;
             color: white !important;
@@ -442,7 +472,7 @@
             border-color: #4a5d34 !important;
             background-color: #fff !important;
         }
-    </style>
+</style>
 </head>
 <body>
 
@@ -477,7 +507,8 @@
 </div>
 
 <div class="save-warning-text">
-    ⚠ Changes are saved in local browser storage. Character export recommended at end of session.
+    ⚠ Changes are saved in local browser storage.<br>
+    Character export recommended at end of session.
 </div>
 
     <!-- 2. Identity Grid -->
