@@ -57,50 +57,61 @@
            SAVE / LOAD AREA
         ========================== */
 
-        .save-load-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 8px;
-            margin-top: -10px;
-            margin-bottom: 3px;
-        }
+        .save-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* keeps everything right-aligned as a group */
+}
 
-        .save-load-bar button,
-        .load-button {
-            background-color: #4a5d34;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
+/* Button row */
+.save-load-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: -10px;
+    margin-bottom: 2px; /* tighter spacing to warning */
+}
 
-        .save-load-bar button:hover,
-        .load-button:hover {
-            opacity: 0.9;
-        }
+/* Buttons */
+.save-load-bar button,
+.load-button {
+    background-color: #4a5d34;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+}
 
-        .save-status {
-            font-size: 11px;
-            color: #777;
-            font-style: italic;
-            opacity: 0.85;
-            white-space: nowrap;
-        }
+.save-load-bar button:hover,
+.load-button:hover {
+    opacity: 0.9;
+}
 
-        .save-warning-text {
-            font-size: 10px;
-            color: #777;
-            opacity: 0.85;
-            text-align: right;
-            line-height: 1.3;
-            margin-top: 4px;
-            max-width: 260px;
-        }
+/* “Changes saved” text */
+.save-status {
+    font-size: 11px;
+    color: #777;
+    font-style: italic;
+    margin-right: auto; /* keeps it left of buttons */
+    opacity: 0.85;
+    white-space: nowrap;
+}
+
+/* Warning block under buttons */
+.save-warning-text {
+    font-size: 10px;
+    color: #777;
+    opacity: 0.85;
+    text-align: left;     /* <-- this is what aligns both lines */
+    line-height: 1.2;
+    margin-top: 4px;
+    max-width: 260px;     /* keeps it visually tied to button group */
+}
 
         /* IDENTITY SYSTEM */
         .identity-grid {
@@ -484,31 +495,31 @@
     </div>
     
     <!-- SAVE / LOAD BAR -->
-<div class="save-load-bar">
+<div class="save-area">
 
-    <div id="saveStatusText" class="save-status">
-        Changes saved.
+    <div class="save-load-bar">
+        <span class="save-status">Changes saved</span>
+
+        <button onclick="saveCharacter()">Save Character</button>
+
+        <label for="loadFile" class="load-button">
+            Load Character
+        </label>
+
+        <input
+            type="file"
+            id="loadFile"
+            accept=".json"
+            onchange="loadCharacter(event)"
+            style="display:none;"
+        >
     </div>
 
-    <button onclick="saveCharacter()">Save Character</button>
+    <div class="save-warning-text">
+        ⚠ Changes are saved in local browser storage.<br>
+        Character export recommended at end of session.
+    </div>
 
-    <label for="loadFile" class="load-button">
-        Load Character
-    </label>
-
-    <input
-        type="file"
-        id="loadFile"
-        accept=".json"
-        onchange="loadCharacter(event)"
-        style="display:none;"
-    >
-
-</div>
-
-<div class="save-warning-text">
-    ⚠ Changes are saved in local browser storage.<br>
-    Character export recommended at end of session.
 </div>
 
     <!-- 2. Identity Grid -->
