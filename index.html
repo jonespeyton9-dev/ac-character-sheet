@@ -96,7 +96,7 @@
             flex-direction: column;
             align-items: flex-end; 
             padding-bottom: 12px; 
-        }
+                }
 
         .save-load-bar {
             display: flex;
@@ -422,10 +422,10 @@
             box-sizing: border-box;
         }
 
-        /* Re-proportioned Combat Tracker Grids (65% / 35% Split) */
+        /* Rebalanced Combat Tracker Grid: Shuffled space allocations to widen Stress Tracker and narrow Resources */
         .dashboard-layout-grid {
             display: grid;
-            grid-template-columns: 1.65fr 1fr;
+            grid-template-columns: 1fr 240px;
             gap: 25px;
             width: 100%;
             box-sizing: border-box;
@@ -437,6 +437,8 @@
             border-radius: 6px;
             padding: 15px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         .dashboard-block h3 {
@@ -504,7 +506,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            min-width: 190px;
+            min-width: 165px;
             justify-content: center;
         }
 
@@ -539,6 +541,13 @@
             padding: 6px 10px;
             border-radius: 6px;
             box-sizing: border-box;
+        }
+
+        /* Height-expanded variant explicitly scaled for the Thinner Resources container elements */
+        .resource-ticker-expanded {
+            flex-grow: 1;
+            padding: 12px 10px;
+            margin-bottom: 2px;
         }
 
         .ticker-item label {
@@ -580,6 +589,19 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             background: #fdfdfd;
+        }
+
+        /* Scaled down text output frame optimized explicitly for Auxiliary parameters */
+        .auxiliary-ticker-field {
+            width: 34px;
+            font-size: 12px;
+            padding: 2px;
+        }
+
+        .auxiliary-ticker-btn {
+            width: 18px;
+            height: 22px;
+            font-size: 12px;
         }
 
         .injuries-container {
@@ -847,26 +869,26 @@
                         </div>
                         <div class="math-sign">=</div>
                         <div class="math-box-node">
-                            <label>Total Cap</label>
+                            <label>Total</label>
                             <input type="number" id="output_stress_max" readonly>
                         </div>
                     </div>
 
                     <div class="resistances-column-stack">
-                        <div class="ticker-item">
-                            <label>Courage</label>
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Courage</label>
                             <div class="interactive-ticker-wrap">
-                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
-                                <input type="text" id="ticker_courage" class="ticker-val-field" value="—" readonly>
-                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
+                                <input type="text" id="ticker_courage" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
                             </div>
                         </div>
-                        <div class="ticker-item">
-                            <label>Armour</label>
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Armour</label>
                             <div class="interactive-ticker-wrap">
-                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
-                                <input type="text" id="ticker_armour" class="ticker-val-field" value="—" readonly>
-                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
+                                <input type="text" id="ticker_armour" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
                             </div>
                         </div>
                     </div>
@@ -879,21 +901,21 @@
 
             <div class="dashboard-block">
                 <h3>Resources</h3>
-                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
-                    <div class="ticker-item">
+                <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+                    <div class="ticker-item resource-ticker-expanded">
                         <label>Fortune</label>
                         <div class="interactive-ticker-wrap">
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
-                            <input type="text" id="ticker_fortune" class="ticker-val-field" value="0" readonly>
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
+                            <input type="text" id="ticker_fortune" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
                         </div>
                     </div>
-                    <div class="ticker-item">
+                    <div class="ticker-item resource-ticker-expanded">
                         <label>Exp</label>
                         <div class="interactive-ticker-wrap">
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_exp', -1)">-</div>
-                            <input type="text" id="ticker_exp" class="ticker-val-field" value="0" readonly>
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_exp', 1)">+</div>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', -1)">-</div>
+                            <input type="text" id="ticker_exp" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', 1)">+</div>
                         </div>
                     </div>
                 </div>
@@ -1236,7 +1258,7 @@ function newCharacter() {
 function validateAttrCap(input) {
     let val = parseInt(input.value);
     if (isNaN(val)) val = 0; 
-    if (val > 15) input.value = 15; // Raised hardcap threshold constraint dynamically to 15
+    if (val > 15) input.value = 15; 
     if (val < 0) input.value = 0;
     updateAllCalculations();
 }
@@ -1275,7 +1297,7 @@ function calculateCDValue(score) {
     if (score === 10 || score === 11) return "+2cd";
     if (score === 12 || score === 13) return "+3cd";
     if (score === 14 || score === 15) return "+4cd";
-    return "+5cd"; // 16 or higher
+    return "+5cd"; 
 }
 
 function updateAttributeCDFields() {
@@ -1290,12 +1312,12 @@ function updateAttributeCDFields() {
 
 // Converts Brawn/Will scores directly to corresponding integer baselines
 function calculateResistanceBase(score) {
-    if (score <= 8) return 0; // Display fallback evaluates to "—" when 0 baseline has no active offset
+    if (score <= 8) return 0; 
     if (score === 9) return 1;
     if (score === 10 || score === 11) return 2;
     if (score === 12 || score === 13) return 3;
     if (score === 14 || score === 15) return 4;
-    return 5; // 16 or higher
+    return 5; 
 }
 
 function updateResistanceCalculations() {
@@ -1414,11 +1436,8 @@ function setInjuryStates(injuries) {
 
 function compileCharacterData() {
     const saveData = {};
-    // Grab all valid elements
     document.querySelectorAll("input, textarea").forEach(el => {
         if (!el.id || el.id === "loadFile" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
-        
-        // Custom interactive read-only fields use the baseline offset state maps
         if (el.id.startsWith("ticker_")) return;
 
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
