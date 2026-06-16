@@ -56,66 +56,52 @@
         /* =========================
            SAVE / LOAD AREA
         ========================== */
-
         .save-area {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* keeps everything right-aligned as a group */
-}
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; 
+        }
 
-/* Button row */
-.save-load-bar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    margin-top: -10px;
-    margin-bottom: 2px; /* tighter spacing to warning */
-}
+        /* Button row */
+        .save-load-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: -10px;
+            margin-bottom: 2px; 
+        }
 
-/* Buttons */
-.save-load-bar button,
-.load-button {
-    background-color: #4a5d34;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 11px;
-    text-transform: uppercase;
-}
+        /* Buttons */
+        .save-load-bar button,
+        .load-button {
+            background-color: #4a5d34;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
 
-.save-load-bar button:hover,
-.load-button:hover {
-    opacity: 0.9;
-}
+        .save-load-bar button:hover,
+        .load-button:hover {
+            opacity: 0.9;
+        }
 
-/* “Changes saved” text */
-.save-status {
-    font-size: 11px;
-    color: #777;
-    font-style: italic;
-    margin-right: auto; /* keeps it left of buttons */
-    opacity: 0.85;
-    white-space: nowrap;
-}
-
-/* Warning block under buttons */
-.save-warning-text {
-    font-size: 10px;
-    color: #777;
-    opacity: 0.85;
-
-    text-align: left;
-
-    margin-top: 4px;
-    margin-left: auto;   /* pushes it to align under right-side button cluster */
-    max-width: 260px;
-
-    line-height: 1.2;
-}
+        /* Warning block under buttons */
+        .save-warning-text {
+            font-size: 10px;
+            color: #777;
+            opacity: 0.85;
+            text-align: left;
+            margin-top: 4px;
+            margin-left: auto;   
+            max-width: 260px;
+            line-height: 1.2;
+        }
 
         /* IDENTITY SYSTEM */
         .identity-grid {
@@ -487,44 +473,39 @@
             border-color: #4a5d34 !important;
             background-color: #fff !important;
         }
-</style>
+    </style>
 </head>
 <body>
 
 <div class="charsheet">
 
-    <!-- 1. Title Header Banner -->
     <div class="main-header-banner">
         <h1>Achtung! Cthulhu Character Record Sheet</h1>
     </div>
     
-    <!-- SAVE / LOAD BAR -->
-<div class="save-area">
+    <div class="save-area">
+        <div class="save-load-bar">
+            <button onclick="saveCharacter()">Save Character</button>
 
-    <div class="save-load-bar">
-    <button onclick="saveCharacter()">Save Character</button>
+            <label for="loadFile" class="load-button">
+                Load Character
+            </label>
 
-    <label for="loadFile" class="load-button">
-        Load Character
-    </label>
+            <input
+                type="file"
+                id="loadFile"
+                accept=".json"
+                onchange="loadCharacter(event)"
+                style="display:none;"
+            >
+        </div>
 
-    <input
-        type="file"
-        id="loadFile"
-        accept=".json"
-        onchange="loadCharacter(event)"
-        style="display:none;"
-    >
-</div>
+        <div class="save-warning-text">
+            ⚠ Changes are saved in local browser storage.<br>
+            Character export recommended at end of session.
+        </div>
+    </div>
 
-<div class="save-warning-text">
-    ⚠ Changes are saved in local browser storage.<br>
-    Character export recommended at end of session.
-</div>
-
-</div>
-
-    <!-- 2. Identity Grid -->
     <div class="identity-grid">
         <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
         <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
@@ -534,7 +515,6 @@
         <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
     </div>
 
-    <!-- 3. Personal Truths Row -->
     <div class="section-banner">Personal Truths & Scars</div>
     <div class="truths-row">
         <textarea id="truth_1" placeholder="Truth / Scar 1"></textarea>
@@ -544,12 +524,11 @@
         <textarea id="truth_5" placeholder="Truth / Scar 5"></textarea>
     </div>
 
-    <!-- 4. Core System Attributes Grid (Hard-Capped at 12) -->
     <div class="section-banner">Attributes</div>
     <div class="attributes-row">
         <div class="attribute-card">
             <label>Agility</label>
-            <input type="number" id="attr_agility" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_agility" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_agility', -1)">-</div>
                 <input type="text" id="bonus_agility" class="cd-display-input" value="0" readonly>
@@ -558,7 +537,7 @@
         </div>
         <div class="attribute-card">
             <label>Brawn</label>
-            <input type="number" id="attr_brawn" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_brawn" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_brawn', -1)">-</div>
                 <input type="text" id="bonus_brawn" class="cd-display-input" value="0" readonly>
@@ -567,7 +546,7 @@
         </div>
         <div class="attribute-card">
             <label>Coordination</label>
-            <input type="number" id="attr_coordination" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_coordination" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_coordination', -1)">-</div>
                 <input type="text" id="bonus_coordination" class="cd-display-input" value="0" readonly>
@@ -576,7 +555,7 @@
         </div>
         <div class="attribute-card">
             <label>Insight</label>
-            <input type="number" id="attr_insight" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_insight" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_insight', -1)">-</div>
                 <input type="text" id="bonus_insight" class="cd-display-input" value="0" readonly>
@@ -585,7 +564,7 @@
         </div>
         <div class="attribute-card">
             <label>Reason</label>
-            <input type="number" id="attr_reason" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_reason" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_reason', -1)">-</div>
                 <input type="text" id="bonus_reason" class="cd-display-input" value="0" readonly>
@@ -594,7 +573,7 @@
         </div>
         <div class="attribute-card">
             <label>Will</label>
-            <input type="number" id="attr_will" value="6" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_will" value="6" min="0" max="12">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_will', -1)">-</div>
                 <input type="text" id="bonus_will" class="cd-display-input" value="0" readonly>
@@ -603,7 +582,6 @@
         </div>
     </div>
 
-    <!-- 5. COMBAT STATUS TRACKERS -->
     <div class="section-banner">Combat & Status Trackers</div>
     <div class="dashboard-layout-grid">
         
@@ -632,26 +610,26 @@
             </div>
 
             <div class="checkbox-matrix-20" id="stress_checkbox_container">
-    <input type="checkbox" id="stress_1">
-    <input type="checkbox" id="stress_2">
-    <input type="checkbox" id="stress_3">
-    <input type="checkbox" id="stress_4">
-    <input type="checkbox" id="stress_5">
-    <input type="checkbox" id="stress_6">
-    <input type="checkbox" id="stress_7">
-    <input type="checkbox" id="stress_8">
-    <input type="checkbox" id="stress_9">
-    <input type="checkbox" id="stress_10">
-    <input type="checkbox" id="stress_11">
-    <input type="checkbox" id="stress_12">
-    <input type="checkbox" id="stress_13">
-    <input type="checkbox" id="stress_14">
-    <input type="checkbox" id="stress_15">
-    <input type="checkbox" id="stress_16">
-    <input type="checkbox" id="stress_17">
-    <input type="checkbox" id="stress_18">
-    <input type="checkbox" id="stress_19">
-    <input type="checkbox" id="stress_20">
+                <input type="checkbox" id="stress_1">
+                <input type="checkbox" id="stress_2">
+                <input type="checkbox" id="stress_3">
+                <input type="checkbox" id="stress_4">
+                <input type="checkbox" id="stress_5">
+                <input type="checkbox" id="stress_6">
+                <input type="checkbox" id="stress_7">
+                <input type="checkbox" id="stress_8">
+                <input type="checkbox" id="stress_9">
+                <input type="checkbox" id="stress_10">
+                <input type="checkbox" id="stress_11">
+                <input type="checkbox" id="stress_12">
+                <input type="checkbox" id="stress_13">
+                <input type="checkbox" id="stress_14">
+                <input type="checkbox" id="stress_15">
+                <input type="checkbox" id="stress_16">
+                <input type="checkbox" id="stress_17">
+                <input type="checkbox" id="stress_18">
+                <input type="checkbox" id="stress_19">
+                <input type="checkbox" id="stress_20">
             </div>
         </div>
 
@@ -667,7 +645,6 @@
 
     </div>
 
-    <!-- 6. CONDITION PANEL -->
     <div class="dashboard-layout-grid" style="margin-top: 15px;">
         <div>
             <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -688,11 +665,9 @@
         </div>
     </div>
 
-    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT (Strict 6 & 6 Column Format) -->
     <div class="section-banner">Skills & Focuses</div>
     <div class="skills-container">
         
-        <!-- Left Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -700,7 +675,6 @@
                 <span>Focuses</span>
             </div>
             
-            <!-- Academia -->
             <div class="skill-row">
                 <span class="skill-name">Academia</span>
                 <input type="number" id="skill_academia" value="0" min="0" max="5">
@@ -715,7 +689,6 @@
                 </div>
             </div>
 
-            <!-- Athletics -->
             <div class="skill-row">
                 <span class="skill-name">Athletics</span>
                 <input type="number" id="skill_athletics" value="0" min="0" max="5">
@@ -729,7 +702,6 @@
                 </div>
             </div>
 
-            <!-- Engineering -->
             <div class="skill-row">
                 <span class="skill-name">Engineering</span>
                 <input type="number" id="skill_engineering" value="0" min="0" max="5">
@@ -742,7 +714,6 @@
                 </div>
             </div>
 
-            <!-- Fighting -->
             <div class="skill-row">
                 <span class="skill-name">Fighting</span>
                 <input type="number" id="skill_fighting" value="0" min="0" max="5">
@@ -758,7 +729,6 @@
                 </div>
             </div>
 
-            <!-- Medicine -->
             <div class="skill-row">
                 <span class="skill-name">Medicine</span>
                 <input type="number" id="skill_medicine" value="0" min="0" max="5">
@@ -772,7 +742,6 @@
                 </div>
             </div>
 
-            <!-- Observation -->
             <div class="skill-row">
                 <span class="skill-name">Observation</span>
                 <input type="number" id="skill_observation" value="0" min="0" max="5">
@@ -785,7 +754,6 @@
             </div>
         </div>
 
-        <!-- Right Side Column (6 Skills) -->
         <div>
             <div class="skills-column-header">
                 <span>Skill Name</span>
@@ -793,7 +761,6 @@
                 <span>Focuses</span>
             </div>
 
-            <!-- Persuasion -->
             <div class="skill-row">
                 <span class="skill-name">Persuasion</span>
                 <input type="number" id="skill_persuasion" value="0" min="0" max="5">
@@ -808,10 +775,9 @@
                 </div>
             </div>
 
-            <!-- Resilience -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
-                <input type="number" id="skill_resilience" value="0" min="0" max="5" oninput="updateStressCalculations()">
+                <input type="number" id="skill_resilience" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
@@ -819,7 +785,6 @@
                 </div>
             </div>
 
-            <!-- Stealth -->
             <div class="skill-row">
                 <span class="skill-name">Stealth</span>
                 <input type="number" id="skill_stealth" value="0" min="0" max="5">
@@ -831,7 +796,6 @@
                 </div>
             </div>
 
-            <!-- Survival -->
             <div class="skill-row">
                 <span class="skill-name">Survival</span>
                <input type="number" id="skill_survival" value="0" min="0" max="5">
@@ -845,7 +809,6 @@
                 </div>
             </div>
 
-            <!-- Tactics -->
             <div class="skill-row">
                 <span class="skill-name">Tactics</span>
                 <input type="number" id="skill_tactics" value="0" min="0" max="5">
@@ -859,7 +822,6 @@
                 </div>
             </div>
 
-            <!-- Vehicles -->
             <div class="skill-row">
                 <span class="skill-name">Vehicles</span>
                 <input type="number" id="skill_vehicles" value="0" min="0" max="5">
@@ -877,20 +839,31 @@
 
 </div>
 
-<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 /* =========================
-   STATE FLAGS
+   STATE FLAGS & TIMERS
 ========================= */
 let saveTimer = null;
 
 /* =========================
-   SAVE STATUS UI
+   AUTOSAVE CACHE ENGINE (Silent Background Runner)
 ========================= */
-function setSaveStatus(text) {
-    const el = document.getElementById("saveStatusText");
+function queueAutosave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
+    }, 1000);
+}
+
+/* =========================
+   ATTR TICKER BONUS ACTIONS
+========================= */
+function adjustCD(id, amount) {
+    const el = document.getElementById(id);
     if (!el) return;
-    el.textContent = text;
+    let val = parseInt(el.value) || 0;
+    el.value = val + amount;
+    queueAutosave();
 }
 
 /* =========================
@@ -898,7 +871,7 @@ function setSaveStatus(text) {
 ========================= */
 function validateAttrCap(input) {
     let val = parseInt(input.value);
-    if (isNaN(val)) val = 0;
+    if (isNaN(val)) val = 0; 
     if (val > 12) input.value = 12;
     if (val < 0) input.value = 0;
     updateStressCalculations();
@@ -909,7 +882,7 @@ function validateAttrCap(input) {
 ========================= */
 function toggleFocus(el) {
     el.classList.toggle("active");
-    markDirty();
+    queueAutosave();
 }
 
 /* =========================
@@ -927,8 +900,7 @@ function cycleInjuryState(element) {
         element.classList.remove("state-P");
         element.innerText = "";
     }
-
-    markDirty();
+    queueAutosave();
 }
 
 /* =========================
@@ -961,37 +933,9 @@ function updateStressCalculations() {
 }
 
 /* =========================
-   DIRTY STATE + AUTOSAVE TRIGGER
+   REUSABLE DATA SCRAPING HELPERS
 ========================= */
-function markDirty() {
-    setSaveStatus("Unsaved changes...");
-
-    if (saveTimer) clearTimeout(saveTimer);
-
-    saveTimer = setTimeout(() => {
-        autosaveToLocal();
-    }, 1000);
-}
-
-/* =========================
-   AUTOSAVE (LOCALSTORAGE)
-========================= */
-function autosaveToLocal() {
-    const saveData = {};
-
-    document.querySelectorAll("input, textarea").forEach(el => {
-        if (!el.id || el.id === "loadFile") return;
-
-        if (el.type === "checkbox") {
-            saveData[el.id] = el.checked;
-        } else {
-            saveData[el.id] = el.value;
-        }
-    });
-
-    /* =========================
-       FOCUSES SAVE
-    ========================= */
+function getActiveFocuses() {
     const focusData = {};
     document.querySelectorAll(".skill-row").forEach(row => {
         const skillInput = row.querySelector("input");
@@ -1001,68 +945,87 @@ function autosaveToLocal() {
         row.querySelectorAll(".focus-clickable-text.active").forEach(f => {
             active.push(f.innerText.trim());
         });
-
         focusData[skillInput.id] = active;
     });
+    return focusData;
+}
 
-    saveData.focuses = focusData;
+function setActiveFocuses(focuses) {
+    if (!focuses) return;
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
 
-    /* =========================
-       INJURIES SAVE
-    ========================= */
+        const active = focuses[skillInput.id] || [];
+        row.querySelectorAll(".focus-clickable-text").forEach(f => {
+            f.classList.toggle("active", active.includes(f.innerText.trim()));
+        });
+    });
+}
+
+function getInjuryStates() {
     const injuryData = {};
     document.querySelectorAll(".injury-cycle-box").forEach(box => {
         injuryData[box.id] = box.innerText || "";
     });
+    return injuryData;
+}
 
-    saveData.injuries = injuryData;
+function setInjuryStates(injuries) {
+    if (!injuries) return;
+    Object.keys(injuries).forEach(id => {
+        const box = document.getElementById(id);
+        if (!box) return;
 
-    localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
+        const state = injuries[id];
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
 
-    setSaveStatus("Changes saved.");
+        if (state === "M" || state === "P") {
+            box.classList.add("state-" + state);
+            box.innerText = state;
+        }
+    });
+}
+
+function compileCharacterData() {
+    const saveData = {};
+    document.querySelectorAll("input, textarea").forEach(el => {
+        if (!el.id || el.id === "loadFile") return;
+        saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
+    });
+    saveData.focuses = getActiveFocuses();
+    saveData.injuries = getInjuryStates();
+    return saveData;
+}
+
+function applyCharacterData(saveData) {
+    if (!saveData) return;
+    Object.keys(saveData).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el || id === "focuses" || id === "injuries") return;
+        if (el.type === "checkbox") {
+            el.checked = saveData[id];
+        } else {
+            el.value = saveData[id];
+        }
+    });
+    setActiveFocuses(saveData.focuses);
+    setInjuryStates(saveData.injuries);
+    updateStressCalculations();
 }
 
 /* =========================
-   MANUAL SAVE (JSON EXPORT)
+   MANUAL SAVE (JSON DOWNLOAD & FORCE TRIGGER)
 ========================= */
 function saveCharacter() {
-    const saveData = {};
+    const dataPayload = compileCharacterData();
+    
+    // Sync storage instantly on a manual backup button press
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
 
-    document.querySelectorAll("input, textarea").forEach(el => {
-        if (!el.id || el.id === "loadFile") return;
-
-        if (el.type === "checkbox") {
-            saveData[el.id] = el.checked;
-        } else {
-            saveData[el.id] = el.value;
-        }
-    });
-
-    /* focuses */
-    const focusData = {};
-    document.querySelectorAll(".skill-row").forEach(row => {
-        const skillInput = row.querySelector("input");
-        if (!skillInput) return;
-
-        const active = [];
-        row.querySelectorAll(".focus-clickable-text.active").forEach(f => {
-            active.push(f.innerText.trim());
-        });
-
-        focusData[skillInput.id] = active;
-    });
-
-    saveData.focuses = focusData;
-
-    /* injuries */
-    const injuryData = {};
-    document.querySelectorAll(".injury-cycle-box").forEach(box => {
-        injuryData[box.id] = box.innerText || "";
-    });
-
-    saveData.injuries = injuryData;
-
-    const blob = new Blob([JSON.stringify(saveData, null, 2)], {
+    // Export file
+    const blob = new Blob([JSON.stringify(dataPayload, null, 2)], {
         type: "application/json"
     });
 
@@ -1073,8 +1036,6 @@ function saveCharacter() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    setSaveStatus("Changes saved.");
 }
 
 /* =========================
@@ -1085,137 +1046,48 @@ function loadCharacter(event) {
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.onload = function (e) {
-        const saveData = JSON.parse(e.target.result);
-
-        /* basic fields */
-        Object.keys(saveData).forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
-
-            if (el.type === "checkbox") {
-                el.checked = saveData[id];
-            } else {
-                el.value = saveData[id];
-            }
-        });
-
-        /* focuses */
-        if (saveData.focuses) {
-            document.querySelectorAll(".skill-row").forEach(row => {
-                const skillInput = row.querySelector("input");
-                if (!skillInput) return;
-
-                const active = saveData.focuses[skillInput.id] || [];
-
-                row.querySelectorAll(".focus-clickable-text").forEach(f => {
-                    if (active.includes(f.innerText.trim())) {
-                        f.classList.add("active");
-                    } else {
-                        f.classList.remove("active");
-                    }
-                });
-            });
+        try {
+            const saveData = JSON.parse(e.target.result);
+            applyCharacterData(saveData);
+            // Overwrite memory matrix cache cleanly
+            localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
+        } catch (err) {
+            alert("Error parsing character JSON file.");
         }
-
-        /* injuries */
-        if (saveData.injuries) {
-            Object.keys(saveData.injuries).forEach(id => {
-                const box = document.getElementById(id);
-                if (!box) return;
-
-                const state = saveData.injuries[id];
-
-                box.classList.remove("state-M", "state-P");
-                box.innerText = "";
-
-                if (state === "M") {
-                    box.classList.add("state-M");
-                    box.innerText = "M";
-                } else if (state === "P") {
-                    box.classList.add("state-P");
-                    box.innerText = "P";
-                }
-            });
-        }
-
-        updateStressCalculations();
-        setSaveStatus("Changes saved.");
     };
-
     reader.readAsText(file);
 }
 
 /* =========================
-   INPUT HOOKS (AUTOSAVE TRIGGER)
+   CLEAN COUPLING GLOBAL EVENT CAPTURE
 ========================= */
 document.addEventListener("input", function (e) {
     if (e.target.id === "loadFile") return;
-    markDirty();
+    if (e.target.id.startsWith("attr_")) {
+        validateAttrCap(e.target);
+    } else if (e.target.id === "skill_resilience" || e.target.id === "input_stress_fatigue") {
+        updateStressCalculations();
+    }
+    queueAutosave();
 });
 
 document.addEventListener("change", function (e) {
     if (e.target.id === "loadFile") return;
-    markDirty();
+    queueAutosave();
 });
 
 /* =========================
-   INITIAL LOAD
+   INITIAL LOAD EXECUTION
 ========================= */
 updateStressCalculations();
 
-/* load browser autosave */
 (function loadFromLocal() {
     const data = localStorage.getItem("achtung_cthulhu_save");
     if (!data) return;
-
-    const saveData = JSON.parse(data);
-
-    Object.keys(saveData).forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-
-        if (el.type === "checkbox") {
-            el.checked = saveData[id];
-        } else {
-            el.value = saveData[id];
-        }
-    });
-
-    if (saveData.focuses) {
-        document.querySelectorAll(".skill-row").forEach(row => {
-            const skillInput = row.querySelector("input");
-            if (!skillInput) return;
-
-            const active = saveData.focuses[skillInput.id] || [];
-
-            row.querySelectorAll(".focus-clickable-text").forEach(f => {
-                f.classList.toggle("active", active.includes(f.innerText.trim()));
-            });
-        });
-    }
-
-    if (saveData.injuries) {
-        Object.keys(saveData.injuries).forEach(id => {
-            const box = document.getElementById(id);
-            if (!box) return;
-
-            const state = saveData.injuries[id];
-
-            box.classList.remove("state-M", "state-P");
-            box.innerText = "";
-
-            if (state === "M") {
-                box.classList.add("state-M");
-                box.innerText = "M";
-            } else if (state === "P") {
-                box.classList.add("state-P");
-                box.innerText = "P";
-            }
-        });
-    }
-
-    updateStressCalculations();
+    applyCharacterData(JSON.parse(data));
 })();
 </script>
+
+</body>
+</html>
