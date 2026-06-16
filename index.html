@@ -24,14 +24,24 @@
             width: 100% !important;
         }
 
-        /* FIX: Forces identity info blocks (Name, Rank, etc.) to stack labels directly on top */
-        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) > div {
+        /* FIX: Combines top rows into a single container area that divides into exactly 3 equal columns */
+        .sheet-main_char > div:first-of-type,
+        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) {
             display: grid !important;
-            grid-template-columns: 1fr !important;
-            align-content: start !important;
-            justify-items: start !important;
-            text-align: left !important;
+            grid-template-columns: repeat(3, 1fr) !important; /* Forces exactly 3 boxes per row */
+            gap: 15px 20px !important;  /* 15px padding between rows, 20px spacing between columns */
+            width: 100% !important;
+            margin-bottom: 15px !important; /* Padds the space before Personal Truths */
+        }
+
+        /* FIX: Ensures the internal alignment inside each individual box stacks vertically */
+        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) > div {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
             gap: 4px !important;
+            width: 100% !important;
         }
 
         .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) label,
