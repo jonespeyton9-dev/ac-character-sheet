@@ -22,7 +22,7 @@
             box-sizing: border-box;
         }
 
-        /* Reusable Section Headers matching your thematic green style */
+        /* Thematic section banners */
         .section-banner {
             background-color: #4a5d34; /* Military Olive Green */
             color: white;
@@ -38,7 +38,7 @@
             box-sizing: border-box;
         }
 
-        /* 1. MAIN TITLE HEADER */
+        /* Title Header */
         .main-header-banner {
             background-color: #4a5d34; 
             color: white;
@@ -54,7 +54,7 @@
             letter-spacing: 1px;
         }
 
-        /* 2. IDENTITY SYSTEM (3 Columns x 2 Rows) */
+        /* IDENTITY SYSTEM (3 Columns x 2 Rows) */
         .identity-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -85,7 +85,7 @@
             background-color: #fafafa;
         }
 
-        /* 3. PERSONAL TRUTHS GRID */
+        /* PERSONAL TRUTHS GRID */
         .truths-row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -104,7 +104,7 @@
             background-color: #fafafa;
         }
 
-        /* 4. ATTRIBUTES FRAMEWORK */
+        /* ATTRIBUTES FRAMEWORK */
         .attributes-row {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -126,9 +126,11 @@
             text-transform: uppercase;
             color: #555;
         }
+
+        /* Standard Number Tickers with Arrows */
         input[type="number"] {
             width: 100%;
-            max-width: 70px;
+            max-width: 75px;
             padding: 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -139,261 +141,101 @@
             display: block;
         }
 
-        /* 5. SKILLS MATRIX DESIGN (2 Columns of 8 Skills each) */
-        .skills-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            width: 100%;
-        }
-        .skills-column-header {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 12px;
-            color: #777;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 10px;
-            padding-left: 10px;
-        }
-        .skill-row {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr;
-            align-items: center;
-            padding: 6px 10px;
-            background: #fdfdfd;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-        .skill-name {
-            font-weight: bold;
-            font-size: 14px;
-            color: #333;
-        }
-        .skill-focus-box {
-            display: flex;
-            justify-content: center;
-        }
-        .skill-focus-box input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        /* 6. INTERACTIVE STRESS ENGINE & TRACKS */
-        .stress-container {
+        /* STRESS & TICKERS TWO-COLUMN GRID */
+        .dashboard-layout-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
             width: 100%;
         }
-        .stress-block {
+        .dashboard-block {
             background: #fdfdfd;
             border: 1px solid #ddd;
             border-radius: 6px;
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            box-sizing: border-box;
         }
-        .math-engine {
+        .dashboard-block h3 {
+            margin: 0 0 15px 0;
+            color: #4a5d34;
+            font-size: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        /* Combined Math Engine Styling */
+        .math-engine-row {
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            background: #fcfcfc;
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 6px;
             margin-bottom: 15px;
         }
-        .math-engine span {
+        .math-engine-segment {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .math-engine-segment label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+        }
+        .math-engine-segment span {
             font-weight: bold;
             font-size: 18px;
-            color: #777;
+            color: #888;
         }
-        .math-engine input[readonly] {
+        .math-engine-segment input[readonly] {
             background-color: #e9ecef;
             color: #495057;
             border-color: #ced4da;
             cursor: not-allowed;
         }
-        .checkbox-lane {
-            display: flex;
-            justify-content: center;
+
+        /* 20 Checkbox Tracking Cluster */
+        .checkbox-matrix-20 {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
             gap: 10px;
-            margin-top: 15px;
+            justify-items: center;
+            padding: 5px 0;
         }
-        .checkbox-lane input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+        .checkbox-matrix-20 input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
             cursor: pointer;
+            margin: 0;
         }
 
-        /* 7. BOTTOM TEXT AREA ROWS (Injuries & Languages) */
-        .bottom-text-grid {
+        /* Resource Ticker Grid (Right Side) */
+        .ticker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            width: 100%;
+            gap: 15px;
+            margin-top: 5px;
         }
-        .text-flex-row {
+        .ticker-item {
             display: flex;
-            gap: 12px;
-            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            padding: 10px 15px;
+            border-radius: 6px;
         }
-        .text-flex-row textarea {
-            flex: 1;
-            min-height: 60px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #fafafa;
+        .ticker-item label {
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #444;
         }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #4a5d34 !important;
-            background-color: #fff !important;
-        }
-    </style>
-</head>
-<body>
 
-<div class="charsheet">
-
-    <div class="main-header-banner">
-        <h1>Achtung! Cthulhu Character Record Sheet</h1>
-    </div>
-
-    <div class="identity-grid">
-        <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
-        <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
-        <div class="field-box"><label>Rank</label><input type="text" id="char_rank"></div>
-        <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
-        <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
-        <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
-    </div>
-
-    <div class="section-banner">Personal Truths & Scars</div>
-    <div class="truths-row">
-        <textarea placeholder="Truth / Scar 1"></textarea>
-        <textarea placeholder="Truth / Scar 2"></textarea>
-        <textarea placeholder="Truth / Scar 3"></textarea>
-        <textarea placeholder="Truth / Scar 4"></textarea>
-        <textarea placeholder="Truth / Scar 5"></textarea>
-    </div>
-
-    <div class="section-banner">Attributes</div>
-    <div class="attributes-row">
-        <div class="attribute-card"><label>Agility</label><input type="number" id="attr_agility" value="7"></div>
-        <div class="attribute-card"><label>Brawn</label><input type="number" id="attr_brawn" value="7"></div>
-        <div class="attribute-card"><label>Coordination</label><input type="number" id="attr_coordination" value="7"></div>
-        <div class="attribute-card"><label>Insight</label><input type="number" id="attr_insight" value="7"></div>
-        <div class="attribute-card"><label>Reason</label><input type="number" id="attr_reason" value="7"></div>
-        <div class="attribute-card"><label>Will</label><input type="number" id="attr_will" value="7"></div>
-    </div>
-
-    <div class="section-banner">Skills & Focuses</div>
-    <div class="skills-container">
-        <div>
-            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
-            <div class="skill-row"><span class="skill-name">Academia</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Animal Handling</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Athletics</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Close Combat</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Engineering</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Fighting Weird</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Heavy Weapons</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Insight</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-        </div>
-        <div>
-            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
-            <div class="skill-row"><span class="skill-name">Medicine</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Observation</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Persuasion</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Ranged Combat</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Stealth</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Survival</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Tactics</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-            <div class="skill-row"><span class="skill-name">Vehicles</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
-        </div>
-    </div>
-
-    <div class="section-banner">Stress Tracks</div>
-    <div class="stress-container">
-        <div class="stress-block">
-            <h3 style="margin: 0 0 10px 0; color: #4a5d34; font-size: 15px; text-transform: uppercase;">Physical Stress</h3>
-            <div class="math-engine">
-                <input type="number" id="calc_brawn_base" disabled value="7">
-                <span>+</span>
-                <input type="number" id="input_p_bonus" value="0">
-                <span>=</span>
-                <input type="number" id="output_p_max" value="7" readonly>
-            </div>
-            <div class="checkbox-lane">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-            </div>
-        </div>
-        <div class="stress-block">
-            <h3 style="margin: 0 0 10px 0; color: #4a5d34; font-size: 15px; text-transform: uppercase;">Mental Stress</h3>
-            <div class="math-engine">
-                <input type="number" id="calc_will_base" disabled value="7">
-                <span>+</span>
-                <input type="number" id="input_m_bonus" value="0">
-                <span>=</span>
-                <input type="number" id="output_m_max" value="7" readonly>
-            </div>
-            <div class="checkbox-lane">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-            </div>
-        </div>
-    </div>
-
-    <div class="bottom-text-grid">
-        <div>
-            <div class="section-banner" style="margin-top:10px;">Injuries / Scars</div>
-            <div class="text-flex-row">
-                <textarea placeholder="Injury 1"></textarea>
-                <textarea placeholder="Injury 2"></textarea>
-            </div>
-        </div>
-        <div>
-            <div class="section-banner" style="margin-top:10px;">Languages</div>
-            <div class="text-flex-row">
-                <textarea placeholder="Primary Language"></textarea>
-                <textarea placeholder="Secondary Language"></textarea>
-                <textarea placeholder="Other Languages"></textarea>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    function updateStressCalculations() {
-        // Read directly from Attribute input card values
-        const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
-        const willBase = parseInt(document.getElementById('attr_will').value) || 0;
-        
-        const physicalBonus = parseInt(document.getElementById('input_p_bonus').value) || 0;
-        const mentalBonus = parseInt(document.getElementById('input_m_bonus').value) || 0;
-
-        // Populate calculation layout tracks
-        document.getElementById('calc_brawn_base').value = brawnBase;
-        document.getElementById('calc_will_base').value = willBase;
-
-        // Perform instant dynamic additions
-        document.getElementById('output_p_max').value = brawnBase + physicalBonus;
-        document.getElementById('output_m_max').value = willBase + mentalBonus;
-    }
-
-    // Connect event listener tracking fields
-    document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
-    document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
-    document.getElementById('input_p_bonus').addEventListener('input', updateStressCalculations);
-    document.getElementById('input_m_bonus').addEventListener('input', updateStressCalculations);
-
-    // Run layout initializer logic
-    updateStressCalculations();
-</script>
-
-</body>
-</html>
+        /* LOWER CONDITIONAL SECTION: INJURIES & LANGUAGES */
+        .injuries-container {
