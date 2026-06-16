@@ -228,4 +228,296 @@
             align-items: center;
             justify-content: space-between;
             background: #fafafa;
-            border: 1
+            border: 1px solid #eaeaea;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        .ticker-item label {
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #444;
+        }
+        .ticker-item input[type="number"] {
+            margin: 0; /* Clear auto center centering to snap align right */
+        }
+
+        /* LOWER CONDITIONAL SECTION: INJURIES & LANGUAGES */
+        .injuries-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 10px 0;
+        }
+        /* Custom Cycle Button Box styling */
+        .injury-cycle-box {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        /* Color shifts depending on current active state */
+        .injury-cycle-box.state-M { border-color: #31708f; color: #31708f; background: #d9edf7; }
+        .injury-cycle-box.state-P { border-color: #a94442; color: #a94442; background: #f2dede; }
+
+        .languages-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 10px 0;
+        }
+        .languages-row textarea {
+            width: 100%;
+            min-height: 55px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+
+        /* BOTTOM SKILLS MATRIX DESIGN (2 Columns of 8 Skills each) */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+        .skills-column-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #777;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        .skill-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            align-items: center;
+            padding: 6px 10px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+        .skill-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        .skill-focus-box {
+            display: flex;
+            justify-content: center;
+        }
+        .skill-focus-box input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4a5d34 !important;
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="charsheet">
+
+    <div class="main-header-banner">
+        <h1>Achtung! Cthulhu Character Record Sheet</h1>
+    </div>
+
+    <div class="identity-grid">
+        <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
+        <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
+        <div class="field-box"><label>Rank</label><input type="text" id="char_rank"></div>
+        <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
+        <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
+        <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
+    </div>
+
+    <div class="section-banner">Personal Truths & Scars</div>
+    <div class="truths-row">
+        <textarea placeholder="Truth / Scar 1"></textarea>
+        <textarea placeholder="Truth / Scar 2"></textarea>
+        <textarea placeholder="Truth / Scar 3"></textarea>
+        <textarea placeholder="Truth / Scar 4"></textarea>
+        <textarea placeholder="Truth / Scar 5"></textarea>
+    </div>
+
+    <div class="section-banner">Attributes</div>
+    <div class="attributes-row">
+        <div class="attribute-card"><label>Agility</label><input type="number" id="attr_agility" value="7"></div>
+        <div class="attribute-card"><label>Brawn</label><input type="number" id="attr_brawn" value="7"></div>
+        <div class="attribute-card"><label>Coordination</label><input type="number" id="attr_coordination" value="7"></div>
+        <div class="attribute-card"><label>Insight</label><input type="number" id="attr_insight" value="7"></div>
+        <div class="attribute-card"><label>Reason</label><input type="number" id="attr_reason" value="7"></div>
+        <div class="attribute-card"><label>Will</label><input type="number" id="attr_will" value="7"></div>
+    </div>
+
+    <div class="section-banner">Combat & Status Trackers</div>
+    <div class="dashboard-layout-grid">
+        
+        <div class="dashboard-block">
+            <h3>Stress Tracking</h3>
+            
+            <div class="unified-math-row">
+                <div class="math-box-node">
+                    <label>Attribute</label>
+                    <input type="number" id="calc_highest_attr" disabled value="7">
+                </div>
+                <div class="math-sign">+</div>
+                <div class="math-box-node">
+                    <label>Bonus</label>
+                    <input type="number" id="input_stress_bonus" value="0">
+                </div>
+                <div class="math-sign">-</div>
+                <div class="math-box-node">
+                    <label>Fatigue</label>
+                    <input type="number" id="input_stress_fatigue" value="0">
+                </div>
+                <div class="math-sign">=</div>
+                <div class="math-box-node">
+                    <label>Total Cap</label>
+                    <input type="number" id="output_stress_max" value="7" readonly>
+                </div>
+            </div>
+
+            <div class="checkbox-matrix-20">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+            </div>
+        </div>
+
+        <div class="dashboard-block">
+            <h3>Resource Tickers</h3>
+            <div class="ticker-grid">
+                <div class="ticker-item">
+                    <label>Fortune</label>
+                    <input type="number" id="ticker_fortune" value="0" min="0">
+                </div>
+                <div class="ticker-item">
+                    <label>Courage</label>
+                    <input type="number" id="ticker_courage" value="0" min="0">
+                </div>
+                <div class="ticker-item">
+                    <label>Exp</label>
+                    <input type="number" id="ticker_exp" value="0" min="0">
+                </div>
+                <div class="ticker-item">
+                    <label>Armour</label>
+                    <input type="number" id="ticker_armour" value="0" min="0">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-layout-grid" style="margin-top: 15px;">
+        <div>
+            <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
+            <div class="injuries-container">
+                <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_1"></div>
+                <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_2"></div>
+                <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_3"></div>
+                <span style="font-size: 11px; color: #666; font-style: italic; margin-left: 5px;">Click to cycle: M = Mental Injury / P = Physical Injury</span>
+            </div>
+        </div>
+        <div>
+            <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Languages</div>
+            <div class="languages-row">
+                <textarea placeholder="Primary Language"></textarea>
+                <textarea placeholder="Secondary Language"></textarea>
+                <textarea placeholder="Other Languages"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-banner">Skills & Focuses</div>
+    <div class="skills-container">
+        <div>
+            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
+            <div class="skill-row"><span class="skill-name">Academia</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Animal Handling</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Athletics</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Close Combat</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Engineering</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Fighting Weird</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Heavy Weapons</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Insight</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+        <div>
+            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
+            <div class="skill-row"><span class="skill-name">Medicine</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Observation</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Persuasion</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Ranged Combat</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Stealth</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Survival</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Tactics</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Vehicles</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function updateStressCalculations() {
+        // Automatically checks both fields and selects whichever value is higher per rule systems
+        const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
+        const willBase = parseInt(document.getElementById('attr_will').value) || 0;
+        const highestBase = Math.max(brawnBase, willBase);
+        
+        const bonus = parseInt(document.getElementById('input_stress_bonus').value) || 0;
+        const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
+
+        // Push values to display node
+        document.getElementById('calc_highest_attr').value = highestBase;
+
+        // Equation calculations: Base + Bonus - Fatigue
+        document.getElementById('output_stress_max').value = highestBase + bonus - fatigue;
+    }
+
+    function cycleInjuryState(element) {
+        if (!element.textContent) {
+            element.textContent = "M";
+            element.className = "injury-cycle-box state-M";
+        } else if (element.textContent === "M") {
+            element.textContent = "P";
+            element.className = "injury-cycle-box state-P";
+        } else {
+            element.textContent = "";
+            element.className = "injury-cycle-box";
+        }
+    }
+
+    // Connect auto-math event listeners
+    document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
+    document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_stress_bonus').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_stress_fatigue').addEventListener('input', updateStressCalculations);
+
+    // Initial setup running on page load
+    updateStressCalculations();
+</script>
+
+</body>
+</html>
