@@ -43,14 +43,14 @@
         =========================================== */
         .persistent-header-block {
             border-bottom: 2px solid #4a5d34;
-            padding-bottom: 0px; /* Adjusted to let tabs rest flush against the border */
+            padding-bottom: 0px; 
             margin-bottom: 20px;
         }
 
         .control-panel-row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end; /* Align to the bottom so tabs anchor cleanly */
+            align-items: flex-end; 
             width: 100%;
         }
 
@@ -58,7 +58,7 @@
         .tab-navigation-bar {
             display: flex;
             gap: 4px;
-            margin-bottom: -2px; /* Pulls the tabs down 2px to perfectly mask the header border line */
+            margin-bottom: -2px; 
             position: relative;
             z-index: 10;
         }
@@ -86,8 +86,8 @@
             background-color: #4a5d34;
             color: white;
             border: 1px solid #4a5d34;
-            border-bottom: 1px solid #4a5d34; /* Seamless visual merge with line */
-            padding-bottom: 9px; /* Slightly padded to absorb the alignment drop cleanly */
+            border-bottom: 1px solid #4a5d34; 
+            padding-bottom: 9px; 
         }
 
         /* Right-aligned Save/Load Area */
@@ -95,7 +95,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end; 
-            padding-bottom: 12px; /* Keeps the buttons safely spaced from the bottom divider */
+            padding-bottom: 12px; 
         }
 
         .save-load-bar {
@@ -143,7 +143,7 @@
            TAB ARCHITECTURE & SHEET SECTIONS
         =========================================== */
         .tab-panel-content {
-            display: none; /* Controlled dynamically via JS switching engine */
+            display: none; 
         }
 
         .tab-panel-content.active {
@@ -193,6 +193,142 @@
             font-size: 15px;
             box-sizing: border-box;
             width: 100%;
+            background-color: #fafafa;
+        }
+
+        /* EQUIPMENT & TALENTS TAB TYPOGRAPHY GRID SYSTEMS */
+        .equipment-note-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .equipment-note-grid input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+
+        /* Proportional Weapon Grid Construction Layout */
+        .weapons-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .weapons-grid-header, .weapons-grid-row {
+            display: grid;
+            /* 10 horizontal fractional slices: 2 (Name) + 1 (Focus) + 1 (Range) + 2 (Damage) + 1 (Salvo) + 1 (Size) + 2 (Qualities) */
+            grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .weapons-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .weapons-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .weapons-grid-row input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
+
+        /* Split Footer Biography / Talent Section Dashboard */
+        .footer-split-dashboard {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+            width: 100%;
+            align-items: start;
+            box-sizing: border-box;
+        }
+
+        .bio-entry-box {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .bio-entry-box textarea {
+            width: 100%;
+            height: 382px; /* Keeps perfectly matching height alignment with 7-row talents container */
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            resize: none;
+            background-color: #fafafa;
+            line-height: 1.5;
+        }
+
+        .talents-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .talents-grid-header, .talents-grid-row {
+            display: grid;
+            /* Proportions: Name (slightly bigger), Keywords (standard), Effect (largest) */
+            grid-template-columns: 1.25fr 1fr 2.5fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .talents-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .talents-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+        }
+
+        .talents-grid-row input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
             background-color: #fafafa;
         }
 
@@ -926,10 +1062,121 @@
     </div>
 
     <div id="tab-equipment" class="tab-panel-content">
-        <div class="section-banner">Equipment, Weapons, & Talents</div>
-        <div class="blank-slate-wrapper">
-            Equipment inventory and talent matrix systems will be integrated here.
+        
+        <div class="section-banner">Equipment of Note</div>
+        <div class="equipment-note-grid">
+            <input type="text" id="eq_note_1" placeholder="Item 1">
+            <input type="text" id="eq_note_2" placeholder="Item 2">
+            <input type="text" id="eq_note_3" placeholder="Item 3">
+            <input type="text" id="eq_note_4" placeholder="Item 4">
+            <input type="text" id="eq_note_5" placeholder="Item 5">
+            <input type="text" id="eq_note_6" placeholder="Item 6">
+            <input type="text" id="eq_note_7" placeholder="Item 7">
+            <input type="text" id="eq_note_8" placeholder="Item 8">
+            <input type="text" id="eq_note_9" placeholder="Item 9">
+            <input type="text" id="eq_note_10" placeholder="Item 10">
+            <input type="text" id="eq_note_11" placeholder="Item 11">
+            <input type="text" id="eq_note_12" placeholder="Item 12">
         </div>
+
+        <div class="section-banner">Weapons & Armaments</div>
+        <div class="weapons-grid-table">
+            <div class="weapons-grid-header">
+                <span>Name</span>
+                <span>Focus</span>
+                <span>Range</span>
+                <span>Damage</span>
+                <span>Salvo</span>
+                <span>Size</span>
+                <span>Qualities</span>
+            </div>
+            
+            <div class="weapons-grid-row">
+                <input type="text" id="weapon_1_name" placeholder="Weapon Name">
+                <input type="text" id="weapon_1_focus" placeholder="Focus">
+                <input type="text" id="weapon_1_range" placeholder="Range">
+                <input type="text" id="weapon_1_damage" placeholder="Damage">
+                <input type="text" id="weapon_1_salvo" placeholder="Salvo">
+                <input type="text" id="weapon_1_size" placeholder="Size">
+                <input type="text" id="weapon_1_qualities" placeholder="Qualities / Traits">
+            </div>
+
+            <div class="weapons-grid-row">
+                <input type="text" id="weapon_2_name" placeholder="Weapon Name">
+                <input type="text" id="weapon_2_focus" placeholder="Focus">
+                <input type="text" id="weapon_2_range" placeholder="Range">
+                <input type="text" id="weapon_2_damage" placeholder="Damage">
+                <input type="text" id="weapon_2_salvo" placeholder="Salvo">
+                <input type="text" id="weapon_2_size" placeholder="Size">
+                <input type="text" id="weapon_2_qualities" placeholder="Qualities / Traits">
+            </div>
+
+            <div class="weapons-grid-row">
+                <input type="text" id="weapon_3_name" placeholder="Weapon Name">
+                <input type="text" id="weapon_3_focus" placeholder="Focus">
+                <input type="text" id="weapon_3_range" placeholder="Range">
+                <input type="text" id="weapon_3_damage" placeholder="Damage">
+                <input type="text" id="weapon_3_salvo" placeholder="Salvo">
+                <input type="text" id="weapon_3_size" placeholder="Size">
+                <input type="text" id="weapon_3_qualities" placeholder="Qualities / Traits">
+            </div>
+        </div>
+
+        <div class="footer-split-dashboard" style="margin-top: 15px;">
+            <div>
+                <div class="section-banner" style="margin-top:0;">Biography</div>
+                <div class="bio-entry-box">
+                    <textarea id="char_bio" placeholder="Write character origin history, background dossier notes, and service records here..."></textarea>
+                </div>
+            </div>
+            <div>
+                <div class="section-banner" style="margin-top:0;">Talents</div>
+                <div class="talents-grid-table">
+                    <div class="talents-grid-header">
+                        <span>Name</span>
+                        <span>Keywords</span>
+                        <span>Effect</span>
+                    </div>
+                    
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_1_name" placeholder="Talent Name">
+                        <input type="text" id="talent_1_keys" placeholder="Keywords">
+                        <input type="text" id="talent_1_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_2_name" placeholder="Talent Name">
+                        <input type="text" id="talent_2_keys" placeholder="Keywords">
+                        <input type="text" id="talent_2_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_3_name" placeholder="Talent Name">
+                        <input type="text" id="talent_3_keys" placeholder="Keywords">
+                        <input type="text" id="talent_3_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_4_name" placeholder="Talent Name">
+                        <input type="text" id="talent_4_keys" placeholder="Keywords">
+                        <input type="text" id="talent_4_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_5_name" placeholder="Talent Name">
+                        <input type="text" id="talent_5_keys" placeholder="Keywords">
+                        <input type="text" id="talent_5_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_6_name" placeholder="Talent Name">
+                        <input type="text" id="talent_6_keys" placeholder="Keywords">
+                        <input type="text" id="talent_6_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                    <div class="talents-grid-row">
+                        <input type="text" id="talent_7_name" placeholder="Talent Name">
+                        <input type="text" id="talent_7_keys" placeholder="Keywords">
+                        <input type="text" id="talent_7_effect" placeholder="Detailed Special Rules and Action Mechanics">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="tab-spells" class="tab-panel-content">
@@ -951,17 +1198,14 @@ let saveTimer = null;
    TAB SWITCHING MATRIX ENGINE
 ========================= */
 function switchSheetTab(tabId, buttonElement) {
-    // Hide all tab content panes
     document.querySelectorAll('.tab-panel-content').forEach(panel => {
         panel.classList.remove('active');
     });
 
-    // Strip active status class from navigation buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
 
-    // Activate selected target pane and highlighting element
     document.getElementById(tabId).classList.add('active');
     buttonElement.classList.add('active');
 }
@@ -982,39 +1226,30 @@ function queueAutosave() {
 function newCharacter() {
     if (!confirm("Are you sure you want to clear this sheet? All unsaved current changes will be lost.")) return;
     
-    // Wipe local cache
     localStorage.removeItem("achtung_cthulhu_save");
 
-    // Clear Text Inputs & Textareas
     document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
-
-    // Clear Checked Boxes
     document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
 
-    // Reset Standard Numbers to 0
     document.querySelectorAll('input[type="number"]').forEach(el => {
         if (!el.id.startsWith("attr_")) {
             el.value = 0;
         }
     });
 
-    // Reset Core Attributes to System Defaults (6)
     const attributes = ["agility", "brawn", "coordination", "insight", "reason", "will"];
     attributes.forEach(attr => {
         const input = document.getElementById("attr_" + attr);
         if (input) input.value = 6;
     });
 
-    // Strip Active Highlights from Focus Sub-menus
     document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
 
-    // Reset Damage Condition Blocks
     document.querySelectorAll(".injury-cycle-box").forEach(box => {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
     });
 
-    // Force Math Refresh
     updateStressCalculations();
 }
 
@@ -1183,11 +1418,8 @@ function applyCharacterData(saveData) {
 ========================= */
 function saveCharacter() {
     const dataPayload = compileCharacterData();
-    
-    // Sync storage instantly on a manual backup button press
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
 
-    // Export file
     const blob = new Blob([JSON.stringify(dataPayload, null, 2)], {
         type: "application/json"
     });
@@ -1213,7 +1445,6 @@ function loadCharacter(event) {
         try {
             const saveData = JSON.parse(e.target.result);
             applyCharacterData(saveData);
-            // Overwrite memory matrix cache cleanly
             localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
         } catch (err) {
             alert("Error parsing character JSON file.");
