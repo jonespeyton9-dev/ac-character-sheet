@@ -24,6 +24,25 @@
             width: 100% !important;
         }
 
+        /* FIX: Forces identity info blocks (Name, Rank, etc.) to stack labels directly on top */
+        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) > div {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            align-content: start !important;
+            justify-items: start !important;
+            text-align: left !important;
+            gap: 4px !important;
+        }
+
+        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) label,
+        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) input[type="text"] {
+            display: block !important;
+            width: 100% !important;
+            text-align: left !important;
+            margin: 0 !important;
+            box-sizing: border-box;
+        }
+
         /* Forces the attributes to align side-by-side neatly with plenty of room */
         .attr.f-row.nowrap {
             display: flex !important;
@@ -34,12 +53,19 @@
         }
         
         .attr .f-col {
+            display: block !important;
             flex: 1;
             background: #fdfdfd;
             border: 1px solid #ddd;
             padding: 8px;
             border-radius: 4px;
-            text-align: center;
+            text-align: center !important;
+        }
+
+        .attr .f-col label {
+            text-align: center !important;
+            display: block !important;
+            width: 100% !important;
         }
 
         /* Forces number boxes to stay inside their lanes */
@@ -71,20 +97,6 @@
         .stress_box_row {
             margin: 10px 0 !important;
             display: block;
-        }
-        
-        /* FIX: Grabs the top identity blocks and stacks labels vertically over boxes */
-        .sheet-main_char div[class*="f-row"]:not(.truth_text):not(.injuries) > .f-col {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 4px;
-        }
-
-        /* Forces the text input boxes in those identity rows to fill their spaces nicely */
-        .sheet-main_char div[class*="f-row"]:not(.truth_text):not(.injuries) input[type="text"] {
-            width: 100% !important;
-            margin: 0 !important;
         }
 
         input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
