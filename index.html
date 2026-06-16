@@ -815,7 +815,9 @@
         bonus_insight: 0, bonus_reason: 0, bonus_will: 0
     };
 
-    // 1. Attribute hard max calculator limiter (0-12 Ceiling)
+    // -----------------------------
+    // ATTRIBUTE VALIDATION
+    // -----------------------------
     function validateAttrCap(input) {
         let val = parseInt(input.value);
         if (val > 12) input.value = 12;
@@ -823,17 +825,21 @@
         updateStressCalculations();
     }
 
-    // 2. Clickable Inline Focus Tag Switcher
+    // -----------------------------
+    // FOCUS TOGGLE
+    // -----------------------------
     function toggleFocus(element) {
         element.classList.toggle('active');
     }
 
-    // 3. Challenge Dice Suffix Ticker Controller
+    // -----------------------------
+    // CHALLENGE DICE TICKER
+    // -----------------------------
     function adjustCD(fieldId, changeAmount) {
         rawCDValues[fieldId] += changeAmount;
         const currentInt = rawCDValues[fieldId];
         const inputElement = document.getElementById(fieldId);
-        
+
         if (currentInt > 0) {
             inputElement.value = "+" + currentInt + "cd";
         } else if (currentInt < 0) {
@@ -843,7 +849,9 @@
         }
     }
 
-    // 4. Track Cycling for Injuries Engine (Blank -> M -> P)
+    // -----------------------------
+    // INJURY CYCLING
+    // -----------------------------
     function cycleInjuryState(element) {
         if (!element.classList.contains('state-M') && !element.classList.contains('state-P')) {
             element.classList.add('state-M');
@@ -858,23 +866,21 @@
         }
     }
 
-    // 5. Interactive Stress Dynamic Cap Controller (With Resilience Auto-Mapping)
+    // -----------------------------
+    // STRESS CALCULATION ENGINE
+    // -----------------------------
     function updateStressCalculations() {
         const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
         const willBase = parseInt(document.getElementById('attr_will').value) || 0;
         const highestBase = Math.max(brawnBase, willBase);
-        
-        // Grab values directly from the Resilience skill rank ticker box
+
         const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
-        
-        // Auto-populate the uneditable stress track resilience input box
         document.getElementById('input_stress_bonus').value = resilienceSkillRank;
-        
+
         const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
 
         document.getElementById('calc_highest_attr').value = highestBase;
 
-        // Dynamic Cap Formula Execution
         const totalCalculatedCap = highestBase + resilienceSkillRank - fatigue;
         document.getElementById('output_stress_max').value = totalCalculatedCap;
 
@@ -891,156 +897,154 @@
         }
     }
 
-    // Connect structural framework listener updates
+    // -----------------------------
+    // SAVE CHARACTER
+    // -----------------------------
+    function saveCharacter() {
+
+        const saveData = {};
+
+        // Basic inputs + textareas
+        document.querySelectorAll('input, textarea').forEach(element => {
+            if (!element.id || element.id === "loadFile") return;
+
+            if (element.type === "checkbox") {
+                saveData[element.id] = element.checked;
+            } else {
+                saveData[element.id] = element.value;
+            }
+        });
+
+        // -----------------------------
+        // FOCUSES
+        // -----------------------------
+        const focusData = {};
+
+        document.querySelectorAll(".skill-row").forEach(row => {
+            const skillInput = row.querySelector("input");
+            if (!skillInput) return;
+
+            const activeFocuses = [];
+
+            row.querySelectorAll(".focus-clickable-text.active").forEach(el => {
+                activeFocuses.push(el.innerText.trim());
+            });
+
+            focusData[skillInput.id] = activeFocuses;
+        });
+
+        saveData.focuses = focusData;
+
+        // -----------------------------
+        // INJURIES
+        // -----------------------------
+        const injuryData = {};
+
+        document.querySelectorAll(".injury-cycle-box").forEach(box => {
+            injuryData[box.id] = box.innerText.trim(); // "", "M", "P"
+        });
+
+        saveData.injuries = injuryData;
+
+        // EXPORT FILE
+        const fileContents = JSON.stringify(saveData, null, 2);
+
+        const blob = new Blob([fileContents], { type: "application/json" });
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "AchtungCthulhuCharacter.json";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // -----------------------------
+    // LOAD CHARACTER
+    // -----------------------------
+    function loadCharacter(event) {
+
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            const saveData = JSON.parse(e.target.result);
+
+            // Load basic fields
+            Object.keys(saveData).forEach(id => {
+                const element = document.getElementById(id);
+                if (!element) return;
+
+                if (element.type === "checkbox") {
+                    element.checked = saveData[id];
+                } else {
+                    element.value = saveData[id];
+                }
+            });
+
+            // -----------------------------
+            // LOAD FOCUSES
+            // -----------------------------
+            if (saveData.focuses) {
+                document.querySelectorAll(".skill-row").forEach(row => {
+                    const skillInput = row.querySelector("input");
+                    if (!skillInput) return;
+
+                    const activeList = saveData.focuses[skillInput.id] || [];
+
+                    row.querySelectorAll(".focus-clickable-text").forEach(el => {
+                        const name = el.innerText.trim();
+
+                        if (activeList.includes(name)) {
+                            el.classList.add("active");
+                        } else {
+                            el.classList.remove("active");
+                        }
+                    });
+                });
+            }
+
+            // -----------------------------
+            // LOAD INJURIES
+            // -----------------------------
+            if (saveData.injuries) {
+                Object.keys(saveData.injuries).forEach(id => {
+                    const box = document.getElementById(id);
+                    if (!box) return;
+
+                    const state = saveData.injuries[id];
+
+                    box.classList.remove("state-M", "state-P");
+                    box.innerText = "";
+
+                    if (state === "M") {
+                        box.classList.add("state-M");
+                        box.innerText = "M";
+                    } else if (state === "P") {
+                        box.classList.add("state-P");
+                        box.innerText = "P";
+                    }
+                });
+            }
+
+            updateStressCalculations();
+        };
+
+        reader.readAsText(file);
+    }
+
+    // -----------------------------
+    // INIT
+    // -----------------------------
     document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
     document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
     document.getElementById('input_stress_fatigue').addEventListener('input', updateStressCalculations);
 
-function saveCharacter() {
-
-    const saveData = {};
-
-    const saveData = {};
-
-// -----------------------------
-// CUSTOM STATE: FOCUSES
-// -----------------------------
-const focusData = {};
-
-document.querySelectorAll(".skill-row").forEach(row => {
-    const skillInput = row.querySelector("input");
-    if (!skillInput) return;
-
-    const activeFocuses = [];
-
-    row.querySelectorAll(".focus-clickable-text.active").forEach(el => {
-        activeFocuses.push(el.innerText.trim());
-    });
-
-    focusData[skillInput.id] = activeFocuses;
-});
-
-saveData.focuses = focusData;
-
-
-// -----------------------------
-// CUSTOM STATE: INJURIES
-// -----------------------------
-const injuryData = {};
-
-document.querySelectorAll(".injury-cycle-box").forEach(box => {
-    injuryData[box.id] = box.innerText; // "", "M", "P"
-});
-
-saveData.injuries = injuryData;
-
-    document.querySelectorAll('input, textarea').forEach(element => {
-
-        if (!element.id || element.id === "loadFile") return;
-
-        if (element.type === "checkbox") {
-            saveData[element.id] = element.checked;
-        } else {
-            saveData[element.id] = element.value;
-        }
-    });
-
-    const fileContents = JSON.stringify(saveData, null, 2);
-
-    const blob = new Blob(
-        [fileContents],
-        { type: "application/json" }
-    );
-
-    const link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-    link.download = "AchtungCthulhuCharacter.json";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-    
-    // Initial load execution
     updateStressCalculations();
-
-    function loadCharacter(event) {
-
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-
-        const saveData = JSON.parse(e.target.result);
-
-        Object.keys(saveData).forEach(id => {
-
-            const element = document.getElementById(id);
-
-            if (!element) return;
-
-            if (element.type === "checkbox") {
-                element.checked = saveData[id];
-            } else {
-                element.value = saveData[id];
-            }
-
-        });
-
-        // -----------------------------
-// LOAD FOCUSES
-// -----------------------------
-if (saveData.focuses) {
-    document.querySelectorAll(".skill-row").forEach(row => {
-        const skillInput = row.querySelector("input");
-        if (!skillInput) return;
-
-        const activeList = saveData.focuses[skillInput.id] || [];
-
-        row.querySelectorAll(".focus-clickable-text").forEach(el => {
-            if (activeList.includes(el.innerText.trim())) {
-                el.classList.add("active");
-            } else {
-                el.classList.remove("active");
-            }
-        });
-    });
-}
-
-
-// -----------------------------
-// LOAD INJURIES
-// -----------------------------
-if (saveData.injuries) {
-    Object.keys(saveData.injuries).forEach(id => {
-        const box = document.getElementById(id);
-        if (!box) return;
-
-        const state = saveData.injuries[id];
-
-        box.classList.remove("state-M", "state-P");
-        box.innerText = "";
-
-        if (state === "M") {
-            box.classList.add("state-M");
-            box.innerText = "M";
-        } else if (state === "P") {
-            box.classList.add("state-P");
-            box.innerText = "P";
-        }
-    });
-}
-
-        updateStressCalculations();
-
-    };
-
-    reader.readAsText(file);
-}
 </script>
 
 </body>
