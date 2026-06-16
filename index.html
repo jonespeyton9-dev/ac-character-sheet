@@ -347,15 +347,17 @@
             gap: 10px;
         }
         .skill-row {
-            display: grid;
-            grid-template-columns: 110px 60px 1fr;
-            align-items: center;
-            padding: 6px 10px;
-            background: #fdfdfd;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            gap: 10px;
+    display: grid;
+    grid-template-columns: 110px 60px 1fr;
+    align-items: center;
+    min-height: 110px; /* Forces all rows to match tallest content block */
+    padding: 6px 10px;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    gap: 10px;
+    box-sizing: border-box;
         }
         .skill-name {
             font-weight: bold;
@@ -366,12 +368,13 @@
         
         /* Tightened Text Focus Divider Layout */
         .focus-links-div {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            color: #ccc; 
-            font-weight: normal;
-            font-size: 11px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    color: #ccc;
+    font-weight: normal;
+    font-size: 11px;
         }
         .focus-clickable-text {
             color: #555;
@@ -435,7 +438,7 @@
     <div class="attributes-row">
         <div class="attribute-card">
             <label>Agility</label>
-            <input type="number" id="attr_agility" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_agility" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_agility', -1)">-</div>
                 <input type="text" id="bonus_agility" class="cd-display-input" value="0" readonly>
@@ -444,7 +447,7 @@
         </div>
         <div class="attribute-card">
             <label>Brawn</label>
-            <input type="number" id="attr_brawn" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_brawn" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_brawn', -1)">-</div>
                 <input type="text" id="bonus_brawn" class="cd-display-input" value="0" readonly>
@@ -453,7 +456,7 @@
         </div>
         <div class="attribute-card">
             <label>Coordination</label>
-            <input type="number" id="attr_coordination" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_coordination" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_coordination', -1)">-</div>
                 <input type="text" id="bonus_coordination" class="cd-display-input" value="0" readonly>
@@ -462,7 +465,7 @@
         </div>
         <div class="attribute-card">
             <label>Insight</label>
-            <input type="number" id="attr_insight" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_insight" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_insight', -1)">-</div>
                 <input type="text" id="bonus_insight" class="cd-display-input" value="0" readonly>
@@ -471,7 +474,7 @@
         </div>
         <div class="attribute-card">
             <label>Reason</label>
-            <input type="number" id="attr_reason" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_reason" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_reason', -1)">-</div>
                 <input type="text" id="bonus_reason" class="cd-display-input" value="0" readonly>
@@ -480,7 +483,7 @@
         </div>
         <div class="attribute-card">
             <label>Will</label>
-            <input type="number" id="attr_will" value="7" min="0" max="12" oninput="validateAttrCap(this)">
+            <input type="number" id="attr_will" value="6" min="0" max="12" oninput="validateAttrCap(this)">
             <div class="cd-ticker-container">
                 <div class="cd-ticker-btn" onclick="adjustCD('bonus_will', -1)">-</div>
                 <input type="text" id="bonus_will" class="cd-display-input" value="0" readonly>
@@ -498,22 +501,22 @@
             <div class="unified-math-row">
                 <div class="math-box-node">
                     <label>Attribute</label>
-                    <input type="number" id="calc_highest_attr" disabled value="7">
+                    <input type="number" id="calc_highest_attr" disabled>
                 </div>
                 <div class="math-sign">+</div>
                 <div class="math-box-node">
                     <label>Resilience</label>
-                    <input type="number" id="input_stress_bonus" readonly value="0">
+                    <input type="number" id="input_stress_bonus" readonly>
                 </div>
                 <div class="math-sign">-</div>
                 <div class="math-box-node">
                     <label>Fatigue</label>
-                    <input type="number" id="input_stress_fatigue" value="0">
+                    <input type="number" id="input_stress_fatigue">
                 </div>
                 <div class="math-sign">=</div>
                 <div class="math-box-node">
                     <label>Total Cap</label>
-                    <input type="number" id="output_stress_max" value="7" readonly>
+                    <input type="number" id="output_stress_max" readonly>
                 </div>
             </div>
 
@@ -528,10 +531,10 @@
         <div class="dashboard-block">
             <h3>Resource Tickers</h3>
             <div class="ticker-grid">
-                <div class="ticker-item"><label>Fortune</label><input type="number" id="ticker_fortune" value="0" min="0"></div>
-                <div class="ticker-item"><label>Courage</label><input type="number" id="ticker_courage" value="0" min="0"></div>
-                <div class="ticker-item"><label>Exp</label><input type="number" id="ticker_exp" value="0" min="0"></div>
-                <div class="ticker-item"><label>Armour</label><input type="number" id="ticker_armour" value="0" min="0"></div>
+                <div class="ticker-item"><label>Fortune</label><input type="number" id="ticker_fortune" min="0"></div>
+                <div class="ticker-item"><label>Courage</label><input type="number" id="ticker_courage" min="0"></div>
+                <div class="ticker-item"><label>Exp</label><input type="number" id="ticker_exp" min="0"></div>
+                <div class="ticker-item"><label>Armour</label><input type="number" id="ticker_armour" min="0"></div>
             </div>
         </div>
 
@@ -573,7 +576,7 @@
             <!-- Academia -->
             <div class="skill-row">
                 <span class="skill-name">Academia</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
@@ -588,7 +591,7 @@
             <!-- Athletics -->
             <div class="skill-row">
                 <span class="skill-name">Athletics</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
@@ -602,7 +605,7 @@
             <!-- Engineering -->
             <div class="skill-row">
                 <span class="skill-name">Engineering</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
@@ -615,7 +618,7 @@
             <!-- Fighting -->
             <div class="skill-row">
                 <span class="skill-name">Fighting</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
@@ -631,7 +634,7 @@
             <!-- Medicine -->
             <div class="skill-row">
                 <span class="skill-name">Medicine</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
@@ -645,7 +648,7 @@
             <!-- Observation -->
             <div class="skill-row">
                 <span class="skill-name">Observation</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
@@ -666,7 +669,7 @@
             <!-- Persuasion -->
             <div class="skill-row">
                 <span class="skill-name">Persuasion</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
@@ -681,7 +684,7 @@
             <!-- Resilience -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
-                <input type="number" id="skill_resilience" value="0" min="0" max="5" oninput="updateStressCalculations()">
+                <input type="number" id="skill_resilience" min="0" max="5" oninput="updateStressCalculations()">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
@@ -692,7 +695,7 @@
             <!-- Stealth -->
             <div class="skill-row">
                 <span class="skill-name">Stealth</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
@@ -704,7 +707,7 @@
             <!-- Survival -->
             <div class="skill-row">
                 <span class="skill-name">Survival</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
@@ -718,7 +721,7 @@
             <!-- Tactics -->
             <div class="skill-row">
                 <span class="skill-name">Tactics</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
@@ -732,7 +735,7 @@
             <!-- Vehicles -->
             <div class="skill-row">
                 <span class="skill-name">Vehicles</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
