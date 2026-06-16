@@ -24,31 +24,38 @@
             width: 100% !important;
         }
 
-        /* FIX: Combines top rows into a single container area that divides into exactly 3 equal columns */
-        .sheet-main_char > div:first-of-type,
-        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) {
+        /* FIX: Selects ONLY the specific top structural rows containing identity boxes */
+        .sheet-main_char > .f-row:nth-of-type(1),
+        .sheet-main_char > .f-row:nth-of-type(2) {
             display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important; /* Forces exactly 3 boxes per row */
-            gap: 15px 20px !important;  /* 15px padding between rows, 20px spacing between columns */
+            gap: 15px 20px !important;  /* 15px spacing between rows, 20px spacing between columns */
             width: 100% !important;
-            margin-bottom: 15px !important; /* Padds the space before Personal Truths */
+            margin-bottom: 15px !important;
         }
 
-        /* FIX: Ensures the internal alignment inside each individual box stacks vertically */
-        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) > div {
+        /* FIX: Forces labels inside those top two identity rows to stack vertically over their input boxes */
+        .sheet-main_char > .f-row:nth-of-type(1) .f-col,
+        .sheet-main_char > .f-row:nth-of-type(2) .f-col {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
-            justify-content: flex-start !important;
-            gap: 4px !important;
             width: 100% !important;
+            gap: 4px !important;
         }
 
-        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) label,
-        .sheet-main_char .f-row:not(.truth_text):not(.injuries):not(.attr):not(.stress) input[type="text"] {
+        .sheet-main_char > .f-row:nth-of-type(1) label,
+        .sheet-main_char > .f-row:nth-of-type(2) label {
             display: block !important;
             width: 100% !important;
             text-align: left !important;
+            margin: 0 !important;
+        }
+
+        .sheet-main_char > .f-row:nth-of-type(1) input[type="text"],
+        .sheet-main_char > .f-row:nth-of-type(2) input[type="text"] {
+            display: block !important;
+            width: 100% !important;
             margin: 0 !important;
             box-sizing: border-box;
         }
