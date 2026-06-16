@@ -900,6 +900,40 @@ function saveCharacter() {
 
     const saveData = {};
 
+    const saveData = {};
+
+// -----------------------------
+// CUSTOM STATE: FOCUSES
+// -----------------------------
+const focusData = {};
+
+document.querySelectorAll(".skill-row").forEach(row => {
+    const skillInput = row.querySelector("input");
+    if (!skillInput) return;
+
+    const activeFocuses = [];
+
+    row.querySelectorAll(".focus-clickable-text.active").forEach(el => {
+        activeFocuses.push(el.innerText.trim());
+    });
+
+    focusData[skillInput.id] = activeFocuses;
+});
+
+saveData.focuses = focusData;
+
+
+// -----------------------------
+// CUSTOM STATE: INJURIES
+// -----------------------------
+const injuryData = {};
+
+document.querySelectorAll(".injury-cycle-box").forEach(box => {
+    injuryData[box.id] = box.innerText; // "", "M", "P"
+});
+
+saveData.injuries = injuryData;
+
     document.querySelectorAll('input, textarea').forEach(element => {
 
         if (!element.id || element.id === "loadFile") return;
@@ -956,6 +990,50 @@ function saveCharacter() {
             }
 
         });
+
+        // -----------------------------
+// LOAD FOCUSES
+// -----------------------------
+if (saveData.focuses) {
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+
+        const activeList = saveData.focuses[skillInput.id] || [];
+
+        row.querySelectorAll(".focus-clickable-text").forEach(el => {
+            if (activeList.includes(el.innerText.trim())) {
+                el.classList.add("active");
+            } else {
+                el.classList.remove("active");
+            }
+        });
+    });
+}
+
+
+// -----------------------------
+// LOAD INJURIES
+// -----------------------------
+if (saveData.injuries) {
+    Object.keys(saveData.injuries).forEach(id => {
+        const box = document.getElementById(id);
+        if (!box) return;
+
+        const state = saveData.injuries[id];
+
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+
+        if (state === "M") {
+            box.classList.add("state-M");
+            box.innerText = "M";
+        } else if (state === "P") {
+            box.classList.add("state-P");
+            box.innerText = "P";
+        }
+    });
+}
 
         updateStressCalculations();
 
