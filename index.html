@@ -4,6 +4,39 @@
     <meta charset="utf-8">
     <title>Achtung! Cthulhu Character Sheet</title>
     <link rel="stylesheet" href="Achtung!_Cthulhu_2d20.css">
+    <style>
+        body { padding: 20px; background-color: #f4f4f4; font-family: sans-serif; }
+        .charsheet { background: white; padding: 15px; border-radius: 8px; box-shadow: 0px 2px 10px rgba(0,0,0,0.1); }
+        
+        /* Forces the attributes to align side-by-side neatly */
+        .attr.f-row.nowrap {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 10px;
+        }
+        .attr .f-col {
+            flex: 1;
+            min-width: 100px;
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        /* Forces number boxes to stay inside their lanes */
+        input[type="number"] {
+            width: 100% !important;
+            max-width: 70px;
+            box-sizing: border-box;
+            padding: 4px;
+            margin: 4px auto !important;
+            display: block;
+            text-align: center;
+        }
+        input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .truth_text textarea, .injuries textarea { width: 100%; min-height: 50px; margin: 3px; }
+    </style>
 </head>
 <body>
     <div class="charsheet">
@@ -173,62 +206,32 @@
       <label data-i18n="bonus_damage">Bonus Damage</label>
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="agility">Agility</label>
-        <button type="roll" name="roll_agility" value="@{agility_action}"></button>
-        <button type="action" name="act_agility-action" class="hidden"></button>
-        <input type="hidden" name="attr_agility_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="agility">Agility</label></span>
       <input type="number" id="attr_agility" name="attr_agility" value="6" min="0" max="20" />
       <input type="number" name="attr_agility_bonus_dmg" value="0" />
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="brawn">Brawn</label>
-        <button type="roll" name="roll_brawn" value="@{brawn_action}"></button>
-        <button type="action" name="act_brawn-action" class="hidden"></button>
-        <input type="hidden" name="attr_brawn_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="brawn">Brawn</label></span>
       <input type="number" id="attr_brawn" name="attr_brawn" value="6" min="0" max="20" />
       <input type="number" name="attr_brawn_bonus_dmg" value="0" />
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="coordination">Coordination</label>
-        <button type="roll" name="roll_coordination" value="@{coordination_action}"></button>
-        <button type="action" name="act_coordination-action" class="hidden"></button>
-        <input type="hidden" name="attr_coordination_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="coordination">Coordination</label></span>
       <input type="number" id="attr_coordination" name="attr_coordination" value="6" min="0" max="20" />
       <input type="number" name="attr_coordination_bonus_dmg" value="0" />
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="insight">Insight</label>
-        <button type="roll" name="roll_insight" value="@{insight_action}"></button>
-        <button type="action" name="act_insight-action" class="hidden"></button>
-        <input type="hidden" name="attr_insight_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="insight">Insight</label></span>
       <input type="number" id="attr_insight" name="attr_insight" value="6" min="0" max="20" />
       <input type="number" name="attr_insight_bonus_dmg" value="0" />
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="reason">Reason</label>
-        <button type="roll" name="roll_reason" value="@{reason_action}"></button>
-        <button type="action" name="act_reason-action" class="hidden"></button>
-        <input type="hidden" name="attr_reason_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="reason">Reason</label></span>
       <input type="number" id="attr_reason" name="attr_reason" value="6" min="0" max="20" />
       <input type="number" name="attr_reason_bonus_dmg" value="0" />
     </div>
     <div class="f-col">
-      <span class="attribute_header">
-        <label data-i18n="will">Will</label>
-        <button type="roll" name="roll_will" value="@{will_action}"></button>
-        <button type="action" name="act_will-action" class="hidden"></button>
-        <input type="hidden" name="attr_will_action" value="">
-      </span>
+      <span class="attribute_header"><label data-i18n="will">Will</label></span>
       <input type="number" id="attr_will" name="attr_will" value="6" min="0" max="20" />
       <input type="number" name="attr_will_bonus_dmg" value="0" />
     </div>
