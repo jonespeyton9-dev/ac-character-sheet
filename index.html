@@ -72,6 +72,20 @@
             margin: 10px 0 !important;
             display: block;
         }
+        
+        /* FIX: Stacks labels on top of input boxes for the identity fields */
+        .sheet-main_char > .f-row:first-of-type > .f-col {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 4px;
+        }
+
+        /* Makes the text fields stretch nicely under their new top-aligned labels */
+        .sheet-main_char > .f-row:first-of-type input[type="text"] {
+            width: 100% !important;
+            margin: 0 !important;
+        }
 
         input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         .truth_text textarea, .injuries textarea { width: 100%; min-height: 50px; margin: 3px; }
