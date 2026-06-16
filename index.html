@@ -161,11 +161,11 @@
             background: #fdfdfd;
         }
 
-        /* Standard Number Tickers with Arrows */
+        /* Standardized Number Tickers with Arrows */
         input[type="number"] {
-            width: 100%;
-            max-width: 65px;
-            padding: 6px;
+            width: 60px; /* Standardized sizing box width */
+            height: 32px; /* Standardized box height cross-sheet */
+            padding: 4px;
             border: 1px solid #ccc;
             border-radius: 4px;
             text-align: center;
@@ -173,6 +173,7 @@
             font-weight: bold;
             margin: 0 auto;
             display: block;
+            box-sizing: border-box;
         }
 
         /* STRESS & TICKERS TWO-COLUMN GRID */
@@ -230,8 +231,9 @@
             color: #888;
             margin-top: 18px;
         }
-        .math-box-node input[readonly] {
-            background-color: #e9ecef;
+        /* Lockout Styling for Uneditable Nodes */
+        .math-box-node input[readonly], .math-box-node input[disabled] {
+            background-color: #e9ecef !important;
             color: #495057;
             border-color: #ced4da;
             cursor: not-allowed;
@@ -323,16 +325,17 @@
             background-color: #fafafa;
         }
 
-        /* DUAL-COLUMN SKILLS MATRIX LAYOUT (Restored & Enhanced) */
+        /* RE-PROPORTIONED DUAL-COLUMN SKILLS MATRIX */
         .skills-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             width: 100%;
         }
+        /* Adjusted layout tracking weights to pull Rank close to Skill and burst open focus space */
         .skills-column-header {
             display: grid;
-            grid-template-columns: 140px 65px 1fr;
+            grid-template-columns: 130px 65px 1fr;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 12px;
@@ -341,47 +344,51 @@
             border-bottom: 2px solid #ddd;
             margin-bottom: 10px;
             padding-left: 10px;
-            gap: 15px;
+            gap: 10px;
         }
         .skill-row {
             display: grid;
-            grid-template-columns: 140px 65px 1fr;
+            grid-template-columns: 130px 65px 1fr;
             align-items: center;
-            padding: 8px 10px;
+            padding: 6px 10px;
             background: #fdfdfd;
             border: 1px solid #eee;
             border-radius: 4px;
             margin-bottom: 8px;
-            gap: 15px;
+            gap: 10px;
         }
         .skill-name {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             color: #333;
             text-transform: uppercase;
         }
         
-        /* Inline Word-Button Focus Engine Badges */
+        /* Tightened Text Focus Divider Engine Setup */
         .focus-links-div {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px 8px;
+            align-items: center;
+            color: #bbb; /* Subtle color for dash lines */
+            font-weight: normal;
+            font-size: 11px;
         }
         .focus-clickable-text {
-            color: #666;
+            color: #555;
             font-size: 12px;
             cursor: pointer;
             user-select: none;
-            transition: all 0.15s ease;
-            padding: 2px 5px;
+            transition: all 0.12s ease;
+            padding: 2px 4px;
             border-radius: 3px;
-            border: 1px solid transparent;
+            margin: 0 1px; /* Pulled closer to the dashes */
+            display: inline-block;
         }
         .focus-clickable-text:hover {
             color: #111;
             background: #eee;
         }
-        /* Clicked Green Glow Highlight State */
+        /* Highlight Active Toggled Green Badge State */
         .focus-clickable-text.active {
             background-color: #4a5d34 !important;
             color: white !important;
@@ -496,8 +503,9 @@
                 </div>
                 <div class="math-sign">+</div>
                 <div class="math-box-node">
-                    <label>Bonus</label>
-                    <input type="number" id="input_stress_bonus" value="0">
+                    <label>Bonus (Resil)</label>
+                    <!-- Locked and bound to Resilience Skill Rank -->
+                    <input type="number" id="input_stress_bonus" readonly value="0">
                 </div>
                 <div class="math-sign">-</div>
                 <div class="math-box-node">
@@ -552,7 +560,7 @@
         </div>
     </div>
 
-    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT (Restored to Dual Column with Word-Click Focus Engine) -->
+    <!-- 7. SKILLS MATRIX SYSTEM LAYOUT -->
     <div class="section-banner">Skills & Focuses</div>
     <div class="skills-container">
         <!-- Left Side Column -->
@@ -568,12 +576,12 @@
                 <span class="skill-name">Academia</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Finance</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">History</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Linguistics</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Occultism</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Finance</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">History</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Linguistics</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Occultism</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Science</span>
                 </div>
             </div>
@@ -583,11 +591,11 @@
                 <span class="skill-name">Athletics</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Physical Training</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Running</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Swimming</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Physical Training</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Running</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Swimming</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Throwing</span>
                 </div>
             </div>
@@ -597,10 +605,10 @@
                 <span class="skill-name">Engineering</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Electronics</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Explosives</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Electronics</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Explosives</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Mechanical Engineering</span>
                 </div>
             </div>
@@ -610,13 +618,13 @@
                 <span class="skill-name">Fighting</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hand-to-Hand</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Weapons</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Melee Weapons</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rifles</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Threat Awareness</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hand-to-Hand</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Weapons</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Melee Weapons</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rifles</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Threat Awareness</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Exotic</span>
                 </div>
             </div>
@@ -626,11 +634,11 @@
                 <span class="skill-name">Medicine</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Pharmacology</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Psychiatry</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Surgery</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Pharmacology</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Psychiatry</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Surgery</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Toxicology</span>
                 </div>
             </div>
@@ -640,9 +648,9 @@
                 <span class="skill-name">Observation</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Sight</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Sight</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Smell and Taste</span>
                 </div>
             </div>
@@ -661,23 +669,23 @@
                 <span class="skill-name">Persuasion</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Intimidation</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Negotiation</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rhetoric</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Deceive</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Intimidation</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Negotiation</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rhetoric</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Deceive</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Invocation</span>
                 </div>
             </div>
 
-            <!-- Resilience -->
+            <!-- Resilience (MATH DRIVER FOR STRESS BONUS) -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
-                <input type="number" value="0" min="0" max="5">
+                <input type="number" id="skill_resilience" value="0" min="0" max="5" oninput="updateStressCalculations()">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Immunity</span>
                 </div>
             </div>
@@ -687,9 +695,9 @@
                 <span class="skill-name">Stealth</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rural Stealth</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Rural Stealth</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Urban Stealth</span>
                 </div>
             </div>
@@ -699,11 +707,11 @@
                 <span class="skill-name">Survival</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hunting</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Mysticism</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Orienteering</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Hunting</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Mysticism</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Orienteering</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
                 </div>
             </div>
@@ -713,11 +721,11 @@
                 <span class="skill-name">Tactics</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Covert Operations</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Leadership</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Navy</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Covert Operations</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Leadership</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Navy</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Technical Projects</span>
                 </div>
             </div>
@@ -727,11 +735,11 @@
                 <span class="skill-name">Vehicles</span>
                 <input type="number" value="0" min="0" max="5">
                 <div class="focus-links-div">
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Vehicles</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Tanks</span>,
-                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Aircraft</span>,
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Vehicles</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Tanks</span>-
+                    <span class="focus-clickable-text" onclick="toggleFocus(this)">Aircraft</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Watercraft</span>
                 </div>
             </div>
@@ -775,18 +783,24 @@
         }
     }
 
-    // 4. Interactive Stress Dynamic Cap Controller
+    // 4. Interactive Stress Dynamic Cap Controller (With Resilience Auto-Mapping)
     function updateStressCalculations() {
         const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
         const willBase = parseInt(document.getElementById('attr_will').value) || 0;
         const highestBase = Math.max(brawnBase, willBase);
         
-        const bonus = parseInt(document.getElementById('input_stress_bonus').value) || 0;
+        // Grab values directly from the Resilience skill rank ticker box
+        const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
+        
+        // Auto-populate the uneditable stress track bonus input box
+        document.getElementById('input_stress_bonus').value = resilienceSkillRank;
+        
         const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
 
         document.getElementById('calc_highest_attr').value = highestBase;
 
-        const totalCalculatedCap = highestBase + bonus - fatigue;
+        // Dynamic Cap Formula Execution
+        const totalCalculatedCap = highestBase + resilienceSkillRank - fatigue;
         document.getElementById('output_stress_max').value = totalCalculatedCap;
 
         const checkboxContainer = document.getElementById('stress_checkbox_container');
@@ -805,7 +819,6 @@
     // Connect structural framework listener updates
     document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
     document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
-    document.getElementById('input_stress_bonus').addEventListener('input', updateStressCalculations);
     document.getElementById('input_stress_fatigue').addEventListener('input', updateStressCalculations);
 
     // Initial load execution
