@@ -85,6 +85,13 @@
     opacity: 0.85;
     white-space: nowrap;
 }
+        .save-warning-text {
+    font-size: 10px;
+    color: #777;
+    opacity: 0.85;
+    text-align: right;
+    margin-top: 3px;
+}
 
         /* IDENTITY SYSTEM */
         .identity-grid {
@@ -466,10 +473,11 @@
         onchange="loadCharacter(event)"
         style="display:none;"
     >
+
 </div>
 
 <div class="save-warning-text">
-    ⚠ Character export recommended at end of session.
+    ⚠ Changes are saved in local browser storage. Character export recommended at end of session.
 </div>
 
     <!-- 2. Identity Grid -->
