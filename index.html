@@ -24,12 +24,15 @@
             width: 100% !important;
         }
 
-        /* FIX: Fixes the white text on green background at the very top header */
+        /* FIX: Pulls the white header text up into the main green banner header */
         .sheet-main_char > h1, 
-        .sheet-main_char > .sheet-header {
+        .sheet-main_char > .sheet-header,
+        .sheet-main_char h1 {
             color: #ffffff !important;
-            padding: 15px !important;
-            margin-bottom: 20px !important;
+            margin-top: -55px !important; /* Pulls it up into the green bar area */
+            position: relative !important;
+            z-index: 10 !important;
+            padding-left: 15px !important;
         }
 
         /* FIX: Selects ONLY the specific top structural rows containing identity boxes */
@@ -43,14 +46,30 @@
             box-sizing: border-box !important;
         }
 
-        /* FIX: Forces the Personal Truths / Scars row to stretch across all 3 columns */
-        .sheet-main_char > .f-row.truth_text,
-        .sheet-main_char > .f-row.injuries,
-        .sheet-main_char > div:has(.truth_text),
-        .sheet-main_char > div:has(.injuries) {
+        /* FIX: Forces Personal Truths & Scars block to use 100% width and behave */
+        .sheet-main_char .truth_text,
+        .sheet-main_char .injuries,
+        .sheet-main_char div:has(.truth_text) {
             grid-column: span 3 !important;
             width: 100% !important;
             display: block !important;
+            clear: both !important;
+        }
+
+        /* FIX: Spreads out those 5 white boxes under Personal Truths across the whole layout width */
+        .sheet-main_char .truth_text .f-row,
+        .sheet-main_char .injuries .f-row {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            gap: 15px !important;
+        }
+
+        .sheet-main_char .truth_text .f-col,
+        .sheet-main_char .injuries .f-col {
+            flex: 1 !important; /* Forces all 5 boxes to share the wide row width equally */
+            width: auto !important;
         }
 
         /* FIX: Forces labels inside those top two identity rows to stack vertically over their input boxes */
@@ -66,7 +85,7 @@
             border: none !important;
         }
 
-        /* FIX: Cleans up the green background banners seen in image_08b1a4.png so they don't bleed */
+        /* FIX: Cleans up the green background banners seen in image_08a71a.png so they don't bleed */
         .sheet-main_char > .f-row:nth-of-type(1) label,
         .sheet-main_char > .f-row:nth-of-type(2) label {
             display: block !important;
