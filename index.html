@@ -896,6 +896,38 @@
     document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
     document.getElementById('input_stress_fatigue').addEventListener('input', updateStressCalculations);
 
+function saveCharacter() {
+
+    const saveData = {};
+
+    document.querySelectorAll('input, textarea').forEach(element => {
+
+        if (!element.id) return;
+
+        if (element.type === "checkbox") {
+            saveData[element.id] = element.checked;
+        } else {
+            saveData[element.id] = element.value;
+        }
+    });
+
+    const fileContents = JSON.stringify(saveData, null, 2);
+
+    const blob = new Blob(
+        [fileContents],
+        { type: "application/json" }
+    );
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "AchtungCthulhuCharacter.json";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+    
     // Initial load execution
     updateStressCalculations();
 </script>
