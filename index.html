@@ -147,75 +147,52 @@
 </head>
 <body>
     <div class="charsheet">
-<input type="hidden" class="sheet-tabstoggle" name="attr_sheetTab" value="main_char" />
-<div style="width: 100%; margin-bottom: 15px;">
-  <button type="action" class="tab_button" id="act_main_char" name="act_main_char" data-i18n="tabs.main">
-    Main
-  </button>
-  <button type="action" class="tab_button" id="act_equipment" name="act_equipment" data-i18n="tabs.equipment">
-    Equipment/Talents
-  </button>
-  <button type="action" class="tab_button" id="act_spells" name="act_spells" data-i18n="tabs.spells">
-    Spells
-  </button>
-  <button type="action" class="tab_button" id="act_vehicle" name="act_vehicle"data-i18n="tabs.vehicle">
-    Vehicle
-  </button>
-  <button type="action" class="tab_button settings_button" id="act_settings" name="act_settings" data-i18n="tabs.settings">
-    settings
-  </button>
+    <div class="sheet-main_char">
 
-  <button type="roll" name="roll_genericDamage" value="@{genericDamage_action}" class="helper_button" data-i18n="buttons.damage_dice">Damage Dice</button>
-  <button type="action" name="act_genericDamage-action" class="hidden"></button>
-  <input type="hidden" name="attr_genericDamage_action" value="">
+        <!-- 1. CLEAN BANNER HEADER -->
+        <div class="my-custom-header">
+            <h1>Achtung! Cthulhu Character Record Sheet</h1>
+        </div>
 
-  <button type="roll" name="roll_genericSkill" value="@{genericSkill_action}" class="helper_button" data-i18n="buttons.skill_check">Skill Check</button>
-  <button type="action" name="act_genericSkill-action" class="hidden"></button>
-  <input type="hidden" name="attr_genericSkill_action" value="">
-</div>
+        <!-- 2. PERFECT 3-COLUMN IDENTITY GRID (Name, Nationality, Rank on Row 1 | Archetype, Background, Characteristic on Row 2) -->
+        <div class="my-identity-grid">
+            <div class="f-col">
+                <label>Name</label>
+                <input type="text" name="attr_character_name">
+            </div>
+            <div class="f-col">
+                <label>Nationality</label>
+                <input type="text" name="attr_nationality">
+            </div>
+            <div class="f-col">
+                <label>Rank</label>
+                <input type="text" name="attr_rank">
+            </div>
+            <div class="f-col">
+                <label>Archetype</label>
+                <input type="text" name="attr_archetype">
+            </div>
+            <div class="f-col">
+                <label>Background</label>
+                <input type="text" name="attr_background">
+            </div>
+            <div class="f-col">
+                <label>Characteristic</label>
+                <input type="text" name="attr_characteristic">
+            </div>
+        </div>
 
-<div class="sheet-main_char">
-  <section class="mc_header f-row f-center">
-    <h1 data-i18n="header.title">Achtung! Cthulhu</h1>
-    <span data-i18n="header.character_record_sheet">Character Record Sheet</span>
-    <span data-i18n="header.system_name">2d20</span>
-  </section>
-
-  <section class="common f-row wrap">
-    <div>
-      <label data-i18n="character_name">Name</label>
-      <input name="attr_character_name" type="text" style="width: 350px" />
-    </div>
-    <div>
-      <label data-i18n="nationality">Nationality</label>
-      <input name="attr_nationality" type="text" style="width: 200px" />
-    </div>
-    <div>
-      <label data-i18n="rank">Rank</label>
-      <input name="attr_rank" type="text" style="width: 200px" />
-    </div>
-    <div>
-      <label data-i18n="archetype">Archetype</label>
-      <input name="attr_archetype" type="text" style="width: 250px" />
-    </div>
-    <div>
-      <label data-i18n="background">Background</label>
-      <input name="attr_background" type="text" style="width: 250px" />
-    </div>
-    <div>
-      <label data-i18n="characteristic">Characteristic</label>
-      <input name="attr_characteristic" type="text" style="width: 250px" />
-    </div>
-    <div>
-      <label data-i18n="personal_truths_scars">Personal Truths & Scars</label>
-      <div class="f-row nowrap truth_text">
-        <textarea name="attr_truth_1"></textarea>
-        <textarea name="attr_truth_2"></textarea>
-        <textarea name="attr_truth_3"></textarea>
-        <textarea name="attr_truth_4"></textarea>
-        <textarea name="attr_truth_5"></textarea>
-      </div>
-    </div>
+        <!-- 3. FULL WIDTH SIDE-BY-SIDE PERSONAL TRUTHS AND SCARS SECTION -->
+        <div class="my-truths-row">
+            <div class="my-truths-label">Personal Truths & Scars</div>
+            <div class="my-truths-container">
+                <div class="f-col"><textarea name="attr_truth_1" placeholder="Truth 1"></textarea></div>
+                <div class="f-col"><textarea name="attr_truth_2" placeholder="Truth 2"></textarea></div>
+                <div class="f-col"><textarea name="attr_truth_3" placeholder="Truth 3"></textarea></div>
+                <div class="f-col"><textarea name="attr_truth_4" placeholder="Truth 4"></textarea></div>
+                <div class="f-col"><textarea name="attr_truth_5" placeholder="Truth 5"></textarea></div>
+            </div>
+        </div>
   </section>
 
   <section class="stress">
