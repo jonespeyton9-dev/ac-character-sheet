@@ -902,7 +902,7 @@ function saveCharacter() {
 
     document.querySelectorAll('input, textarea').forEach(element => {
 
-        if (!element.id) return;
+        if (!element.id || element.id === "loadFile") return;
 
         if (element.type === "checkbox") {
             saveData[element.id] = element.checked;
@@ -930,6 +930,39 @@ function saveCharacter() {
     
     // Initial load execution
     updateStressCalculations();
+
+    function loadCharacter(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const saveData = JSON.parse(e.target.result);
+
+        Object.keys(saveData).forEach(id => {
+
+            const element = document.getElementById(id);
+
+            if (!element) return;
+
+            if (element.type === "checkbox") {
+                element.checked = saveData[id];
+            } else {
+                element.value = saveData[id];
+            }
+
+        });
+
+        updateStressCalculations();
+
+    };
+
+    reader.readAsText(file);
+}
 </script>
 
 </body>
