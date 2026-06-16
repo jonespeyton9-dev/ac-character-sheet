@@ -43,21 +43,24 @@
         =========================================== */
         .persistent-header-block {
             border-bottom: 2px solid #4a5d34;
-            padding-bottom: 15px;
+            padding-bottom: 0px; /* Adjusted to let tabs rest flush against the border */
             margin-bottom: 20px;
         }
 
         .control-panel-row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: flex-end; /* Align to the bottom so tabs anchor cleanly */
             width: 100%;
         }
 
         /* Left-aligned Tab Group */
         .tab-navigation-bar {
             display: flex;
-            gap: 5px;
+            gap: 4px;
+            margin-bottom: -2px; /* Pulls the tabs down 2px to perfectly mask the header border line */
+            position: relative;
+            z-index: 10;
         }
 
         .tab-btn {
@@ -65,8 +68,8 @@
             color: #333;
             border: 1px solid #aaa;
             border-bottom: none;
-            padding: 8px 16px;
-            border-radius: 4px 4px 0 0;
+            padding: 8px 18px;
+            border-radius: 5px 5px 0 0;
             cursor: pointer;
             font-weight: bold;
             font-size: 12px;
@@ -78,10 +81,13 @@
             background-color: #b3a560;
         }
 
+        /* Flush Manila Folder Link State */
         .tab-btn.active {
             background-color: #4a5d34;
             color: white;
-            border-color: #4a5d34;
+            border: 1px solid #4a5d34;
+            border-bottom: 1px solid #4a5d34; /* Seamless visual merge with line */
+            padding-bottom: 9px; /* Slightly padded to absorb the alignment drop cleanly */
         }
 
         /* Right-aligned Save/Load Area */
@@ -89,6 +95,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end; 
+            padding-bottom: 12px; /* Keeps the buttons safely spaced from the bottom divider */
         }
 
         .save-load-bar {
@@ -545,26 +552,19 @@
 
 <div class="charsheet">
 
-    <!-- ====================================================
-       PERSISTENT CONTROL HEADER BLOCK (Stays Locked on View)
-    ====================================================== -->
     <div class="persistent-header-block">
-        <!-- 1. Title Header Banner -->
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
         </div>
         
-        <!-- 2. Dual Navigation / Control Row -->
         <div class="control-panel-row">
             
-            <!-- Left-Aligned System Navigation Tabs -->
             <div class="tab-navigation-bar">
                 <button class="tab-btn active" onclick="switchSheetTab('tab-main', this)">Main</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
             </div>
 
-            <!-- Right-Aligned Data Control Dashboard -->
             <div class="save-area">
                 <div class="save-load-bar">
                     <button class="reset-btn" onclick="newCharacter()">New Character</button>
@@ -593,11 +593,7 @@
     </div>
 
 
-    <!-- ====================================================
-       TAB COMPARTMENT 1: MAIN CHARACTER PROFILE
-    ====================================================== -->
     <div id="tab-main" class="tab-panel-content active">
-        <!-- Identity Grid -->
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
             <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
@@ -607,7 +603,6 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1" placeholder="Truth / Scar 1"></textarea>
@@ -617,7 +612,6 @@
             <textarea id="truth_5" placeholder="Truth / Scar 5"></textarea>
         </div>
 
-        <!-- Core System Attributes Grid (Hard-Capped at 12) -->
         <div class="section-banner">Attributes</div>
         <div class="attributes-row">
             <div class="attribute-card">
@@ -676,7 +670,6 @@
             </div>
         </div>
 
-        <!-- COMBAT STATUS TRACKERS -->
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
             
@@ -740,7 +733,6 @@
 
         </div>
 
-        <!-- CONDITION PANEL -->
         <div class="dashboard-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -761,10 +753,8 @@
             </div>
         </div>
 
-        <!-- SKILLS MATRIX SYSTEM LAYOUT -->
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
-            <!-- Left Side Column (6 Skills) -->
             <div>
                 <div class="skills-column-header">
                     <span>Skill Name</span>
@@ -851,7 +841,6 @@
                 </div>
             </div>
 
-            <!-- Right Side Column (6 Skills) -->
             <div>
                 <div class="skills-column-header">
                     <span>Skill Name</span>
@@ -936,9 +925,6 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 2: EQUIPMENT & TALENTS (BLANK SLATE)
-    ====================================================== -->
     <div id="tab-equipment" class="tab-panel-content">
         <div class="section-banner">Equipment, Weapons, & Talents</div>
         <div class="blank-slate-wrapper">
@@ -946,9 +932,6 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 3: SPELLS & MYSTICISM (BLANK SLATE)
-    ====================================================== -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="section-banner">Spells & Sorcery</div>
         <div class="blank-slate-wrapper">
@@ -958,7 +941,6 @@
 
 </div>
 
-<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 /* =========================
    STATE FLAGS & TIMERS
