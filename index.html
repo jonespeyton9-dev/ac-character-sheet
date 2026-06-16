@@ -448,23 +448,32 @@
             padding-bottom: 5px;
         }
 
+        /* Side-by-Side Flex Split for Calculator + Resistances Column */
+        .stress-top-panel-wrapper {
+            display: flex;
+            gap: 15px;
+            align-items: stretch;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
         .unified-math-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            gap: 6px;
             background: #fcfcfc;
             border: 1px solid #eee;
-            padding: 12px;
+            padding: 8px 12px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            flex-grow: 1;
         }
 
         .math-box-node {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .math-box-node label {
@@ -477,9 +486,9 @@
 
         .unified-math-row .math-sign {
             font-weight: bold;
-            font-size: 20px;
+            font-size: 16px;
             color: #888;
-            margin-top: 18px;
+            margin-top: 16px;
         }
 
         .math-box-node input[readonly],
@@ -490,13 +499,21 @@
             cursor: not-allowed;
         }
 
+        /* Stacked Vertical Resistances Layout column */
+        .resistances-column-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 190px;
+            justify-content: center;
+        }
+
         .checkbox-matrix-20 {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             gap: 10px;
             justify-items: center;
             padding: 5px 0;
-            margin-bottom: 20px;
         }
 
         .checkbox-matrix-20 input[type="checkbox"] {
@@ -513,35 +530,20 @@
         }
 
         /* Dynamic Section Ticker Row Styles */
-        .ticker-section-title {
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #555;
-            margin: 15px 0 8px 0;
-            border-bottom: 1px dashed #ddd;
-            padding-bottom: 3px;
-        }
-
-        .ticker-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
         .ticker-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: #fafafa;
             border: 1px solid #eaeaea;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
+            box-sizing: border-box;
         }
 
         .ticker-item label {
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             color: #444;
         }
@@ -729,9 +731,6 @@
 
 <div class="charsheet">
 
-    <!-- ====================================================
-       PERSISTENT CONTROL HEADER BLOCK
-    ====================================================== -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -759,9 +758,6 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 1: MAIN CHARACTER PROFILE
-    ====================================================== -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -772,7 +768,6 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -786,42 +781,42 @@
         <div class="attributes-row">
             <div class="attribute-card">
                 <label>Agility</label>
-                <input type="number" id="attr_agility" value="6" min="0" max="12">
+                <input type="number" id="attr_agility" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_agility" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Brawn</label>
-                <input type="number" id="attr_brawn" value="6" min="0" max="12">
+                <input type="number" id="attr_brawn" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_brawn" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Coordination</label>
-                <input type="number" id="attr_coordination" value="6" min="0" max="12">
+                <input type="number" id="attr_coordination" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_coordination" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Insight</label>
-                <input type="number" id="attr_insight" value="6" min="0" max="12">
+                <input type="number" id="attr_insight" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_insight" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Reason</label>
-                <input type="number" id="attr_reason" value="6" min="0" max="12">
+                <input type="number" id="attr_reason" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_reason" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
             <div class="attribute-card">
                 <label>Will</label>
-                <input type="number" id="attr_will" value="6" min="0" max="12">
+                <input type="number" id="attr_will" value="6" min="0" max="15">
                 <div class="cd-bonus-container">
                     <input type="text" id="bonus_will" class="cd-display-input" value="—" readonly disabled>
                 </div>
@@ -831,57 +826,57 @@
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
             
-            <!-- Left Side: Widened Stress and Resistances Block -->
             <div class="dashboard-block">
-                <h3>Stress Tracking</h3>
-                <div class="unified-math-row">
-                    <div class="math-box-node">
-                        <label>Attribute</label>
-                        <input type="number" id="calc_highest_attr" disabled>
+                <h3>Stress Tracking & Resistances</h3>
+                
+                <div class="stress-top-panel-wrapper">
+                    <div class="unified-math-row">
+                        <div class="math-box-node">
+                            <label>Attribute</label>
+                            <input type="number" id="calc_highest_attr" disabled>
+                        </div>
+                        <div class="math-sign">+</div>
+                        <div class="math-box-node">
+                            <label>Resilience</label>
+                            <input type="number" id="input_stress_bonus" readonly>
+                        </div>
+                        <div class="math-sign">-</div>
+                        <div class="math-box-node">
+                            <label>Fatigue</label>
+                            <input type="number" id="input_stress_fatigue" value="0">
+                        </div>
+                        <div class="math-sign">=</div>
+                        <div class="math-box-node">
+                            <label>Total Cap</label>
+                            <input type="number" id="output_stress_max" readonly>
+                        </div>
                     </div>
-                    <div class="math-sign">+</div>
-                    <div class="math-box-node">
-                        <label>Resilience</label>
-                        <input type="number" id="input_stress_bonus" readonly>
-                    </div>
-                    <div class="math-sign">-</div>
-                    <div class="math-box-node">
-                        <label>Fatigue</label>
-                        <input type="number" id="input_stress_fatigue" value="0">
-                    </div>
-                    <div class="math-sign">=</div>
-                    <div class="math-box-node">
-                        <label>Total Cap</label>
-                        <input type="number" id="output_stress_max" readonly>
+
+                    <div class="resistances-column-stack">
+                        <div class="ticker-item">
+                            <label>Courage</label>
+                            <div class="interactive-ticker-wrap">
+                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
+                                <input type="text" id="ticker_courage" class="ticker-val-field" value="—" readonly>
+                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
+                            </div>
+                        </div>
+                        <div class="ticker-item">
+                            <label>Armour</label>
+                            <div class="interactive-ticker-wrap">
+                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
+                                <input type="text" id="ticker_armour" class="ticker-val-field" value="—" readonly>
+                                <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="checkbox-matrix-20" id="stress_checkbox_container">
                     <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
-
-                <div class="ticker-section-title">Resistances</div>
-                <div class="ticker-grid">
-                    <div class="ticker-item">
-                        <label>Courage</label>
-                        <div class="interactive-ticker-wrap">
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
-                            <input type="text" id="ticker_courage" class="ticker-val-field" value="—" readonly>
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
-                        </div>
-                    </div>
-                    <div class="ticker-item">
-                        <label>Armour</label>
-                        <div class="interactive-ticker-wrap">
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
-                            <input type="text" id="ticker_armour" class="ticker-val-field" value="—" readonly>
-                            <div class="ticker-control-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Right Side: Clean Resources Block -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
@@ -905,7 +900,6 @@
             </div>
         </div>
 
-        <!-- Condition Row -->
         <div class="dashboard-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -1066,9 +1060,6 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX
-    ====================================================== -->
     <div id="tab-equipment" class="tab-panel-content">
         
         <div class="section-banner">Equipment of Note</div>
@@ -1128,7 +1119,6 @@
             </div>
         </div>
 
-        <!-- Footnote Split Panel (Biography & Talents) -->
         <div class="footer-split-dashboard" style="margin-top: 15px;">
             <div class="bio-entry-box">
                 <div class="section-banner" style="margin-top:0;">Biography</div>
@@ -1182,9 +1172,6 @@
         </div>
     </div>
 
-    <!-- ====================================================
-       TAB COMPARTMENT 3: SPELLS & MYSTICISM
-    ====================================================== -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="section-banner">Spells & Sorcery</div>
         <div class="blank-slate-wrapper">
@@ -1194,7 +1181,6 @@
 
 </div>
 
-<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
 
@@ -1250,7 +1236,7 @@ function newCharacter() {
 function validateAttrCap(input) {
     let val = parseInt(input.value);
     if (isNaN(val)) val = 0; 
-    if (val > 12) input.value = 12; // Cap threshold constraint remains safely at 12 for base attributes
+    if (val > 15) input.value = 15; // Raised hardcap threshold constraint dynamically to 15
     if (val < 0) input.value = 0;
     updateAllCalculations();
 }
