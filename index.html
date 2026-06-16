@@ -12,105 +12,118 @@
             padding: 20px; 
             border-radius: 8px; 
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1); 
-            width: 1100px !important;  /* Forces the actual container to be wider */
-            margin: 0 auto;            /* Keeps it beautifully centered */
+            width: 1100px !important;  
+            margin: 0 auto;            
             box-sizing: border-box;
         }
 
-        /* Forces the inner Roll20 rows to stretch out and use the new 1100px width */
         .charsheet .sheet-main_char, 
         .charsheet .sheet-equipment, 
         .charsheet section {
             width: 100% !important;
         }
 
-        /* FIX: Pulls the white header text up into the main green banner header */
-        .sheet-main_char > h1, 
-        .sheet-main_char > .sheet-header,
-        .sheet-main_char h1 {
-            color: #ffffff !important;
-            margin-top: -55px !important; /* Pulls it up into the green bar area */
-            position: relative !important;
-            z-index: 10 !important;
-            padding-left: 15px !important;
+        /* CUSTOM TITLE FIX: Centers the text cleanly inside the main header image banner */
+        .my-custom-header {
+            background-color: #4a5d34; /* Matches your green banner color */
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .my-custom-header h1 {
+            color: white !important;
+            margin: 0 !important;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        /* FIX: Selects ONLY the specific top structural rows containing identity boxes */
-        .sheet-main_char > .f-row:nth-of-type(1),
-        .sheet-main_char > .f-row:nth-of-type(2) {
+        /* CUSTOM IDENTITY GRID: Smooth 3-column layout for the top 6 boxes */
+        .my-identity-grid {
             display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important; /* Forces exactly 3 boxes per row */
-            gap: 20px !important;  /* Comfortable spacing between rows and columns */
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
             width: 100% !important;
-            margin-bottom: 20px !important;
-            box-sizing: border-box !important;
+            margin-bottom: 25px !important;
+            box-sizing: border-box;
         }
 
-        /* FIX: Forces Personal Truths & Scars block to use 100% width and behave */
-        .sheet-main_char .truth_text,
-        .sheet-main_char .injuries,
-        .sheet-main_char div:has(.truth_text) {
-            grid-column: span 3 !important;
-            width: 100% !important;
-            display: block !important;
-            clear: both !important;
-        }
-
-        /* FIX: Spreads out those 5 white boxes under Personal Truths across the whole layout width */
-        .sheet-main_char .truth_text .f-row,
-        .sheet-main_char .injuries .f-row {
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            width: 100% !important;
-            gap: 15px !important;
-        }
-
-        .sheet-main_char .truth_text .f-col,
-        .sheet-main_char .injuries .f-col {
-            flex: 1 !important; /* Forces all 5 boxes to share the wide row width equally */
-            width: auto !important;
-        }
-
-        /* FIX: Forces labels inside those top two identity rows to stack vertically over their input boxes */
-        .sheet-main_char > .f-row:nth-of-type(1) .f-col,
-        .sheet-main_char > .f-row:nth-of-type(2) .f-col {
+        .my-identity-grid .f-col {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             width: 100% !important;
-            gap: 0 !important;
-            padding: 0 !important;
+            gap: 6px !important;
             background: transparent !important;
             border: none !important;
+            padding: 0 !important;
         }
 
-        /* FIX: Cleans up the green background banners seen in image_08a71a.png so they don't bleed */
-        .sheet-main_char > .f-row:nth-of-type(1) label,
-        .sheet-main_char > .f-row:nth-of-type(2) label {
+        .my-identity-grid label {
             display: block !important;
             width: 100% !important;
-            text-align: left !important;
-            margin: 0 0 6px 0 !important;
-            padding: 6px 10px !important; /* Adds room inside the green box around text */
+            background: #4a5d34 !important; /* Beautiful crisp green header labels */
+            color: white !important;
+            padding: 8px 12px !important;
+            margin: 0 !important;
             box-sizing: border-box !important;
-            height: auto !important; /* Overrides Roll20's broken fixed heights */
+            border-radius: 4px 4px 0 0;
         }
 
-        /* FIX: Contains text boxes neatly underneath their green headers */
-        .sheet-main_char > .f-row:nth-of-type(1) input[type="text"],
-        .sheet-main_char > .f-row:nth-of-type(2) input[type="text"] {
+        .my-identity-grid input[type="text"] {
             display: block !important;
             width: 100% !important;
             margin: 0 !important;
             box-sizing: border-box !important;
+            padding: 8px !important;
+            border: 1px solid #ccc !important;
+            border-radius: 0 0 4px 4px;
         }
 
-        /* Forces the attributes to align side-by-side neatly with plenty of room */
+        /* CUSTOM TRUTHS ROW: Spreads the 5 text columns evenly side-by-side across the full sheet width */
+        .my-truths-row {
+            width: 100% !important;
+            margin-bottom: 25px !important;
+            clear: both !important;
+        }
+        
+        .my-truths-label {
+            background: #4a5d34 !important;
+            color: white !important;
+            padding: 8px 12px !important;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+            margin-bottom: 8px;
+        }
+
+        .my-truths-container {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            gap: 15px !important;
+            width: 100% !important;
+        }
+
+        .my-truths-container .f-col {
+            flex: 1 !important;
+            display: block !important;
+        }
+
+        .my-truths-container textarea {
+            width: 100% !important;
+            min-height: 60px;
+            box-sizing: border-box;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Attributes and Tracks */
         .attr.f-row.nowrap {
             display: flex !important;
             flex-direction: row !important;
-            flex-wrap: nowrap !important; /* Prevents Will from dropping down */
+            flex-wrap: nowrap !important; 
             gap: 15px;
             width: 100% !important;
         }
@@ -125,45 +138,11 @@
             text-align: center !important;
         }
 
-        .attr .f-col label {
-            text-align: center !important;
-            display: block !important;
-            width: 100% !important;
-        }
-
-        /* Forces number boxes to stay inside their lanes */
-        input[type="number"] {
-            width: 100% !important;
-            max-width: 70px;
-            box-sizing: border-box;
-            padding: 4px;
-            margin: 4px auto !important;
-            display: block;
-            text-align: center;
-        }
-
-        /* FIX: Pulls the math symbols (+, -, =) back up next to the stress inputs */
-        .stress .f1 {
-            display: inline-flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px;
-        }
-
-        .stress .f1 input[type="number"] {
-            display: inline-block !important;
-            margin: 0 !important;
-        }
-
-        /* FIX: Adds spacing around the stress checkbox rows so they don't bleed into languages */
-        .stress_box_row {
-            margin: 10px 0 !important;
-            display: block;
-        }
-
-        input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .truth_text textarea, .injuries textarea { width: 100%; min-height: 50px; margin: 3px; }
+        .attr .f-col label { text-align: center !important; display: block !important; width: 100% !important; }
+        input[type="number"] { width: 100% !important; max-width: 70px; box-sizing: border-box; padding: 4px; margin: 4px auto !important; display: block; text-align: center; }
+        .stress .f1 { display: inline-flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; gap: 6px; }
+        .stress .f1 input[type="number"] { display: inline-block !important; margin: 0 !important; }
+        .stress_box_row { margin: 10px 0 !important; display: block; }
     </style>
 </head>
 <body>
