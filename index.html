@@ -536,3 +536,107 @@
             <div class="skill-row"><span class="skill-name">Athletics</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
             <div class="skill-row"><span class="skill-name">Close Combat</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
             <div class="skill-row"><span class="skill-name">Engineering</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Fighting Weird</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Heavy Weapons</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Insight</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+        <div>
+            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
+            <div class="skill-row"><span class="skill-name">Medicine</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Observation</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Persuasion</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Ranged Combat</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Stealth</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Survival</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Tactics</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Vehicles</span><input type="number" value="0" min="0" max="5"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Internal data tracker for tracking text ticker raw integers
+    const rawCDValues = {
+        bonus_agility: 0,
+        bonus_brawn: 0,
+        bonus_coordination: 0,
+        bonus_insight: 0,
+        bonus_reason: 0,
+        bonus_will: 0
+    };
+
+    // 1. Text Box Suffix Ticker Engine 
+    function adjustCD(fieldId, changeAmount) {
+        // Calculate adjustments inside real integer state track
+        rawCDValues[fieldId] += changeAmount;
+        const currentInt = rawCDValues[fieldId];
+        
+        // Formulate presentation injection syntax
+        const inputElement = document.getElementById(fieldId);
+        if (currentInt > 0) {
+            inputElement.value = "+" + currentInt + "cd";
+        } else if (currentInt < 0) {
+            inputElement.value = currentInt + "cd"; // Automatically keeps negative minus sign
+        } else {
+            inputElement.value = "0";
+        }
+    }
+
+    // 2. Interactive Stress Matrix Dynamic Cap Controller
+    function updateStressCalculations() {
+        const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
+        const willBase = parseInt(document.getElementById('attr_will').value) || 0;
+        const highestBase = Math.max(brawnBase, willBase);
+        
+        const bonus = parseInt(document.getElementById('input_stress_bonus').value) || 0;
+        const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
+
+        document.getElementById('calc_highest_attr').value = highestBase;
+
+        // Equation processing
+        const totalCalculatedCap = highestBase + bonus - fatigue;
+        document.getElementById('output_stress_max').value = totalCalculatedCap;
+
+        // Engage the Gated Checkbox Blocker Row Engine
+        const checkboxContainer = document.getElementById('stress_checkbox_container');
+        const checkBoxes = checkboxContainer.getElementsByTagName('input');
+
+        for (let i = 0; i < checkBoxes.length; i++) {
+            if (i < totalCalculatedCap) {
+                // Keep interactive
+                checkBoxes[i].disabled = false;
+            } else {
+                // Shut down, wipe state clean, ghost out selection access
+                checkBoxes[i].checked = false;
+                checkBoxes[i].disabled = true;
+            }
+        }
+    }
+
+    // 3. Condition Cycle Button Switcher
+    function cycleInjuryState(element) {
+        if (!element.textContent) {
+            element.textContent = "M";
+            element.className = "injury-cycle-box state-M";
+        } else if (element.textContent === "M") {
+            element.textContent = "P";
+            element.className = "injury-cycle-box state-P";
+        } else {
+            element.textContent = "";
+            element.className = "injury-cycle-box";
+        }
+    }
+
+    // Connect structural framework listener updates
+    document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
+    document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_stress_bonus').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_stress_fatigue').addEventListener('input', updateStressCalculations);
+
+    // Initial system load run execution
+    updateStressCalculations();
+</script>
+
+</body>
+</html>
