@@ -73,16 +73,16 @@
             display: block;
         }
         
-        /* FIX: Stacks labels on top of input boxes for the identity fields */
-        .sheet-main_char > .f-row:first-of-type > .f-col {
+        /* FIX: Grabs the top identity blocks and stacks labels vertically over boxes */
+        .sheet-main_char div[class*="f-row"]:not(.truth_text):not(.injuries) > .f-col {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             gap: 4px;
         }
 
-        /* Makes the text fields stretch nicely under their new top-aligned labels */
-        .sheet-main_char > .f-row:first-of-type input[type="text"] {
+        /* Forces the text input boxes in those identity rows to fill their spaces nicely */
+        .sheet-main_char div[class*="f-row"]:not(.truth_text):not(.injuries) input[type="text"] {
             width: 100% !important;
             margin: 0 !important;
         }
