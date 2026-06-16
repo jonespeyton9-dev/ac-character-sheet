@@ -52,6 +52,27 @@
             display: block;
             text-align: center;
         }
+
+        /* FIX: Pulls the math symbols (+, -, =) back up next to the stress inputs */
+        .stress .f1 {
+            display: inline-flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px;
+        }
+
+        .stress .f1 input[type="number"] {
+            display: inline-block !important;
+            margin: 0 !important;
+        }
+
+        /* FIX: Adds spacing around the stress checkbox rows so they don't bleed into languages */
+        .stress_box_row {
+            margin: 10px 0 !important;
+            display: block;
+        }
+
         input[type="text"], textarea { padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         .truth_text textarea, .injuries textarea { width: 100%; min-height: 50px; margin: 3px; }
     </style>
