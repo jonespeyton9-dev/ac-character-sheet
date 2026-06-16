@@ -3,287 +3,396 @@
 <head>
     <meta charset="utf-8">
     <title>Achtung! Cthulhu Character Sheet</title>
-    <link rel="stylesheet" href="Achtung!_Cthulhu_2d20.css">
     <style>
-        body { padding: 20px; background-color: #f4f4f4; font-family: sans-serif; }
+        /* Base Configuration */
+        body { 
+            padding: 20px; 
+            background-color: #f4f4f4; 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            color: #333;
+        }
         
         .charsheet { 
             background: white; 
-            padding: 20px; 
+            padding: 30px; 
             border-radius: 8px; 
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1); 
-            width: 1100px !important;  
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15); 
+            width: 1100px;  
             margin: 0 auto;            
             box-sizing: border-box;
         }
 
-        .charsheet .sheet-main_char, 
-        .charsheet .sheet-equipment, 
-        .charsheet section {
-            width: 100% !important;
-        }
-
-        /* 1. CUSTOM SYSTEM OVERRIDES: Bypasses the broken stylesheet rules */
-        .custom-title-row {
-            width: 100% !important;
-            margin-bottom: 20px !important;
-            display: block !important;
-        }
-
-        /* 2. CUSTOM IDENTITY GRID: Smooth, airtight 3-column dashboard grid */
-        .custom-identity-grid {
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 20px !important;
-            width: 100% !important;
-            margin-bottom: 25px !important;
-            box-sizing: border-box !important;
-        }
-
-        .custom-identity-grid .custom-panel {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            width: 100% !important;
-            gap: 4px !important;
-        }
-
-        /* Enforces top green banners precisely matching image_08a71a.png */
-        .custom-identity-grid .custom-panel label {
-            display: block !important;
-            width: 100% !important;
-            background: #4a5d34 !important; /* Rich military green header background */
-            color: #ffffff !important;
-            padding: 6px 12px !important;
-            margin: 0 !important;
+        /* Reusable Section Headers matching your thematic green style */
+        .section-banner {
+            background-color: #4a5d34; /* Military Olive Green */
+            color: white;
+            padding: 8px 12px;
             font-weight: bold;
-            text-align: left !important;
-            box-sizing: border-box !important;
-            height: auto !important;
+            font-size: 15px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .custom-identity-grid .custom-panel input[type="text"] {
-            display: block !important;
-            width: 100% !important;
-            margin: 0 !important;
-            padding: 8px !important;
-            box-sizing: border-box !important;
-            border: 1px solid #ccc !important;
-            border-radius: 4px !important;
+        /* 1. MAIN TITLE HEADER */
+        .main-header-banner {
+            background-color: #4a5d34; 
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .main-header-banner h1 {
+            margin: 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* 3. CUSTOM TRUTHS LAYOUT: Completely immune to structural collisions */
-        .custom-truths-section {
-            width: 100% !important;
-            margin-bottom: 25px !important;
-            display: block !important;
-            clear: both !important;
+        /* 2. IDENTITY SYSTEM (3 Columns x 2 Rows) */
+        .identity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
         }
-
-        .custom-truths-header {
-            background: #4a5d34 !important;
-            color: #ffffff !important;
-            padding: 6px 12px !important;
+        .field-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .field-box label {
+            background-color: #4a5d34;
+            color: white;
+            padding: 6px 12px;
             font-weight: bold;
-            text-align: left !important;
-            margin-bottom: 8px !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
+            font-size: 13px;
+            border-radius: 4px 4px 0 0;
+            text-transform: uppercase;
+        }
+        .field-box input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+            width: 100%;
+            background-color: #fafafa;
         }
 
-        .custom-truths-row {
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            gap: 15px !important;
-            width: 100% !important;
+        /* 3. PERSONAL TRUTHS GRID */
+        .truths-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
         }
-
-        .custom-truths-row .custom-cell {
-            flex: 1 !important;
-            display: block !important;
-        }
-
-        .custom-truths-row textarea {
-            width: 100% !important;
-            min-height: 55px;
-            box-sizing: border-box !important;
-            padding: 6px !important;
-            border: 1px solid #ccc !important;
-            border-radius: 4px !important;
+        .truths-row textarea {
+            width: 100%;
+            min-height: 65px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
             resize: vertical;
+            background-color: #fafafa;
         }
 
-        /* Core Attributes Framework */
-        .attr.f-row.nowrap {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important; 
+        /* 4. ATTRIBUTES FRAMEWORK */
+        .attributes-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
             gap: 15px;
-            width: 100% !important;
         }
-        
-        .attr .f-col {
-            display: block !important;
-            flex: 1;
+        .attribute-card {
             background: #fdfdfd;
             border: 1px solid #ddd;
-            padding: 8px;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .attribute-card label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 100%;
+            max-width: 70px;
+            padding: 6px;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            text-align: center !important;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 auto;
+            display: block;
         }
 
-        .attr .f-col label { text-align: center !important; display: block !important; width: 100% !important; }
-        input[type="number"] { width: 100% !important; max-width: 70px; box-sizing: border-box; padding: 4px; margin: 4px auto !important; display: block; text-align: center; }
-        .stress .f1 { display: inline-flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important; gap: 6px; }
-        .stress .f1 input[type="number"] { display: inline-block !important; margin: 0 !important; }
-        .stress_box_row { margin: 10px 0 !important; display: block; }
+        /* 5. SKILLS MATRIX DESIGN (2 Columns of 8 Skills each) */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+        .skills-column-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #777;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        .skill-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            align-items: center;
+            padding: 6px 10px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+        .skill-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        .skill-focus-box {
+            display: flex;
+            justify-content: center;
+        }
+        .skill-focus-box input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* 6. INTERACTIVE STRESS ENGINE & TRACKS */
+        .stress-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+        .stress-block {
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .math-engine {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .math-engine span {
+            font-weight: bold;
+            font-size: 18px;
+            color: #777;
+        }
+        .math-engine input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+            border-color: #ced4da;
+            cursor: not-allowed;
+        }
+        .checkbox-lane {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .checkbox-lane input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        /* 7. BOTTOM TEXT AREA ROWS (Injuries & Languages) */
+        .bottom-text-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+        .text-flex-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .text-flex-row textarea {
+            flex: 1;
+            min-height: 60px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4a5d34 !important;
+            background-color: #fff !important;
+        }
     </style>
 </head>
 <body>
 
 <div class="charsheet">
-    <div class="sheet-main_char">
-        
-        <div class="custom-title-row">
-            <h1 class="sheet-header" style="color: #ffffff !important; margin: 0; padding: 10px 0;">Achtung! Cthulhu Character Record Sheet 2d20</h1>
-        </div>
 
-        <div class="custom-identity-grid">
-            <div class="custom-panel">
-                <label>Name</label>
-                <input type="text" name="attr_character_name">
-            </div>
-            <div class="custom-panel">
-                <label>Nationality</label>
-                <input type="text" name="attr_nationality">
-            </div>
-            <div class="custom-panel">
-                <label>Rank</label>
-                <input type="text" name="attr_rank">
-            </div>
-            <div class="custom-panel">
-                <label>Archetype</label>
-                <input type="text" name="attr_archetype">
-            </div>
-            <div class="custom-panel">
-                <label>Background</label>
-                <input type="text" name="attr_background">
-            </div>
-            <div class="custom-panel">
-                <label>Characteristic</label>
-                <input type="text" name="attr_characteristic">
-            </div>
-        </div>
-
-        <div class="custom-truths-section">
-            <div class="custom-truths-header">Personal Truths & Scars</div>
-            <div class="custom-truths-row">
-                <div class="custom-cell"><textarea name="attr_truth_1"></textarea></div>
-                <div class="custom-cell"><textarea name="attr_truth_2"></textarea></div>
-                <div class="custom-cell"><textarea name="attr_truth_3"></textarea></div>
-                <div class="custom-cell"><textarea name="attr_truth_4"></textarea></div>
-                <div class="custom-cell"><textarea name="attr_truth_5"></textarea></div>
-            </div>
-        </div>
-
-        <div class="attr f-row nowrap">
-            <div class="f-col">
-                <label data-i18n="agility">Agility</label>
-                <input type="number" name="attr_agility" id="attr_agility" value="7">
-            </div>
-            <div class="f-col">
-                <label data-i18n="brawn">Brawn</label>
-                <input type="number" name="attr_brawn" id="attr_brawn" value="7">
-            </div>
-            <div class="f-col">
-                <label data-i18n="coordination">Coordination</label>
-                <input type="number" name="attr_coordination" id="attr_coordination" value="7">
-            </div>
-            <div class="f-col">
-                <label data-i18n="insight">Insight</label>
-                <input type="number" name="attr_insight" id="attr_insight" value="7">
-            </div>
-            <div class="f-col">
-                <label data-i18n="reason">Reason</label>
-                <input type="number" name="attr_reason" id="attr_reason" value="7">
-            </div>
-            <div class="f-col">
-                <label data-i18n="will">Will</label>
-                <input type="number" name="attr_will" id="attr_will" value="7">
-            </div>
-        </div>
-
-        <div class="stress f-row">
-            <div class="f-col">
-                <label data-i18n="physical-stress">Physical Stress</label>
-                <div class="f1">
-                    <input type="number" name="attr_brawn_dummy" id="attr_brawn_dummy" disabled value="7">
-                    <span>+</span>
-                    <input type="number" name="attr_max_physical_stress_bonus" id="attr_max_physical_stress_bonus" value="0">
-                    <span>=</span>
-                    <input type="number" name="attr_physical_max" id="attr_physical_max" value="7" readonly style="background:#eee;">
-                </div>
-                <div class="stress_box_row">
-                    <input type="checkbox" name="attr_p_stress_1">
-                    <input type="checkbox" name="attr_p_stress_2">
-                    <input type="checkbox" name="attr_p_stress_3">
-                    <input type="checkbox" name="attr_p_stress_4">
-                    <input type="checkbox" name="attr_p_stress_5">
-                </div>
-            </div>
-            <div class="f-col">
-                <label data-i18n="mental-stress">Mental Stress</label>
-                <div class="f1">
-                    <input type="number" name="attr_will_dummy" id="attr_will_dummy" disabled value="7">
-                    <span>+</span>
-                    <input type="number" name="attr_max_mental_stress_bonus" id="attr_max_mental_stress_bonus" value="0">
-                    <span>=</span>
-                    <input type="number" name="attr_mental_max" id="attr_mental_max" value="7" readonly style="background:#eee;">
-                </div>
-                <div class="stress_box_row">
-                    <input type="checkbox" name="attr_m_stress_1">
-                    <input type="checkbox" name="attr_m_stress_2">
-                    <input type="checkbox" name="attr_m_stress_3">
-                    <input type="checkbox" name="attr_m_stress_4">
-                    <input type="checkbox" name="attr_m_stress_5">
-                </div>
-            </div>
-        </div>
-
-        <div class="f-row injuries">
-            <label data-i18n="languages">Languages</label>
-            <div class="f-row">
-                <div class="f-col"><textarea name="attr_language_1" placeholder="Primary"></textarea></div>
-                <div class="f-col"><textarea name="attr_language_2"></textarea></div>
-                <div class="f-col"><textarea name="attr_language_3"></textarea></div>
-            </div>
-        </div>
-
+    <div class="main-header-banner">
+        <h1>Achtung! Cthulhu Character Record Sheet</h1>
     </div>
+
+    <div class="identity-grid">
+        <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
+        <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
+        <div class="field-box"><label>Rank</label><input type="text" id="char_rank"></div>
+        <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
+        <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
+        <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
+    </div>
+
+    <div class="section-banner">Personal Truths & Scars</div>
+    <div class="truths-row">
+        <textarea placeholder="Truth / Scar 1"></textarea>
+        <textarea placeholder="Truth / Scar 2"></textarea>
+        <textarea placeholder="Truth / Scar 3"></textarea>
+        <textarea placeholder="Truth / Scar 4"></textarea>
+        <textarea placeholder="Truth / Scar 5"></textarea>
+    </div>
+
+    <div class="section-banner">Attributes</div>
+    <div class="attributes-row">
+        <div class="attribute-card"><label>Agility</label><input type="number" id="attr_agility" value="7"></div>
+        <div class="attribute-card"><label>Brawn</label><input type="number" id="attr_brawn" value="7"></div>
+        <div class="attribute-card"><label>Coordination</label><input type="number" id="attr_coordination" value="7"></div>
+        <div class="attribute-card"><label>Insight</label><input type="number" id="attr_insight" value="7"></div>
+        <div class="attribute-card"><label>Reason</label><input type="number" id="attr_reason" value="7"></div>
+        <div class="attribute-card"><label>Will</label><input type="number" id="attr_will" value="7"></div>
+    </div>
+
+    <div class="section-banner">Skills & Focuses</div>
+    <div class="skills-container">
+        <div>
+            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
+            <div class="skill-row"><span class="skill-name">Academia</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Animal Handling</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Athletics</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Close Combat</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Engineering</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Fighting Weird</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Heavy Weapons</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Insight</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+        <div>
+            <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span style="text-align:center;">Focus</span></div>
+            <div class="skill-row"><span class="skill-name">Medicine</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Observation</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Persuasion</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Ranged Combat</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Stealth</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Survival</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Tactics</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+            <div class="skill-row"><span class="skill-name">Vehicles</span><input type="number" value="0"><div class="skill-focus-box"><input type="checkbox"></div></div>
+        </div>
+    </div>
+
+    <div class="section-banner">Stress Tracks</div>
+    <div class="stress-container">
+        <div class="stress-block">
+            <h3 style="margin: 0 0 10px 0; color: #4a5d34; font-size: 15px; text-transform: uppercase;">Physical Stress</h3>
+            <div class="math-engine">
+                <input type="number" id="calc_brawn_base" disabled value="7">
+                <span>+</span>
+                <input type="number" id="input_p_bonus" value="0">
+                <span>=</span>
+                <input type="number" id="output_p_max" value="7" readonly>
+            </div>
+            <div class="checkbox-lane">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+            </div>
+        </div>
+        <div class="stress-block">
+            <h3 style="margin: 0 0 10px 0; color: #4a5d34; font-size: 15px; text-transform: uppercase;">Mental Stress</h3>
+            <div class="math-engine">
+                <input type="number" id="calc_will_base" disabled value="7">
+                <span>+</span>
+                <input type="number" id="input_m_bonus" value="0">
+                <span>=</span>
+                <input type="number" id="output_m_max" value="7" readonly>
+            </div>
+            <div class="checkbox-lane">
+                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-text-grid">
+        <div>
+            <div class="section-banner" style="margin-top:10px;">Injuries / Scars</div>
+            <div class="text-flex-row">
+                <textarea placeholder="Injury 1"></textarea>
+                <textarea placeholder="Injury 2"></textarea>
+            </div>
+        </div>
+        <div>
+            <div class="section-banner" style="margin-top:10px;">Languages</div>
+            <div class="text-flex-row">
+                <textarea placeholder="Primary Language"></textarea>
+                <textarea placeholder="Secondary Language"></textarea>
+                <textarea placeholder="Other Languages"></textarea>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    function calculateStress() {
-        const brawn = parseInt(document.getElementById('attr_agility').value) || 0; 
-        const will = parseInt(document.getElementById('attr_reason').value) || 0; 
+    function updateStressCalculations() {
+        // Read directly from Attribute input card values
+        const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
+        const willBase = parseInt(document.getElementById('attr_will').value) || 0;
         
-        const pBonus = parseInt(document.getElementById('attr_max_physical_stress_bonus').value) || 0;
-        const mBonus = parseInt(document.getElementById('attr_max_mental_stress_bonus').value) || 0;
+        const physicalBonus = parseInt(document.getElementById('input_p_bonus').value) || 0;
+        const mentalBonus = parseInt(document.getElementById('input_m_bonus').value) || 0;
 
-        document.getElementById('attr_brawn_dummy').value = brawn;
-        document.getElementById('attr_will_dummy').value = will;
+        // Populate calculation layout tracks
+        document.getElementById('calc_brawn_base').value = brawnBase;
+        document.getElementById('calc_will_base').value = willBase;
 
-        document.getElementById('attr_physical_max').value = brawn + pBonus;
-        document.getElementById('attr_mental_max').value = will + mBonus;
+        // Perform instant dynamic additions
+        document.getElementById('output_p_max').value = brawnBase + physicalBonus;
+        document.getElementById('output_m_max').value = willBase + mentalBonus;
     }
 
-    document.getElementById('attr_agility').addEventListener('input', calculateStress);
-    document.getElementById('attr_reason').addEventListener('input', calculateStress);
-    document.getElementById('attr_max_physical_stress_bonus').addEventListener('input', calculateStress);
-    document.getElementById('attr_max_mental_stress_bonus').addEventListener('input', calculateStress);
+    // Connect event listener tracking fields
+    document.getElementById('attr_brawn').addEventListener('input', updateStressCalculations);
+    document.getElementById('attr_will').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_p_bonus').addEventListener('input', updateStressCalculations);
+    document.getElementById('input_m_bonus').addEventListener('input', updateStressCalculations);
 
-    calculateStress();
+    // Run layout initializer logic
+    updateStressCalculations();
 </script>
 
 </body>
