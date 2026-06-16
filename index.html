@@ -426,11 +426,11 @@
     <!-- 3. Personal Truths Row -->
     <div class="section-banner">Personal Truths & Scars</div>
     <div class="truths-row">
-        <textarea placeholder="Truth / Scar 1"></textarea>
-        <textarea placeholder="Truth / Scar 2"></textarea>
-        <textarea placeholder="Truth / Scar 3"></textarea>
-        <textarea placeholder="Truth / Scar 4"></textarea>
-        <textarea placeholder="Truth / Scar 5"></textarea>
+        <textarea id="truth_1" placeholder="Truth / Scar 1"></textarea>
+        <textarea id="truth_2" placeholder="Truth / Scar 2"></textarea>
+        <textarea id="truth_3" placeholder="Truth / Scar 3"></textarea>
+        <textarea id="truth_4" placeholder="Truth / Scar 4"></textarea>
+        <textarea id="truth_5" placeholder="Truth / Scar 5"></textarea>
     </div>
 
     <!-- 4. Core System Attributes Grid (Hard-Capped at 12) -->
@@ -521,10 +521,26 @@
             </div>
 
             <div class="checkbox-matrix-20" id="stress_checkbox_container">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-                <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
+    <input type="checkbox" id="stress_1">
+    <input type="checkbox" id="stress_2">
+    <input type="checkbox" id="stress_3">
+    <input type="checkbox" id="stress_4">
+    <input type="checkbox" id="stress_5">
+    <input type="checkbox" id="stress_6">
+    <input type="checkbox" id="stress_7">
+    <input type="checkbox" id="stress_8">
+    <input type="checkbox" id="stress_9">
+    <input type="checkbox" id="stress_10">
+    <input type="checkbox" id="stress_11">
+    <input type="checkbox" id="stress_12">
+    <input type="checkbox" id="stress_13">
+    <input type="checkbox" id="stress_14">
+    <input type="checkbox" id="stress_15">
+    <input type="checkbox" id="stress_16">
+    <input type="checkbox" id="stress_17">
+    <input type="checkbox" id="stress_18">
+    <input type="checkbox" id="stress_19">
+    <input type="checkbox" id="stress_20">
             </div>
         </div>
 
@@ -554,9 +570,9 @@
         <div>
             <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Languages</div>
             <div class="languages-row">
-                <textarea placeholder="Primary Language"></textarea>
-                <textarea placeholder="Secondary Language"></textarea>
-                <textarea placeholder="Other Languages"></textarea>
+                <textarea id="language_primary" placeholder="Primary Language"></textarea>
+                <textarea id="language_secondary" placeholder="Secondary Language"></textarea>
+                <textarea id="language_other" placeholder="Other Languages"></textarea>
             </div>
         </div>
     </div>
@@ -576,7 +592,7 @@
             <!-- Academia -->
             <div class="skill-row">
                 <span class="skill-name">Academia</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_academia" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
@@ -591,7 +607,7 @@
             <!-- Athletics -->
             <div class="skill-row">
                 <span class="skill-name">Athletics</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_athletics" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
@@ -605,7 +621,7 @@
             <!-- Engineering -->
             <div class="skill-row">
                 <span class="skill-name">Engineering</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_engineering" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
@@ -618,7 +634,7 @@
             <!-- Fighting -->
             <div class="skill-row">
                 <span class="skill-name">Fighting</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_fighting" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
@@ -634,7 +650,7 @@
             <!-- Medicine -->
             <div class="skill-row">
                 <span class="skill-name">Medicine</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_medicine" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
@@ -648,7 +664,7 @@
             <!-- Observation -->
             <div class="skill-row">
                 <span class="skill-name">Observation</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_observation" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
@@ -669,7 +685,7 @@
             <!-- Persuasion -->
             <div class="skill-row">
                 <span class="skill-name">Persuasion</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_persuasion" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
@@ -684,7 +700,7 @@
             <!-- Resilience -->
             <div class="skill-row">
                 <span class="skill-name">Resilience</span>
-                <input type="number" id="skill_resilience" min="0" max="5" value="0" oninput="updateStressCalculations()">
+                <input type="number" id="skill_resilience" value="0" min="0" max="5" oninput="updateStressCalculations()">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
@@ -695,7 +711,7 @@
             <!-- Stealth -->
             <div class="skill-row">
                 <span class="skill-name">Stealth</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_stealth" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
@@ -707,7 +723,7 @@
             <!-- Survival -->
             <div class="skill-row">
                 <span class="skill-name">Survival</span>
-                <input type="number" min="0" max="5" value="0">
+               <input type="number" id="skill_survival" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
@@ -721,7 +737,7 @@
             <!-- Tactics -->
             <div class="skill-row">
                 <span class="skill-name">Tactics</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_tactics" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
@@ -735,7 +751,7 @@
             <!-- Vehicles -->
             <div class="skill-row">
                 <span class="skill-name">Vehicles</span>
-                <input type="number" min="0" max="5" value="0">
+                <input type="number" id="skill_vehicles" value="0" min="0" max="5">
                 <div class="focus-links-div">
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
                     <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
