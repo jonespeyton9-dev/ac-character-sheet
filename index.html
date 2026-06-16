@@ -96,7 +96,7 @@
             flex-direction: column;
             align-items: flex-end; 
             padding-bottom: 12px; 
-                }
+        }
 
         .save-load-bar {
             display: flex;
@@ -422,10 +422,19 @@
             box-sizing: border-box;
         }
 
-        /* Rebalanced Combat Tracker Grid: Shuffled space allocations to widen Stress Tracker and narrow Resources */
+        /* Combat Tracker Grid: Specific asymmetric split to narrow resources */
         .dashboard-layout-grid {
             display: grid;
             grid-template-columns: 1fr 240px;
+            gap: 25px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* NEW Independent Conditions & Languages Grid Layout Split */
+        .condition-layout-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr; /* Gives slightly more focus space to injuries text, but leaves plenty for language fields */
             gap: 25px;
             width: 100%;
             box-sizing: border-box;
@@ -753,6 +762,9 @@
 
 <div class="charsheet">
 
+    <!-- ====================================================
+       PERSISTENT CONTROL HEADER BLOCK
+    ====================================================== -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -780,6 +792,9 @@
         </div>
     </div>
 
+    <!-- ====================================================
+       TAB COMPARTMENT 1: MAIN CHARACTER PROFILE
+    ====================================================== -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -790,6 +805,7 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
+        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -848,10 +864,12 @@
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
             
+            <!-- Left Side: Expanded Stress Tracker Block -->
             <div class="dashboard-block">
                 <h3>Stress Tracking & Resistances</h3>
                 
                 <div class="stress-top-panel-wrapper">
+                    <!-- Stress Math Calculator Row -->
                     <div class="unified-math-row">
                         <div class="math-box-node">
                             <label>Attribute</label>
@@ -874,6 +892,7 @@
                         </div>
                     </div>
 
+                    <!-- Auxiliary Column: Clean, scaled down smaller tickers for Courage & Armour -->
                     <div class="resistances-column-stack">
                         <div class="ticker-item" style="padding: 4px 8px;">
                             <label style="font-size: 11px;">Courage</label>
@@ -894,11 +913,13 @@
                     </div>
                 </div>
 
+                <!-- Checkbox Grid underneath -->
                 <div class="checkbox-matrix-20" id="stress_checkbox_container">
                     <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
             </div>
 
+            <!-- Right Side: Thinned Resources Box with height-expanded items -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
@@ -922,7 +943,8 @@
             </div>
         </div>
 
-        <div class="dashboard-layout-grid" style="margin-top: 15px;">
+        <!-- Independent Condition Row: Swapped out dashboard-layout-grid for condition-layout-grid -->
+        <div class="condition-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
                 <div class="injuries-container">
@@ -1082,6 +1104,9 @@
         </div>
     </div>
 
+    <!-- ====================================================
+       TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX
+    ====================================================== -->
     <div id="tab-equipment" class="tab-panel-content">
         
         <div class="section-banner">Equipment of Note</div>
@@ -1141,6 +1166,7 @@
             </div>
         </div>
 
+        <!-- Footnote Split Panel (Biography & Talents) -->
         <div class="footer-split-dashboard" style="margin-top: 15px;">
             <div class="bio-entry-box">
                 <div class="section-banner" style="margin-top:0;">Biography</div>
@@ -1194,6 +1220,9 @@
         </div>
     </div>
 
+    <!-- ====================================================
+       TAB COMPARTMENT 3: SPELLS & MYSTICISM
+    ====================================================== -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="section-banner">Spells & Sorcery</div>
         <div class="blank-slate-wrapper">
@@ -1203,6 +1232,7 @@
 
 </div>
 
+<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
 
