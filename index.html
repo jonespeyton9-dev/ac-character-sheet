@@ -107,10 +107,14 @@
     font-size: 10px;
     color: #777;
     opacity: 0.85;
-    text-align: left;     /* <-- this is what aligns both lines */
-    line-height: 1.2;
+
+    text-align: left;
+
     margin-top: 4px;
-    max-width: 260px;     /* keeps it visually tied to button group */
+    margin-left: auto;   /* pushes it to align under right-side button cluster */
+    max-width: 260px;
+
+    line-height: 1.2;
 }
 
         /* IDENTITY SYSTEM */
@@ -498,27 +502,25 @@
 <div class="save-area">
 
     <div class="save-load-bar">
-        <span class="save-status">Changes saved</span>
+    <button onclick="saveCharacter()">Save Character</button>
 
-        <button onclick="saveCharacter()">Save Character</button>
+    <label for="loadFile" class="load-button">
+        Load Character
+    </label>
 
-        <label for="loadFile" class="load-button">
-            Load Character
-        </label>
+    <input
+        type="file"
+        id="loadFile"
+        accept=".json"
+        onchange="loadCharacter(event)"
+        style="display:none;"
+    >
+</div>
 
-        <input
-            type="file"
-            id="loadFile"
-            accept=".json"
-            onchange="loadCharacter(event)"
-            style="display:none;"
-        >
-    </div>
-
-    <div class="save-warning-text">
-        ⚠ Changes are saved in local browser storage.<br>
-        Character export recommended at end of session.
-    </div>
+<div class="save-warning-text">
+    ⚠ Changes are saved in local browser storage.<br>
+    Character export recommended at end of session.
+</div>
 
 </div>
 
