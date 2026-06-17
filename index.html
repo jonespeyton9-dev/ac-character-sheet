@@ -2128,13 +2128,9 @@ updateAllCalculations();
 </script>
 
     <script type="module">
-  // 1. Import the core Firebase App SDK
+  // 1. Import Firebase Core and Services
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-  
-  // 2. Import the Cloud Firestore Database SDK
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-
-  // 3. NEW: Import the Firebase Authentication SDK tools
+  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
   import { 
     getAuth, 
     createUserWithEmailAndPassword, 
@@ -2143,7 +2139,7 @@ updateAllCalculations();
     onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-  // Your web app's Firebase configuration
+  // 2. Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
     authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
@@ -2153,16 +2149,233 @@ updateAllCalculations();
     appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
   };
 
-  // Initialize Firebase App
+  // 3. Initialize App and Services
   const app = initializeApp(firebaseConfig);
-  
-  // Initialize Cloud Firestore Database
   const db = getFirestore(app);
-
-  // 4. NEW: Initialize Firebase Authentication and get a reference to the service
   const auth = getAuth(app);
 
-  console.log("Milestone 1 complete: Firebase Auth & Firestore successfully initialized!");
+  // 4. Track Active State Variables
+  let currentUser = null;
+  let activeSlotId = "slot_1"; // Default starting character slot
+  let isDownloadingData = false; // Prevents autosave loops while pulling data down
+
+  // 5. DOM Elements (The UI Controls)
+  const loggedOutZone = document.getElementById("auth-logged-out-zone");
+  const loggedInZone = document.getElementById("auth-logged-in-zone");
+  const emailInput = document.getElementById("auth-email");
+  const passwordInput = document.getElementById("auth-password");
+  const userDisplayEmail = document.getElementById("user-display-email");
+  const characterSelect = document.getElementById("character-select");
+  
+  const btnLogin = document.getElementById("btn-login");
+  const btnRegister = document.getElementById("btn-register");
+  const btnLogout = document.getElementById("btn-logout");
+  const btnNewCharacter = document.getElementById("btn-new-character");
+  const btnDeleteCharacter = document.getElementById("btn-delete-character");
+
+  // ==========================================
+  //  PHASE A: AUTHENTICATION (LOG IN / REGISTER)
+  // ==========================================
+
+  // Register New Account
+  btnRegister.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Account created successfully!");
+    } catch (error) {
+      alert("Registration Error: " + error.message);
+    }
+  });
+
+  // Log In Existing Account
+  btnLogin.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      alert("Login Error: " + error.message);
+    }
+  });
+
+  // Log Out
+  btnLogout.addEventListener("click", () => {
+    signOut(auth).then(() => {
+      // Clear data on log out
+      localStorage.removeItem("achtung_cthulhu_save");
+      location.reload(); 
+    });
+  });
+
+  // ==========================================
+  //  PHASE B: MANAGING THE ACCOUNT STATE
+  // ==========================================
+
+  // Listen for login/logout actions automatically
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      userDisplayEmail.textContent = `Logged in as: ${user.email}`;
+      
+      // Swap UI layout states smoothly
+      loggedOutZone.style.display = "none";
+      loggedInZone.style.display = "flex";
+      
+      // Load their collection of saved character slots
+      await loadCharacterList();
+    } else {
+      currentUser = null;
+      loggedOutZone.style.display = "flex";
+      loggedInZone.style.display = "none";
+    }
+  });
+
+  // ==========================================
+  //  PHASE C: LOADING & SAVING CHARACTERS
+  // ==========================================
+
+  // Fetch the list of character slots from the cloud
+  async function loadCharacterList() {
+    if (!currentUser) return;
+    
+    // Clear out old dropdown entries
+    characterSelect.innerHTML = "";
+    
+    try {
+      const slotsRef = collection(db, "users", currentUser.uid, "characters");
+      const querySnapshot = await getDocs(slotsRef);
+      
+      // If they have no saved characters yet, create a fresh default one
+      if (querySnapshot.empty) {
+        activeSlotId = "slot_1";
+        await saveCharacterToCloud();
+        const option = new Option("Slot 1 (New Character)", "slot_1");
+        characterSelect.add(option);
+        return;
+      }
+      
+      // Populate dropdown with existing sheets found in their folder
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        // Use character name field if it exists, otherwise default to slot ID
+        const displayName = data.character_name || data.name || `Saved Sheet (${docSnap.id})`;
+        const option = new Option(displayName, docSnap.id);
+        characterSelect.add(option);
+      });
+      
+      // Auto-load the first character sheet in their dropdown list
+      activeSlotId = characterSelect.value;
+      await loadCharacterFromCloud();
+      
+    } catch (error) {
+      console.error("Error generating character list: ", error);
+    }
+  }
+
+  // Load selected sheet data down into the HTML fields
+  async function loadCharacterFromCloud() {
+    if (!currentUser || !activeSlotId) return;
+    
+    isDownloadingData = true; // Block autosave while fields overwrite
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const characterData = docSnap.data();
+        
+        // Use your original function to populate the HTML elements
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(characterData);
+          // Also back it up locally just in case
+          localStorage.setItem("achtung_cthulhu_save", JSON.stringify(characterData));
+        }
+      }
+    } catch (error) {
+      console.error("Error loading cloud data: ", error);
+    } finally {
+      isDownloadingData = false; // Unblock autosave
+    }
+  }
+
+  // Push current stats up to active cloud slot
+  async function saveCharacterToCloud() {
+    if (!currentUser || !activeSlotId || isDownloadingData) return;
+    
+    // Read the current local state compiled by your app
+    const localDataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!localDataString) return;
+    
+    const characterData = JSON.parse(localDataString);
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await setDoc(docRef, characterData, { merge: true });
+      console.log(`Cloud Auto-Synced: ${activeSlotId}`);
+    } catch (error) {
+      console.error("Cloud Save Failure: ", error);
+    }
+  }
+
+  // Swap characters via Dropdown Select
+  characterSelect.addEventListener("change", async (e) => {
+    activeSlotId = e.target.value;
+    await loadCharacterFromCloud();
+  });
+
+  // Create a brand new fresh slot
+  btnNewCharacter.addEventListener("click", async () => {
+    const newSlotId = "slot_" + Date.now(); // Generate unique timestamp ID
+    activeSlotId = newSlotId;
+    
+    // Clear all fields on screen by injecting a blank object template
+    if (typeof applyCharacterData === "function") {
+      applyCharacterData({}); 
+    }
+    
+    // Instantly initialize this slot in the cloud
+    await saveCharacterToCloud();
+    await loadCharacterList();
+    characterSelect.value = newSlotId;
+  });
+
+  // Delete current slot
+  btnDeleteCharacter.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await deleteDoc(docRef);
+      alert("Slot deleted.");
+      await loadCharacterList();
+    } catch (error) {
+      alert("Deletion Error: " + error.message);
+    }
+  });
+
+  // ==========================================
+  //  PHASE D: OVERRIDE AUTOSAVE LOOP TO CLOUD
+  // ==========================================
+  
+  // Intercept your original app's autosave calls and forward them to Firebase!
+  if (typeof queueAutosave === "function") {
+    const originalQueueAutosave = queueAutosave;
+    
+    queueAutosave = function() {
+      // 1. Run your original storage save first
+      originalQueueAutosave();
+      
+      // 2. Stream the update right into your Firebase database document
+      saveCharacterToCloud();
+    };
+  }
 </script>
 
   </body>
