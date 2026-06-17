@@ -1053,7 +1053,7 @@
 
 </div>
 
-<div class="charsheet" id="main-character-sheet" style="display: none;">
+<div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 20px;">
 
     <div class="persistent-header-block">
         <div class="main-header-banner">
@@ -1067,18 +1067,6 @@
                 <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-notes', this)">Notes</button>
             </div>
-
-            <div class="save-area">
-                <div class="save-load-bar">
-                    <button class="reset-btn" onclick="newCharacter()">New Character</button>
-                    <button onclick="saveCharacter()">Save Character</button>
-                    <label for="loadFile" class="load-button">Load Character</label>
-                    <input type="file" id="loadFile" accept=".json" onchange="loadCharacter(event)" style="display:none;">
-                </div>
-                <div class="save-warning-text">
-                    ⚠ Changes are saved in local browser storage.<br>
-                    Character export recommended at end of session.
-                </div>
             </div>
         </div>
     </div>
@@ -2305,13 +2293,26 @@ updateAllCalculations();
 
   // + New Sheet Routine
   btnNewCharacter.addEventListener("click", async () => {
+    if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
+
     const newSlotId = "slot_" + Date.now();
     activeSlotId = newSlotId;
     
-    if (typeof applyCharacterData === "function") {
-      applyCharacterData({}); 
+    // 1. Manually reset all interactive input types on the page to default/blank
+    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
+      input.value = "";
+    });
+    
+    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+      checkbox.checked = false;
+    });
+
+    // 2. Call your original layout calculations to reset dynamic stress tracks/caps back to zero
+    if (typeof updateAllCalculations === "function") {
+      updateAllCalculations();
     }
     
+    // 3. Clear the background memory cache and initialize the fresh slate in Firestore
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     await saveCharacterToCloud();
     await loadCharacterList();
