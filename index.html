@@ -2097,5 +2097,32 @@ updateAllCalculations();
 })();
 </script>
 
-</body>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
+        authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
+        projectId: "achtung-cthulhu-sheet",
+        storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
+        messagingSenderId: "657673754871",
+        appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      try {
+        await setDoc(doc(db, "test_collection", "test_doc"), {
+          message: "Cthulhu has awakened in the cloud!",
+          timestamp: new Date()
+        });
+        console.log("Firebase connection successful! Data written to Firestore.");
+      } catch (error) {
+        console.error("Error connecting to Firebase: ", error);
+      }
+    </script>
+
+  </body>
 </html>
