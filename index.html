@@ -2098,31 +2098,42 @@ updateAllCalculations();
 </script>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-      import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  // 1. Import the core Firebase App SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  
+  // 2. Import the Cloud Firestore Database SDK
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
-        authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
-        projectId: "achtung-cthulhu-sheet",
-        storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
-        messagingSenderId: "657673754871",
-        appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
-      };
+  // 3. NEW: Import the Firebase Authentication SDK tools
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
+    authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
+    projectId: "achtung-cthulhu-sheet",
+    storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
+    messagingSenderId: "657673754871",
+    appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
+  };
 
-      try {
-        await setDoc(doc(db, "test_collection", "test_doc"), {
-          message: "Cthulhu has awakened in the cloud!",
-          timestamp: new Date()
-        });
-        console.log("Firebase connection successful! Data written to Firestore.");
-      } catch (error) {
-        console.error("Error connecting to Firebase: ", error);
-      }
-    </script>
+  // Initialize Firebase App
+  const app = initializeApp(firebaseConfig);
+  
+  // Initialize Cloud Firestore Database
+  const db = getFirestore(app);
+
+  // 4. NEW: Initialize Firebase Authentication and get a reference to the service
+  const auth = getAuth(app);
+
+  console.log("Milestone 1 complete: Firebase Auth & Firestore successfully initialized!");
+</script>
 
   </body>
 </html>
