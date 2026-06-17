@@ -1610,7 +1610,7 @@ function queueAutosave() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
         localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
-    }, 1000);
+    }, 450);
 }
 
 function newCharacter() {
