@@ -2357,7 +2357,13 @@ updateAllCalculations();
         row.removeAttribute('data-saved-height');
       });
 
-      // 8. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+      // 8. Switch back to the main tab
+      const mainTabBtn = document.querySelector(".tab-btn");
+      if (mainTabBtn && typeof switchSheetTab === "function") {
+        switchSheetTab('tab-main', mainTabBtn);
+      }
+
+      // 9. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
       if (typeof updateAllCalculations === "function") {
         updateAllCalculations();
       }
