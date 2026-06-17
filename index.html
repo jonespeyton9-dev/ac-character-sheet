@@ -1039,7 +1039,7 @@
       <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
       <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
         </select>
-      <button id="btn-new-character" style="padding: 6px 12px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ Add New</button>
+      <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
       
       <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
       <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
@@ -2290,22 +2290,43 @@ updateAllCalculations();
   btnNewCharacter.addEventListener("click", async () => {
     if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
-    // 1. Set a completely empty data object into local storage memory
+    // 1. Generate a fresh timestamp ID for this new cloud slot
+    const newSlotId = "slot_" + Date.now();
+    
+    // 2. Clear out local memory cache completely
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     
-    // 2. Generate a fresh timestamp ID for this new cloud slot
-    const newSlotId = "slot_" + Date.now();
-    activeSlotId = newSlotId;
-    
+    // 3. FORCE all onscreen input nodes to empty defaults immediately before reloading
+    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
+      input.value = "";
+    });
+    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+      checkbox.checked = false;
+    });
+
     try {
-      // 3. Force initialize this blank slot directly in your Firestore database
-      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      // 4. Create a clean base record directly in your Firestore database document
+      const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
       await setDoc(docRef, { char_name: "" }, { merge: false });
       
-      // 4. Force a clean window reload. When it reboots, it will naturally see the new empty slot and load a pristine blank sheet!
-      location.reload();
+      // 5. Explicitly redirect our app's active tracking pointer to the new slot ID!
+      activeSlotId = newSlotId;
+      
+      // 6. Refresh the cloud list cache so the selector reflects the update
+      await loadCharacterList();
+      
+      // 7. Explicitly force the select element dropdown box to pick our new slot row
+      characterSelect.value = newSlotId;
+      
+      // 8. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+      if (typeof updateAllCalculations === "function") {
+        updateAllCalculations();
+      }
+      
+      alert("New character sheet successfully created and selected!");
     } catch (error) {
       console.error("Failed to initialize new cloud sheet: ", error);
+      alert("Error creating sheet: " + error.message);
     }
   });
 
