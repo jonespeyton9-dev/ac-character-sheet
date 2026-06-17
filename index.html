@@ -165,7 +165,8 @@
             box-sizing: border-box;
         }
 
-        /* Split Flex Header for Spells Tab */
+        /* Header Ticker Container Configurations */
+        .weapons-header-container,
         .spells-header-container {
             display: flex;
             justify-content: space-between;
@@ -179,6 +180,7 @@
             box-sizing: border-box;
         }
 
+        .weapons-header-title,
         .spells-header-title {
             font-weight: bold;
             font-size: 15px;
@@ -186,7 +188,7 @@
             letter-spacing: 0.5px;
         }
 
-        .spells-power-ticker-wrap {
+        .header-ticker-wrap {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -196,7 +198,7 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
-        .spells-power-ticker-wrap label {
+        .header-ticker-wrap label {
             font-weight: bold;
             font-size: 12px;
             text-transform: uppercase;
@@ -234,7 +236,7 @@
             background-color: #fafafa;
         }
 
-        /* EQUIPMENT & TALENTS TAB TYPOGRAPHY GRID SYSTEMS */
+        /* EQUIPMENT & TALENTS TAB GRID SYSTEMS */
         .equipment-note-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -243,14 +245,19 @@
             box-sizing: border-box;
         }
 
-        .equipment-note-grid input[type="text"] {
+        .equipment-textarea {
             width: 100%;
-            padding: 10px;
+            height: 60px;
+            padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
             box-sizing: border-box;
             background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
         }
 
         /* Proportional Weapon Grid Construction Layout */
@@ -265,7 +272,7 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
             gap: 8px;
-            align-items: center;
+            align-items: stretch;
         }
 
         .weapons-grid-header {
@@ -277,6 +284,7 @@
             padding-bottom: 6px;
             margin-bottom: 10px;
             padding-left: 5px;
+            align-items: center;
         }
 
         .weapons-grid-row {
@@ -290,7 +298,7 @@
         /* Scrollable, wrapping textareas to replace raw text fields in grid structures */
         .grid-textarea {
             width: 100%;
-            height: 38px;
+            height: 48px; /* Slightly heightened constraint to manage wrapping bounds gracefully */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -304,7 +312,7 @@
         }
 
         /* ====================================================
-           DYNAMIC SPELLS GRID ARCHITECTURE
+           DYNAMIC SPELLS GRID ARCHITECTURE WITH UNISON RESIZE
         ====================================================== */
         .spells-grid-table {
             display: flex;
@@ -315,10 +323,8 @@
 
         .spells-grid-header, .spells-grid-row {
             display: grid;
-            /* Proportional distribution layout: Name, Effect, Momentum = 2fr. Skill, Difficulty, Cost, Duration = 1fr */
             grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr 2fr;
             gap: 8px;
-            align-items: center;
         }
 
         .spells-grid-header {
@@ -330,6 +336,7 @@
             padding-bottom: 6px;
             margin-bottom: 10px;
             padding-left: 5px;
+            align-items: center;
         }
 
         .spells-grid-row {
@@ -338,11 +345,14 @@
             border-radius: 4px;
             padding: 8px;
             margin-bottom: 8px;
+            align-items: stretch;
         }
 
+        /* CSS Grid optimization forces all textareas within the same row to match whatever row height is dragged */
         .spell-textarea {
             width: 100%;
-            height: 96px; /* Doubled height constraint to offer comfortable layout parsing */
+            min-height: 96px; 
+            height: 96px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -350,7 +360,7 @@
             font-size: 13px;
             font-family: Arial, sans-serif;
             background-color: #fafafa;
-            resize: none;
+            resize: vertical; /* Explicitly grants individual vertical drag indicators */
             overflow-y: auto;
             line-height: 1.3;
         }
@@ -835,6 +845,73 @@
             font-weight: bold;
         }
 
+        /* ====================================================
+           INTEGRATED RICH TEXT WORD PAD DESIGNATION (NOTES)
+        ====================================================== */
+        .notes-tab-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .editor-command-bar {
+            display: flex;
+            gap: 6px;
+            background: #eee;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 12px;
+        }
+
+        .editor-btn {
+            background: #fff;
+            border: 1px solid #bbb;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .editor-btn:hover {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .wordpad-core-container {
+            width: 100%;
+            min-height: 450px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .wordpad-core-container:focus {
+            outline: none;
+            border-color: #4a5d34;
+        }
+
+        .wordpad-core-container p {
+            margin: 0 0 10px 0;
+        }
+
+        .wordpad-core-container ul {
+            margin: 0 0 10px 20px;
+            padding: 0;
+        }
+
         input:focus, textarea:focus {
             outline: none;
             border-color: #4a5d34 !important;
@@ -857,6 +934,7 @@
                 <button class="tab-btn active" onclick="switchSheetTab('tab-main', this)">Main</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-notes', this)">Notes</button>
             </div>
 
             <div class="save-area">
@@ -1184,10 +1262,32 @@
     <div id="tab-equipment" class="tab-panel-content">
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
-            <input type="text" id="eq_note_1"><input type="text" id="eq_note_2"><input type="text" id="eq_note_3"><input type="text" id="eq_note_4"><input type="text" id="eq_note_5"><input type="text" id="eq_note_6"><input type="text" id="eq_note_7"><input type="text" id="eq_note_8"><input type="text" id="eq_note_9"><input type="text" id="eq_note_10"><input type="text" id="eq_note_11"><input type="text" id="eq_note_12">
+            <textarea id="eq_note_1" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_2" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_3" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_4" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_5" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_6" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_7" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_8" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_9" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_10" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_11" class="equipment-textarea"></textarea>
+            <textarea id="eq_note_12" class="equipment-textarea"></textarea>
         </div>
 
-        <div class="section-banner">Weapons & Armaments</div>
+        <div class="weapons-header-container">
+            <div class="weapons-header-title">Weapons & Armaments</div>
+            <div class="header-ticker-wrap">
+                <label>Ammo</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', -1)">-</div>
+                    <input type="text" id="ticker_ammo" class="ticker-val-field" style="width: 45px;" value="0" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
         <div class="weapons-grid-table">
             <div class="weapons-grid-header">
                 <span>Name</span><span>Focus</span><span>Range</span><span>Damage</span><span>Salvo</span><span>Size</span><span>Qualities</span>
@@ -1240,7 +1340,7 @@
     <div id="tab-spells" class="tab-panel-content">
         <div class="spells-header-container">
             <div class="spells-header-title">Spells & Sorcery</div>
-            <div class="spells-power-ticker-wrap">
+            <div class="header-ticker-wrap">
                 <label>Power</label>
                 <div class="interactive-ticker-wrap">
                     <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', -1)">-</div>
@@ -1254,38 +1354,48 @@
             <div class="spells-grid-header">
                 <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
             </div>
-            <!-- Spell Row 1 -->
+            <!-- Spell Rows (1-8) -->
             <div class="spells-grid-row">
                 <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 2 -->
             <div class="spells-grid-row">
                 <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 3 -->
             <div class="spells-grid-row">
                 <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 4 -->
             <div class="spells-grid-row">
                 <textarea id="spell_4_name" class="spell-textarea"></textarea><textarea id="spell_4_skill" class="spell-textarea"></textarea><textarea id="spell_4_diff" class="spell-textarea"></textarea><textarea id="spell_4_cost" class="spell-textarea"></textarea><textarea id="spell_4_duration" class="spell-textarea"></textarea><textarea id="spell_4_effect" class="spell-textarea"></textarea><textarea id="spell_4_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 5 -->
             <div class="spells-grid-row">
                 <textarea id="spell_5_name" class="spell-textarea"></textarea><textarea id="spell_5_skill" class="spell-textarea"></textarea><textarea id="spell_5_diff" class="spell-textarea"></textarea><textarea id="spell_5_cost" class="spell-textarea"></textarea><textarea id="spell_5_duration" class="spell-textarea"></textarea><textarea id="spell_5_effect" class="spell-textarea"></textarea><textarea id="spell_5_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 6 -->
             <div class="spells-grid-row">
                 <textarea id="spell_6_name" class="spell-textarea"></textarea><textarea id="spell_6_skill" class="spell-textarea"></textarea><textarea id="spell_6_diff" class="spell-textarea"></textarea><textarea id="spell_6_cost" class="spell-textarea"></textarea><textarea id="spell_6_duration" class="spell-textarea"></textarea><textarea id="spell_6_effect" class="spell-textarea"></textarea><textarea id="spell_6_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 7 -->
             <div class="spells-grid-row">
                 <textarea id="spell_7_name" class="spell-textarea"></textarea><textarea id="spell_7_skill" class="spell-textarea"></textarea><textarea id="spell_7_diff" class="spell-textarea"></textarea><textarea id="spell_7_cost" class="spell-textarea"></textarea><textarea id="spell_7_duration" class="spell-textarea"></textarea><textarea id="spell_7_effect" class="spell-textarea"></textarea><textarea id="spell_7_momentum" class="spell-textarea"></textarea>
             </div>
-            <!-- Spell Row 8 -->
             <div class="spells-grid-row">
                 <textarea id="spell_8_name" class="spell-textarea"></textarea><textarea id="spell_8_skill" class="spell-textarea"></textarea><textarea id="spell_8_diff" class="spell-textarea"></textarea><textarea id="spell_8_cost" class="spell-textarea"></textarea><textarea id="spell_8_duration" class="spell-textarea"></textarea><textarea id="spell_8_effect" class="spell-textarea"></textarea><textarea id="spell_8_momentum" class="spell-textarea"></textarea>
             </div>
+        </div>
+    </div>
+
+    <!-- TAB COMPARTMENT 4: INTEGRATED SESSION LOGS & NOTES -->
+    <div id="tab-notes" class="tab-panel-content">
+        <div class="section-banner" style="margin-top: 25px;">Session Notes Journal</div>
+        <div class="notes-tab-wrapper">
+            <!-- Content Formatting Tool Controls -->
+            <div class="editor-command-bar">
+                <button type="button" class="editor-btn" onclick="execEditorCommand('bold')"><b>B</b></button>
+                <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
+                <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
+                <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
+                <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
+            </div>
+            <!-- Interactive Workspace Body Block -->
+            <div id="session_journal_box" class="wordpad-core-container" contenteditable="true" oninput="queueAutosave()"></div>
         </div>
     </div>
 
@@ -1294,13 +1404,20 @@
 <!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
-let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0 };
+let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     buttonElement.classList.add('active');
+}
+
+// Inline Wordpad Execution Core
+function execEditorCommand(cmd) {
+    document.execCommand(cmd, false, null);
+    document.getElementById('session_journal_box').focus();
+    queueAutosave();
 }
 
 function queueAutosave() {
@@ -1327,7 +1444,8 @@ function newCharacter() {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
     });
-    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0 };
+    document.getElementById("session_journal_box").innerHTML = "";
+    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
     updateAllCalculations();
 }
 
@@ -1405,8 +1523,8 @@ function updateResistanceCalculations() {
 
     document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
     document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
+    document.getElementById("ticker_ammo").value = tickerManualOffsets.ticker_ammo;
 
-    // Process specialized string formatting logic for Power Ticker node
     const powerDisplay = document.getElementById("ticker_power");
     if (powerDisplay) {
         const currentPower = tickerManualOffsets.ticker_power;
@@ -1415,7 +1533,7 @@ function updateResistanceCalculations() {
 }
 
 function adjustTickerField(id, amount) {
-    if (id === "ticker_fortune" || id === "ticker_exp" || id === "ticker_power") {
+    if (id === "ticker_fortune" || id === "ticker_exp" || id === "ticker_power" || id === "ticker_ammo") {
         tickerManualOffsets[id] = Math.max(0, tickerManualOffsets[id] + amount);
     } else {
         tickerManualOffsets[id] += amount;
@@ -1503,6 +1621,7 @@ function compileCharacterData() {
         if (el.id.startsWith("ticker_")) return;
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
     });
+    saveData.journalHTML = document.getElementById("session_journal_box").innerHTML;
     saveData.tickerOffsets = tickerManualOffsets;
     saveData.focuses = getActiveFocuses();
     saveData.injuries = getInjuryStates();
@@ -1513,13 +1632,18 @@ function applyCharacterData(saveData) {
     if (!saveData) return;
     Object.keys(saveData).forEach(id => {
         const el = document.getElementById(id);
-        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets") return;
+        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets" || id === "journalHTML") return;
         if (el.type === "checkbox") {
             el.checked = saveData[id];
         } else {
             el.value = saveData[id];
         }
     });
+    if (saveData.journalHTML) {
+        document.getElementById("session_journal_box").innerHTML = saveData.journalHTML;
+    } else {
+        document.getElementById("session_journal_box").innerHTML = "";
+    }
     if (saveData.tickerOffsets) tickerManualOffsets = saveData.tickerOffsets;
     setActiveFocuses(saveData.focuses);
     setInjuryStates(saveData.injuries);
@@ -1529,10 +1653,16 @@ function applyCharacterData(saveData) {
 function saveCharacter() {
     const dataPayload = compileCharacterData();
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
+    
+    // Dynamic Name Generation Engine Logic
+    let rawName = document.getElementById("char_name").value.trim();
+    let safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
+    let filename = safeName ? `AC-${safeName}.json` : "AC-Character.json";
+
     const blob = new Blob([JSON.stringify(dataPayload, null, 2)], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "AchtungCthulhuCharacter.json";
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -1553,6 +1683,21 @@ function loadCharacter(event) {
     };
     reader.readAsText(file);
 }
+
+// Unison Grid Row Resizing Handler Module
+document.addEventListener('mouseup', function(e) {
+    if (e.target.classList && e.target.classList.contains('spell-textarea')) {
+        let parentRow = e.target.closest('.spells-grid-row');
+        if (parentRow) {
+            let currentHeight = e.target.style.height;
+            if (currentHeight) {
+                parentRow.querySelectorAll('.spell-textarea').forEach(textarea => {
+                    textarea.style.height = currentHeight;
+                });
+            }
+        }
+    }
+});
 
 document.addEventListener("input", function (e) {
     if (e.target.id === "loadFile") return;
