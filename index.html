@@ -853,11 +853,11 @@
         }
 
         /* ====================================================
-           INTEGRATED NOTE REPOSITORY INTERFACE DESIGNS
+           INTEGRATED JOURNAL REPOSITORY INTERFACE DESIGNS
         ====================================================== */
         .notes-layout-split {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 210px 1fr; /* Slimmed down sidebar width */
             gap: 20px;
             width: 100%;
             box-sizing: border-box;
@@ -1029,7 +1029,7 @@
         }
 
         .wordpad-core-container p { margin: 0 0 10px 0; }
-        .wordpad-core-container ul { margin: 0 0 10px 20px; padding: 0; }
+        .wordpad-core-container ul, .wordpad-core-container ol { margin: 0 0 10px 20px; padding: 0; }
 
         input:focus, textarea:focus {
             outline: none;
@@ -1496,7 +1496,7 @@
     </div>
 
     <div id="tab-notes" class="tab-panel-content">
-        <div class="section-banner" style="margin-top: 25px;">Journal Log & Note Repository</div>
+        <div class="section-banner" style="margin-top: 25px;">Journal</div>
         <div class="notes-layout-split">
             <div class="notes-sidebar-panel">
                 <button type="button" class="add-note-action-btn" onclick="createNewRepositoryNote()">+ Add New Entry</button>
@@ -1514,6 +1514,8 @@
                     <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
                     <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
                     <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertOrderedList')">1. List</button>
+                    <button type="button" class="editor-btn" style="background: #fff2a8; border-color: #e0ca3c;" onclick="execEditorCommand('hiliteColor', '#fff2a8')">Highlight</button>
                     <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
                 </div>
 
@@ -1539,8 +1541,8 @@ function switchSheetTab(tabId, buttonElement) {
     buttonElement.classList.add('active');
 }
 
-function execEditorCommand(cmd) {
-    document.execCommand(cmd, false, null);
+function execEditorCommand(cmd, value = null) {
+    document.execCommand(cmd, false, value);
     document.getElementById('repo_rich_text_editor').focus();
 }
 
@@ -1649,7 +1651,6 @@ function handleNoteTitleChange(newTitle) {
     const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
     if (activeNote) {
         activeNote.title = newTitle;
-        // Quietly refresh the title text on the element node without re-building the selection tree
         const activeCard = document.querySelector('.note-list-card-item.selected-active .note-card-title-text');
         if (activeCard) activeCard.innerText = newTitle || "Untitled Journal Entry";
         queueAutosave();
@@ -1737,7 +1738,6 @@ function updateResistanceCalculations() {
     const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
     const willScore = parseInt(document.getElementById('attr_will').value) || 0;
     
-    // Safety check fallback constraints prevent older files from parsing undefined NaN parameters
     if (tickerManualOffsets.ticker_armour === undefined) tickerManualOffsets.ticker_armour = 0;
     if (tickerManualOffsets.ticker_courage === undefined) tickerManualOffsets.ticker_courage = 0;
     if (tickerManualOffsets.ticker_fortune === undefined) tickerManualOffsets.ticker_fortune = 0;
@@ -1907,14 +1907,12 @@ function applyCharacterData(saveData) {
         tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
     }
     
-    // Enforce Fallback safety initialization properties
     if (tickerManualOffsets.ticker_ammo === undefined) tickerManualOffsets.ticker_ammo = 0;
 
     setActiveFocuses(saveData.focuses);
     setInjuryStates(saveData.injuries);
     restoreCustomLayoutHeights(saveData.layoutHeights);
 
-    // Reconstruct Repository Notebook Logs
     characterNotesLogArray = saveData.notesRepositoryLog || [];
     currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
     renderNoteRepositorySidebar();
