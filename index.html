@@ -2317,7 +2317,6 @@ updateAllCalculations();
 
   // + Add New Routine
   btnNewCharacter.addEventListener("click", async () => {
-    if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
     // 1. Generate a fresh timestamp ID for this new cloud slot
     const newSlotId = "slot_" + Date.now();
@@ -2377,7 +2376,6 @@ updateAllCalculations();
 
   // Delete Routine
   btnDeleteCharacter.addEventListener("click", async () => {
-    if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
     
     try {
       const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
