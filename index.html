@@ -1037,10 +1037,8 @@
     
     <div style="display: flex; align-items: center; gap: 8px;">
       <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
-      <div style="width: 200px; overflow: hidden; flex-shrink: 0;">
-      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; width: 200px;">
+      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
         </select>
-       </div>   
       <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
       
       <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
@@ -1050,23 +1048,11 @@
       <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
     </div>
 
-    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Logout</button>
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
   </div>
 
 </div>
 
-<div id="empty-state-modal" style="display: none; margin-top: 60px; text-align: center; font-family: sans-serif;">
-  <div style="display: inline-block; background: #e6da93; border-radius: 8px; padding: 50px 60px; box-shadow: 0px 4px 15px rgba(0,0,0,0.15);">
-    <div style="background-color: #4a5d34; color: white; padding: 16px 30px; border-radius: 4px; margin-bottom: 30px;">
-      <h2 style="margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px;">Join the Fight!</h2>
-    </div>
-    <p style="color: #555; margin-bottom: 25px; font-size: 15px;">No character sheets found. Create a new one to get started.</p>
-    <div style="display: flex; gap: 15px; justify-content: center;">
-      <button onclick="document.getElementById('btn-new-character').click()" style="padding: 10px 24px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">+ New Character</button>
-    </div>
-  </div>
-</div>
-    
 <div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
 
     <div class="persistent-header-block">
@@ -2238,25 +2224,18 @@ updateAllCalculations();
       const querySnapshot = await getDocs(slotsRef);
       
       if (querySnapshot.empty) {
-        if (charSheetContainer) charSheetContainer.style.display = "none";
-        const emptyModal = document.getElementById("empty-state-modal");
-        if (emptyModal) emptyModal.style.display = "block";
+        activeSlotId = "slot_1";
+        await saveCharacterToCloud();
+        const option = new Option("Slot 1 (New Character)", "slot_1");
+        characterSelect.add(option);
         return;
       }
-      if (charSheetContainer) charSheetContainer.style.display = "block";
-      const emptyModal = document.getElementById("empty-state-modal");
-      if (emptyModal) emptyModal.style.display = "none";
       
-      const slotEntries = [];
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
-        slotEntries.push({ displayName, id: docSnap.id });
-      });
-      slotEntries.sort((a, b) => a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase()));
-      slotEntries.forEach(({ displayName, id }) => {
-        const truncated = displayName.length > 28 ? displayName.slice(0, 28) + "…" : displayName;
-        characterSelect.add(new Option(truncated, id));
+        const option = new Option(displayName, docSnap.id);
+        characterSelect.add(option);
       });
       
       characterSelect.value = activeSlotId;
@@ -2317,6 +2296,7 @@ updateAllCalculations();
 
   // + Add New Routine
   btnNewCharacter.addEventListener("click", async () => {
+    if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
     // 1. Generate a fresh timestamp ID for this new cloud slot
     const newSlotId = "slot_" + Date.now();
@@ -2324,45 +2304,29 @@ updateAllCalculations();
     // 2. Clear out local memory cache completely
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     
+    // 3. FORCE all onscreen input nodes to empty defaults immediately before reloading
+    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
+      input.value = "";
+    });
+    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+      checkbox.checked = false;
+    });
+
     try {
-      // 3. Create a clean base record directly in your Firestore database document
+      // 4. Create a clean base record directly in your Firestore database document
       const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
       await setDoc(docRef, { char_name: "" }, { merge: false });
       
-      // 4. Explicitly redirect our app's active tracking pointer to the new slot ID!
+      // 5. Explicitly redirect our app's active tracking pointer to the new slot ID!
       activeSlotId = newSlotId;
       
-      // 5. Refresh the cloud list cache so the selector reflects the update
+      // 6. Refresh the cloud list cache so the selector reflects the update
       await loadCharacterList();
       
-      // 6. Explicitly force the select element dropdown box to pick our new slot row
+      // 7. Explicitly force the select element dropdown box to pick our new slot row
       characterSelect.value = newSlotId;
-
-      // 7. FORCE all onscreen input nodes to empty defaults AFTER cloud load so nothing overwrites them
-      document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet textarea").forEach(input => {
-        input.value = "";
-      });
-      document.querySelectorAll("#main-character-sheet input[type='number']").forEach(input => {
-        input.value = input.id.startsWith("attr_") ? 6 : 0;
-      });
-      document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
-        checkbox.checked = false;
-      });
-      document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
-      document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
-        el.style.height = "";
-      });
-      document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
-        row.removeAttribute('data-saved-height');
-      });
-
-      // 8. Switch back to the main tab
-      const mainTabBtn = document.querySelector(".tab-btn");
-      if (mainTabBtn && typeof switchSheetTab === "function") {
-        switchSheetTab('tab-main', mainTabBtn);
-      }
-
-      // 9. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+      
+      // 8. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
       if (typeof updateAllCalculations === "function") {
         updateAllCalculations();
       }
@@ -2376,6 +2340,7 @@ updateAllCalculations();
 
   // Delete Routine
   btnDeleteCharacter.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
     
     try {
       const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
@@ -2416,7 +2381,7 @@ updateAllCalculations();
     cloudImportFile.click();
   });
 
- // Read uploaded backup file and create a NEW slot for it
+  // Read uploaded backup file and force sync update
   cloudImportFile.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -2426,50 +2391,34 @@ updateAllCalculations();
       try {
         const importedData = JSON.parse(e.target.result);
         
-        // Generate a fresh slot ID so we never overwrite an existing sheet
-        const newSlotId = "slot_" + Date.now();
-        activeSlotId = newSlotId;
-        
-        // Write imported data into local cache under the new slot
-        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
-        
-        // Apply to the UI
+        // Apply imported data into local interface fields
         if (typeof applyCharacterData === "function") {
           applyCharacterData(importedData);
         }
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
         
-        // Push as a brand new Firestore document
-        const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
-        await setDoc(docRef, importedData, { merge: false });
+        // Push the imported state immediately into the cloud database active slot
+        await saveCharacterToCloud();
         
-        // Refresh the dropdown and select the new slot
+        // Update character select labels to display the imported sheet name text
         await loadCharacterList();
-        characterSelect.value = newSlotId;
         
-        alert("Character sheet successfully imported as a new slot!");
+        alert("Character sheet successfully imported and synced to the cloud!");
       } catch (err) {
         alert("Error parsing backup file.");
       }
     };
     reader.readAsText(file);
-    cloudImportFile.value = "";
+    cloudImportFile.value = ""; // clear selector cache
   });
 
-  // Live-update dropdown list label as name types, then re-sort alphabetically
+  // Live-update dropdown list label as name types
   document.getElementById("char_name").addEventListener("input", (e) => {
     if (!currentUser || !activeSlotId) return;
     const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
     if (activeOption) {
       activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
     }
-    const options = Array.from(characterSelect.options);
-    options.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
-    characterSelect.innerHTML = "";
-    options.forEach(opt => {
-      opt.text = opt.text.length > 28 ? opt.text.slice(0, 28) + "…" : opt.text;
-      characterSelect.add(opt);
-    });
-    characterSelect.value = activeSlotId;
   });
 
   // ==========================================
