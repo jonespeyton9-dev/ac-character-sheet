@@ -1053,6 +1053,19 @@
 
 </div>
 
+<div id="empty-state-modal" style="display: none; margin-top: 60px; text-align: center; font-family: sans-serif;">
+  <div style="display: inline-block; background: #e6da93; border-radius: 8px; padding: 50px 60px; box-shadow: 0px 4px 15px rgba(0,0,0,0.15);">
+    <div style="background-color: #4a5d34; color: white; padding: 16px 30px; border-radius: 4px; margin-bottom: 30px;">
+      <h2 style="margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px;">Join the Fight!</h2>
+    </div>
+    <p style="color: #555; margin-bottom: 25px; font-size: 15px;">No character sheets found. Create a new one or import an existing backup.</p>
+    <div style="display: flex; gap: 15px; justify-content: center;">
+      <button onclick="document.getElementById('btn-new-character').click()" style="padding: 10px 24px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">+ New Character</button>
+      <button onclick="document.getElementById('btn-import-sheet').click()" style="padding: 10px 24px; background-color: #cbbd77; color: #333; border: 1px solid #aaa; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">Import Backup</button>
+    </div>
+  </div>
+</div>
+    
 <div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
 
     <div class="persistent-header-block">
@@ -2216,12 +2229,14 @@ updateAllCalculations();
       const querySnapshot = await getDocs(slotsRef);
       
       if (querySnapshot.empty) {
-        activeSlotId = "slot_1";
-        await saveCharacterToCloud();
-        const option = new Option("Slot 1 (New Character)", "slot_1");
-        characterSelect.add(option);
+        if (charSheetContainer) charSheetContainer.style.display = "none";
+        const emptyModal = document.getElementById("empty-state-modal");
+        if (emptyModal) emptyModal.style.display = "block";
         return;
       }
+      if (charSheetContainer) charSheetContainer.style.display = "block";
+      const emptyModal = document.getElementById("empty-state-modal");
+      if (emptyModal) emptyModal.style.display = "none";
       
       const slotEntries = [];
       querySnapshot.forEach((docSnap) => {
@@ -2377,7 +2392,7 @@ updateAllCalculations();
     cloudImportFile.click();
   });
 
-  // Read uploaded backup file and force sync update
+ // Read uploaded backup file and create a NEW slot for it
   cloudImportFile.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -2387,25 +2402,33 @@ updateAllCalculations();
       try {
         const importedData = JSON.parse(e.target.result);
         
-        // Apply imported data into local interface fields
+        // Generate a fresh slot ID so we never overwrite an existing sheet
+        const newSlotId = "slot_" + Date.now();
+        activeSlotId = newSlotId;
+        
+        // Write imported data into local cache under the new slot
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
+        
+        // Apply to the UI
         if (typeof applyCharacterData === "function") {
           applyCharacterData(importedData);
         }
-        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
         
-        // Push the imported state immediately into the cloud database active slot
-        await saveCharacterToCloud();
+        // Push as a brand new Firestore document
+        const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
+        await setDoc(docRef, importedData, { merge: false });
         
-        // Update character select labels to display the imported sheet name text
+        // Refresh the dropdown and select the new slot
         await loadCharacterList();
+        characterSelect.value = newSlotId;
         
-        alert("Character sheet successfully imported and synced to the cloud!");
+        alert("Character sheet successfully imported as a new slot!");
       } catch (err) {
         alert("Error parsing backup file.");
       }
     };
     reader.readAsText(file);
-    cloudImportFile.value = ""; // clear selector cache
+    cloudImportFile.value = "";
   });
 
   // Live-update dropdown list label as name types, then re-sort alphabetically
