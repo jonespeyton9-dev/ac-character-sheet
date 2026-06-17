@@ -165,6 +165,44 @@
             box-sizing: border-box;
         }
 
+        /* Split Flex Header for Spells Tab */
+        .spells-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4a5d34;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            box-sizing: border-box;
+        }
+
+        .spells-header-title {
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spells-power-ticker-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .spells-power-ticker-wrap label {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         /* IDENTITY SYSTEM */
         .identity-grid {
             display: grid;
@@ -253,6 +291,58 @@
         .grid-textarea {
             width: 100%;
             height: 38px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
+        }
+
+        /* ====================================================
+           DYNAMIC SPELLS GRID ARCHITECTURE
+        ====================================================== */
+        .spells-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .spells-grid-header, .spells-grid-row {
+            display: grid;
+            /* Proportional distribution layout: Name, Effect, Momentum = 2fr. Skill, Difficulty, Cost, Duration = 1fr */
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr 2fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .spells-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .spells-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .spell-textarea {
+            width: 100%;
+            height: 48px; /* Slightly taller bounding box to handle spell parsing descriptions cleanly */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -671,7 +761,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             width: 100%;
-            align-items: start; /* Fixes left/right container push desyncs */
+            align-items: start; 
         }
 
         .skills-column-header {
@@ -692,7 +782,7 @@
             display: grid;
             grid-template-columns: 110px 60px 1fr;
             align-items: center;
-            height: 96px; /* Uniform structural card bounding heights */
+            height: 96px; 
             padding: 6px 10px;
             background: #fdfdfd;
             border: 1px solid #eee;
@@ -719,7 +809,7 @@
             font-size: 11px;
             line-height: 1.4;
             max-height: 84px;
-            overflow-y: auto; /* Handles focus wrapping cleanly */
+            overflow-y: auto; 
         }
 
         .focus-clickable-text {
@@ -750,23 +840,12 @@
             border-color: #4a5d34 !important;
             background-color: #fff !important;
         }
-
-        .blank-slate-wrapper {
-            background: #fdfdfd;
-            border: 1px dashed #4a5d34;
-            border-radius: 6px;
-            padding: 60px 20px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
     </style>
 </head>
 <body>
 
 <div class="charsheet">
 
-    <!-- PERSISTENT CONTROL HEADER BLOCK -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -794,7 +873,6 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 1: MAIN CHARACTER PROFILE -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -805,7 +883,6 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -863,7 +940,6 @@
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
-            <!-- Left Side: Stress Tracker -->
             <div class="dashboard-block">
                 <h3>Stress Tracking & Resistances</h3>
                 <div class="stress-top-panel-wrapper">
@@ -914,7 +990,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Resources -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
@@ -938,7 +1013,6 @@
             </div>
         </div>
 
-        <!-- Independent Condition Row -->
         <div class="condition-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -959,7 +1033,6 @@
             </div>
         </div>
 
-        <!-- STABILIZED SKILLS SECTION -->
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
             <div>
@@ -1100,7 +1173,6 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX -->
     <div id="tab-equipment" class="tab-panel-content">
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
@@ -1156,20 +1228,55 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 3: SPELLS & MYSTICISM -->
     <div id="tab-spells" class="tab-panel-content">
-        <div class="section-banner">Spells & Sorcery</div>
-        <div class="blank-slate-wrapper">
-            Spellbooks, power costs, and dynamic mystical tracking nodes will be integrated here.
+        <div class="spells-header-container">
+            <div class="spells-header-title">Spells & Sorcery</div>
+            <div class="spells-power-ticker-wrap">
+                <label>Power</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', -1)">-</div>
+                    <input type="text" id="ticker_power" class="ticker-val-field" style="width: 55px;" value="—" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spells-grid-table">
+            <div class="spells-grid-header">
+                <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_4_name" class="spell-textarea"></textarea><textarea id="spell_4_skill" class="spell-textarea"></textarea><textarea id="spell_4_diff" class="spell-textarea"></textarea><textarea id="spell_4_cost" class="spell-textarea"></textarea><textarea id="spell_4_duration" class="spell-textarea"></textarea><textarea id="spell_4_effect" class="spell-textarea"></textarea><textarea id="spell_4_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_5_name" class="spell-textarea"></textarea><textarea id="spell_5_skill" class="spell-textarea"></textarea><textarea id="spell_5_diff" class="spell-textarea"></textarea><textarea id="spell_5_cost" class="spell-textarea"></textarea><textarea id="spell_5_duration" class="spell-textarea"></textarea><textarea id="spell_5_effect" class="spell-textarea"></textarea><textarea id="spell_5_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_6_name" class="spell-textarea"></textarea><textarea id="spell_6_skill" class="spell-textarea"></textarea><textarea id="spell_6_diff" class="spell-textarea"></textarea><textarea id="spell_6_cost" class="spell-textarea"></textarea><textarea id="spell_6_duration" class="spell-textarea"></textarea><textarea id="spell_6_effect" class="spell-textarea"></textarea><textarea id="spell_6_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_7_name" class="spell-textarea"></textarea><textarea id="spell_7_skill" class="spell-textarea"></textarea><textarea id="spell_7_diff" class="spell-textarea"></textarea><textarea id="spell_7_cost" class="spell-textarea"></textarea><textarea id="spell_7_duration" class="spell-textarea"></textarea><textarea id="spell_7_effect" class="spell-textarea"></textarea><textarea id="spell_7_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_8_name" class="spell-textarea"></textarea><textarea id="spell_8_skill" class="spell-textarea"></textarea><textarea id="spell_8_diff" class="spell-textarea"></textarea><textarea id="spell_8_cost" class="spell-textarea"></textarea><textarea id="spell_8_duration" class="spell-textarea"></textarea><textarea id="spell_8_effect" class="spell-textarea"></textarea><textarea id="spell_8_momentum" class="spell-textarea"></textarea>
+            </div>
         </div>
     </div>
 
 </div>
 
-<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
-let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0 };
+let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0 };
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
@@ -1202,7 +1309,7 @@ function newCharacter() {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
     });
-    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0 };
+    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0 };
     updateAllCalculations();
 }
 
@@ -1280,10 +1387,17 @@ function updateResistanceCalculations() {
 
     document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
     document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
+
+    // Process specialized string formatting logic for Power Ticker node
+    const powerDisplay = document.getElementById("ticker_power");
+    if (powerDisplay) {
+        const currentPower = tickerManualOffsets.ticker_power;
+        powerDisplay.value = (currentPower === 0) ? "—" : `+${currentPower}cd`;
+    }
 }
 
 function adjustTickerField(id, amount) {
-    if (id === "ticker_fortune" || id === "ticker_exp") {
+    if (id === "ticker_fortune" || id === "ticker_exp" || id === "ticker_power") {
         tickerManualOffsets[id] = Math.max(0, tickerManualOffsets[id] + amount);
     } else {
         tickerManualOffsets[id] += amount;
