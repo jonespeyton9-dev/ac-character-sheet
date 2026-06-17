@@ -1899,7 +1899,7 @@ function getActiveFocuses() {
         if (!skillInput) return;
         const active = [];
         row.querySelectorAll(".focus-clickable-text.active").forEach(f => active.push(f.innerText.trim()));
-        focusData[skillInput.id] = active;
+        focusData["focus__" + skillInput.id] = active;
     });
     return focusData;
 }
@@ -1909,7 +1909,7 @@ function setActiveFocuses(focuses) {
     document.querySelectorAll(".skill-row").forEach(row => {
         const skillInput = row.querySelector("input");
         if (!skillInput) return;
-        const active = focuses[skillInput.id] || [];
+        const active = focuses["focus__" + skillInput.id] || focuses[skillInput.id] || [];
         row.querySelectorAll(".focus-clickable-text").forEach(f => {
             f.classList.toggle("active", active.includes(f.innerText.trim()));
         });
