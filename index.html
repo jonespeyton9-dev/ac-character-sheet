@@ -1005,1209 +1005,1425 @@
             border-color: #4a5d34 !important;
             background-color: #fff !important;
         }
-
-        #character-select {
-            max-width: 150px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            vertical-align: middle;
-        }
-
-        /* Fixes focus states */
-        #firebase-account-bar input:focus, 
-        #firebase-account-bar select:focus {
-            background-color: #421319 !important;
-            color: #ffffff !important;
-            outline: 1px solid #a62c3a !important;
-        }
     </style>
 </head>
 <body>
 
     <div id="firebase-account-bar" style="background-color: #2c0d11; color: #ffffff; padding: 12px 20px; font-family: sans-serif; border-bottom: 2px solid #50171e; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
-        <div style="font-weight: bold; font-size: 1.1rem; color: #ff4d5a; letter-spacing: 0.5px;">
-            Majestic HQ Login
-        </div>
+  
+  <style>
+    #firebase-account-bar input:focus, #firebase-account-bar select:focus {
+      background-color: #421319 !important;
+      color: #ffffff !important;
+      outline: 1px solid #a62c3a !important;
+    }
+  </style>
 
-        <div id="auth-logged-out-zone" style="display: flex; align-items: center; gap: 10px;">
-            <input type="email" id="auth-email" placeholder="Email Address" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 180px;">
-            <input type="password" id="auth-password" placeholder="Password" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 140px;">
-            <button id="btn-login" style="padding: 6px 14px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Log In</button>
-            <button id="btn-register" style="padding: 6px 14px; background-color: #331115; color: #ccc; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Register</button>
-            <span id="btn-forgot-password" style="color: #ff4d5a; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-left: 5px;">Forgot Password?</span>
-        </div>
+  <div style="font-weight: bold; font-size: 1.1rem; color: #ff4d5a; letter-spacing: 0.5px;">
+    Majestic HQ Login
+  </div>
 
-        <div id="auth-logged-in-zone" style="display: none; align-items: center; gap: 15px; width: 100%; justify-content: space-between; flex-grow: 1; max-width: 850px;">
-            <span id="user-display-email" style="font-size: 0.9rem; color: #cca3a6;">Loading account...</span>
-            
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
-                <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;"></select>
-                <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
-                <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
-                <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
-                <input type="file" id="cloud-import-file" accept=".json" style="display: none;">
-                <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
-            </div>
-            <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
-        </div>
+  <div id="auth-logged-out-zone" style="display: flex; align-items: center; gap: 10px;">
+    <input type="email" id="auth-email" placeholder="Email Address" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 180px;">
+    <input type="text" id="auth-password" placeholder="Password" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 140px;">
+    <button id="btn-login" style="padding: 6px 14px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Log In</button>
+    <button id="btn-register" style="padding: 6px 14px; background-color: #331115; color: #ccc; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Register</button>
+    <span id="btn-forgot-password" style="color: #ff4d5a; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-left: 5px;">Forgot Password?</span>
+  </div>
+
+  <div id="auth-logged-in-zone" style="display: none; align-items: center; gap: 15px; width: 100%; justify-content: space-between; flex-grow: 1; max-width: 850px;">
+    
+    <span id="user-display-email" style="font-size: 0.9rem; color: #cca3a6;">Loading account...</span>
+    
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
+      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
+        </select>
+      <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
+      
+      <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
+      <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
+      <input type="file" id="cloud-import-file" accept=".json" style="display: none;">
+
+      <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
     </div>
 
-    <div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
+  </div>
+
+</div>
+
+<div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
+
+    <div class="persistent-header-block">
         <div class="main-header-banner">
-            <h1>Achtung! Cthulhu</h1>
-            <div style="font-size: 13px; font-style: italic; margin-top: 5px; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">2d20 Player Reference Character Log</div>
+            <h1>Achtung! Cthulhu Character Record Sheet</h1>
+        </div>
+        
+        <div class="control-panel-row">
+            <div class="tab-navigation-bar">
+                <button class="tab-btn active" onclick="switchSheetTab('tab-main', this)">Main</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-notes', this)">Notes</button>
+            </div> </div> </div> <div id="tab-main" class="tab-panel-content active">
+        <div class="identity-grid">
+            <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
+            <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
+            <div class="field-box"><label>Rank</label><input type="text" id="char_rank"></div>
+            <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
+            <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
+            <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <div class="persistent-header-block">
-            <div class="control-panel-row">
-                <div class="tab-navigation-bar">
-                    <button class="tab-btn active" onclick="switchSheetTab('tab-identity', this)">Personnel Profile</button>
-                    <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Weapons & Gear</button>
-                    <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Mythos & Tomes</button>
-                    <button class="tab-btn" onclick="switchSheetTab('tab-journal', this)">Mission Log Repository</button>
+        <div class="section-banner">Personal Truths & Scars</div>
+        <div class="truths-row">
+            <textarea id="truth_1"></textarea>
+            <textarea id="truth_2"></textarea>
+            <textarea id="truth_3"></textarea>
+            <textarea id="truth_4"></textarea>
+            <textarea id="truth_5"></textarea>
+        </div>
+
+        <div class="section-banner">Attributes</div>
+        <div class="attributes-row">
+            <div class="attribute-card">
+                <label>Agility</label>
+                <input type="number" id="attr_agility" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_agility" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Brawn</label>
+                <input type="number" id="attr_brawn" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_brawn" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Coordination</label>
+                <input type="number" id="attr_coordination" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_coordination" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Insight</label>
+                <input type="number" id="attr_insight" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_insight" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Reason</label>
+                <input type="number" id="attr_reason" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_reason" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Will</label>
+                <input type="number" id="attr_will" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_will" class="cd-display-input" value="—" readonly disabled>
                 </div>
             </div>
         </div>
 
-        <!-- TAB CONTENT: IDENTITY -->
-        <div id="tab-identity" class="tab-panel-content active">
-            <div class="identity-grid">
-                <div class="field-box"><label>Character Name</label><input type="text" id="char_name"></div>
-                <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
-                <div class="field-box"><label>Faction / Nationality</label><input type="text" id="char_faction"></div>
-                <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
-                <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
-            </div>
-
-            <div class="section-banner">Personal Truths & Scars</div>
-            <div class="truths-row">
-                <textarea id="truth_1"></textarea>
-                <textarea id="truth_2"></textarea>
-                <textarea id="truth_3"></textarea>
-                <textarea id="truth_4"></textarea>
-                <textarea id="truth_5"></textarea>
-            </div>
-
-            <div class="section-banner">Attributes</div>
-            <div class="attributes-row">
-                <div class="attribute-card">
-                    <label>Agility</label>
-                    <input type="number" id="attr_agility" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_agility" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-                <div class="attribute-card">
-                    <label>Brawn</label>
-                    <input type="number" id="attr_brawn" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_brawn" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-                <div class="attribute-card">
-                    <label>Coordination</label>
-                    <input type="number" id="attr_coordination" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_coordination" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-                <div class="attribute-card">
-                    <label>Insight</label>
-                    <input type="number" id="attr_insight" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_insight" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-                <div class="attribute-card">
-                    <label>Reason</label>
-                    <input type="number" id="attr_reason" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_reason" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-                <div class="attribute-card">
-                    <label>Will</label>
-                    <input type="number" id="attr_will" value="6" min="0" max="15">
-                    <div class="cd-bonus-container">
-                        <input type="text" id="bonus_will" class="cd-display-input" value="—" readonly disabled>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-banner">Combat & Status Trackers</div>
-            <div class="dashboard-layout-grid">
-                <div class="dashboard-block">
-                    <h3>Stress Tracking & Resistances</h3>
-                    <div class="stress-top-panel-wrapper">
-                        <div class="unified-math-row">
-                            <div class="math-box-node">
-                                <label>Highest Base</label>
-                                <input type="text" id="calc_highest_attr" class="ticker-val-field auxiliary-ticker-field" value="6" readonly disabled>
-                            </div>
-                            <span class="math-sign">+</span>
-                            <div class="math-box-node">
-                                <label>Resilience</label>
-                                <input type="text" id="input_stress_bonus" class="ticker-val-field auxiliary-ticker-field" value="0" readonly disabled>
-                            </div>
-                            <span class="math-sign">-</span>
-                            <div class="math-box-node">
-                                <label>Fatigue</label>
-                                <input type="number" id="input_stress_fatigue" min="0" max="20" class="ticker-val-field auxiliary-ticker-field" value="0" oninput="updateStressCalculations()">
-                            </div>
-                            <span class="math-sign">=</span>
-                            <div class="math-box-node">
-                                <label style="color:#a62c3a;">Max Stress</label>
-                                <input type="text" id="output_stress_max" class="ticker-val-field auxiliary-ticker-field" style="color:#a62c3a; border-color:#a62c3a;" value="6" readonly disabled>
-                            </div>
+        <div class="section-banner">Combat & Status Trackers</div>
+        <div class="dashboard-layout-grid">
+            <div class="dashboard-block">
+                <h3>Stress Tracking & Resistances</h3>
+                <div class="stress-top-panel-wrapper">
+                    <div class="unified-math-row">
+                        <div class="math-box-node">
+                            <label>Attribute</label>
+                            <input type="number" id="calc_highest_attr" disabled>
                         </div>
-
-                        <div class="resistances-column-stack">
-                            <div class="ticker-item">
-                                <label>Armor</label>
-                                <div class="interactive-ticker-wrap">
-                                    <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
-                                    <input type="text" id="ticker_armour" class="ticker-val-field auxiliary-ticker-field" value="0" readonly>
-                                    <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
-                                </div>
-                            </div>
-                            <div class="ticker-item">
-                                <label>Mental Res</label>
-                                <input type="text" id="calc_mental_resistance" class="ticker-val-field auxiliary-ticker-field" value="0" readonly disabled>
-                            </div>
+                        <div class="math-sign">+</div>
+                        <div class="math-box-node">
+                            <label>Resilience</label>
+                            <input type="number" id="input_stress_bonus" readonly>
+                        </div>
+                        <div class="math-sign">-</div>
+                        <div class="math-box-node">
+                            <label>Fatigue</label>
+                            <input type="number" id="input_stress_fatigue" value="0">
+                        </div>
+                        <div class="math-sign">=</div>
+                        <div class="math-box-node">
+                            <label>Total</label>
+                            <input type="number" id="output_stress_max" readonly>
                         </div>
                     </div>
 
-                    <div class="checkbox-matrix-20" id="stress_checkbox_container">
-                        <input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox"><input type="checkbox">
-                    </div>
-                </div>
-
-                <div class="dashboard-block">
-                    <h3>Operational Counters</h3>
-                    <div style="display:flex; flex-direction:column; gap:6px; height:100%; justify-content:center;">
-                        <div class="ticker-item resource-ticker-expanded">
-                            <label>Fortune</label>
+                    <div class="resistances-column-stack">
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Courage</label>
                             <div class="interactive-ticker-wrap">
-                                <div class="ticker-control-btn" style="height:32px; width:24px;" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
-                                <input type="text" id="ticker_fortune" class="ticker-val-field" style="height:32px; font-size:16px;" value="0" readonly>
-                                <div class="ticker-control-btn" style="height:32px; width:24px;" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
+                                <input type="text" id="ticker_courage" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
                             </div>
                         </div>
-                        <div class="ticker-item resource-ticker-expanded">
-                            <label>Exp</label>
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Armour</label>
                             <div class="interactive-ticker-wrap">
-                                <div class="ticker-control-btn" style="height:32px; width:24px;" onclick="adjustTickerField('ticker_exp', -1)">-</div>
-                                <input type="text" id="ticker_exp" class="ticker-val-field" style="height:32px; font-size:16px;" value="0" readonly>
-                                <div class="ticker-control-btn" style="height:32px; width:24px;" onclick="adjustTickerField('ticker_exp', 1)">+</div>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
+                                <input type="text" id="ticker_armour" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="condition-layout-grid" style="margin-top: 15px;">
-                <div>
-                    <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
-                    <div class="injuries-container">
-                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_1"></div>
-                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_2"></div>
-                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_3"></div>
-                        <span style="font-size: 11px; color: #666; font-style: italic; margin-left: 5px;">Click to cycle: M = Mental Injury / P = Physical Injury</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Languages</div>
-                    <div class="languages-row">
-                        <textarea id="language_primary" placeholder="Primary Language"></textarea>
-                        <textarea id="language_secondary" placeholder="Secondary Language"></textarea>
-                        <textarea id="language_other" placeholder="Other Languages"></textarea>
-                    </div>
+                <div class="checkbox-matrix-20" id="stress_checkbox_container">
+                    <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
                 </div>
             </div>
 
-            <div class="section-banner">Skills & Focuses</div>
-            <div class="skills-container">
-                <div>
-                    <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
-                    <div class="skill-row">
-                        <span class="skill-name">Academia</span><input type="number" id="skill_academia" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Finance</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">History</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Linguistics</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Occultism</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Science</span>
+            <div class="dashboard-block">
+                <h3>Resources</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+                    <div class="ticker-item resource-ticker-expanded">
+                        <label>Fortune</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
+                            <input type="text" id="ticker_fortune" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
                         </div>
                     </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Athletics</span><input type="number" id="skill_athletics" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Running</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Swimming</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Engineering</span><input type="number" id="skill_engineering" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Demolitions</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Electronics</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Mechanics</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Sappers</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Fighting</span><input type="number" id="skill_fighting" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Hand-to-Hand</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Melee Weapons</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Parry</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Medicine</span><input type="number" id="skill_medicine" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)"> Pharmacology</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Surgery</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Toxicology</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Observation</span><input type="number" id="skill_observation" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Listening</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Scouting</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Searching</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Persuasion</span><input type="number" id="skill_persuasion" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Deception</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Intimidation</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Negotiation</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
-                    <div class="skill-row">
-                        <span class="skill-name">Psychology</span><input type="number" id="skill_psychology" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Counseling</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Psychoanalysis</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Interrogation</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Ranged Weap.</span><input type="number" id="skill_ranged_weapons" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Rifles</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Submachine Guns</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Weapons</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Thrown Weapons</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Resilience</span><input type="number" id="skill_resilience" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Immunity</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Stealth</span><input type="number" id="skill_stealth" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Rural Stealth</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Urban Stealth</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Survival</span><input type="number" id="skill_survival" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Hunting</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Mysticism</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Orienteering</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Tactics</span><input type="number" id="skill_tactics" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Covert Operations</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Leadership</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Navy</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Technical Projects</span>
-                        </div>
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-name">Vehicles</span><input type="number" id="skill_vehicles" value="0" min="0" max="5">
-                        <div class="focus-links-div">
-                            <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Vehicles</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Tanks</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Aircraft</span>- <span class="focus-clickable-text" onclick="toggleFocus(this)">Watercraft</span>
+                    <div class="ticker-item resource-ticker-expanded">
+                        <label>Exp</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', -1)">-</div>
+                            <input type="text" id="ticker_exp" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', 1)">+</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB CONTENT: EQUIPMENT -->
-        <div id="tab-equipment" class="tab-panel-content">
-            <div class="section-banner">Equipment of Note</div>
-            <div class="equipment-note-grid">
-                <div class="equipment-grid-row">
-                    <textarea id="eq_note_1" class="equipment-textarea" placeholder="Item 1 Details..."></textarea>
-                    <textarea id="eq_note_2" class="equipment-textarea" placeholder="Item 2 Details..."></textarea>
-                    <textarea id="eq_note_3" class="equipment-textarea" placeholder="Item 3 Details..."></textarea>
-                    <textarea id="eq_note_4" class="equipment-textarea" placeholder="Item 4 Details..."></textarea>
-                    <textarea id="eq_note_5" class="equipment-textarea" placeholder="Item 5 Details..."></textarea>
-                    <textarea id="eq_note_6" class="equipment-textarea" placeholder="Item 6 Details..."></textarea>
-                </div>
-                <div class="equipment-grid-row">
-                    <textarea id="eq_note_7" class="equipment-textarea" placeholder="Item 7 Details..."></textarea>
-                    <textarea id="eq_note_8" class="equipment-textarea" placeholder="Item 8 Details..."></textarea>
-                    <textarea id="eq_note_9" class="equipment-textarea" placeholder="Item 9 Details..."></textarea>
-                    <textarea id="eq_note_10" class="equipment-textarea" placeholder="Item 10 Details..."></textarea>
-                    <textarea id="eq_note_11" class="equipment-textarea" placeholder="Item 11 Details..."></textarea>
-                    <textarea id="eq_note_12" class="equipment-textarea" placeholder="Item 12 Details..."></textarea>
+        <div class="condition-layout-grid" style="margin-top: 15px;">
+            <div>
+                <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
+                <div class="injuries-container">
+                    <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_1"></div>
+                    <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_2"></div>
+                    <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_3"></div>
+                    <span style="font-size: 11px; color: #666; font-style: italic; margin-left: 5px;">Click to cycle: M = Mental Injury / P = Physical Injury</span>
                 </div>
             </div>
-
-            <div class="weapons-header-container">
-                <div class="weapons-header-title">Weapons Repository Log</div>
-                <div class="header-ticker-wrap">
-                    <label>Ammunition</label>
-                    <div class="interactive-ticker-wrap">
-                        <div class="ticker-control-btn" style="background:#fff; color:#333;" onclick="adjustTickerField('ticker_ammo', -1)">-</div>
-                        <input type="text" id="ticker_ammo" class="ticker-val-field" style="width:55px;" value="0" readonly>
-                        <div class="ticker-control-btn" style="background:#fff; color:#333;" onclick="adjustTickerField('ticker_ammo', 1)">+</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="weapons-grid-table">
-                <div class="weapons-grid-header">
-                    <span>Weapon Name</span><span>Skill</span><span>Range</span><span>Damage (CD)</span><span>Salvo</span><span>Size</span><span>Qualities & Effects</span>
-                </div>
-                <div class="weapons-grid-row">
-                    <textarea id="weapon_1_name" class="grid-textarea"></textarea><textarea id="weapon_1_skill" class="grid-textarea"></textarea><textarea id="weapon_1_range" class="grid-textarea"></textarea><textarea id="weapon_1_damage" class="grid-textarea"></textarea><textarea id="weapon_1_salvo" class="grid-textarea"></textarea><textarea id="weapon_1_size" class="grid-textarea"></textarea><textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
-                </div>
-                <div class="weapons-grid-row">
-                    <textarea id="weapon_2_name" class="grid-textarea"></textarea><textarea id="weapon_2_skill" class="grid-textarea"></textarea><textarea id="weapon_2_range" class="grid-textarea"></textarea><textarea id="weapon_2_damage" class="grid-textarea"></textarea><textarea id="weapon_2_salvo" class="grid-textarea"></textarea><textarea id="weapon_2_size" class="grid-textarea"></textarea><textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
-                </div>
-                <div class="weapons-grid-row">
-                    <textarea id="weapon_3_name" class="grid-textarea"></textarea><textarea id="weapon_3_skill" class="grid-textarea"></textarea><textarea id="weapon_3_range" class="grid-textarea"></textarea><textarea id="weapon_3_damage" class="grid-textarea"></textarea><textarea id="weapon_3_salvo" class="grid-textarea"></textarea><textarea id="weapon_3_size" class="grid-textarea"></textarea><textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
-                </div>
-                <div class="weapons-grid-row">
-                    <textarea id="weapon_4_name" class="grid-textarea"></textarea><textarea id="weapon_4_skill" class="grid-textarea"></textarea><textarea id="weapon_4_range" class="grid-textarea"></textarea><textarea id="weapon_4_damage" class="grid-textarea"></textarea><textarea id="weapon_4_salvo" class="grid-textarea"></textarea><textarea id="weapon_4_size" class="grid-textarea"></textarea><textarea id="weapon_4_qualities" class="grid-textarea"></textarea>
-                </div>
-            </div>
-
-            <div class="section-banner">Character Biography & Talents</div>
-            <div class="footer-split-dashboard">
-                <div class="bio-entry-box">
-                    <textarea id="char_bio" placeholder="Write historical operational background narrative notes here..."></textarea>
-                </div>
-                <div class="talents-grid-table">
-                    <div class="talents-grid-header">
-                        <span>Talent Name</span><span>Keywords</span><span>Description / Special Operational Rules Effect Log</span>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_1_name" class="talent-textarea"></textarea><textarea id="talent_1_keys" class="talent-textarea"></textarea><textarea id="talent_1_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_2_name" class="talent-textarea"></textarea><textarea id="talent_2_keys" class="talent-textarea"></textarea><textarea id="talent_2_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_3_name" class="talent-textarea"></textarea><textarea id="talent_3_keys" class="talent-textarea"></textarea><textarea id="talent_3_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_4_name" class="talent-textarea"></textarea><textarea id="talent_4_keys" class="talent-textarea"></textarea><textarea id="talent_4_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_5_name" class="talent-textarea"></textarea><textarea id="talent_5_keys" class="talent-textarea"></textarea><textarea id="talent_5_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_6_name" class="talent-textarea"></textarea><textarea id="talent_6_keys" class="talent-textarea"></textarea><textarea id="talent_6_effect" class="talent-textarea"></textarea>
-                    </div>
-                    <div class="talents-grid-row">
-                        <textarea id="talent_7_name" class="talent-textarea"></textarea><textarea id="talent_7_keys" class="talent-textarea"></textarea><textarea id="talent_7_effect" class="talent-textarea"></textarea>
-                    </div>
+            <div>
+                <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Languages</div>
+                <div class="languages-row">
+                    <textarea id="language_primary" placeholder="Primary Language"></textarea>
+                    <textarea id="language_secondary" placeholder="Secondary Language"></textarea>
+                    <textarea id="language_other" placeholder="Other Languages"></textarea>
                 </div>
             </div>
         </div>
 
-        <!-- TAB CONTENT: SPELLS -->
-        <div id="tab-spells" class="tab-panel-content">
-            <div class="spells-header-container">
-                <div class="spells-header-title">Spells & Sorcery</div>
-                <div class="header-ticker-wrap">
-                    <label>Power</label>
-                    <div class="interactive-ticker-wrap">
-                        <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', -1)">-</div>
-                        <input type="text" id="ticker_power" class="ticker-val-field" style="width: 55px;" value="0" readonly>
-                        <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', 1)">+</div>
+        <div class="section-banner">Skills & Focuses</div>
+        <div class="skills-container">
+            <div>
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
+                <div class="skill-row">
+                    <span class="skill-name">Academia</span><input type="number" id="skill_academia" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Finance</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">History</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Linguistics</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Occultism</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Science</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Athletics</span><input type="number" id="skill_athletics" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Physical Training</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Running</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Swimming</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Throwing</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Engineering</span><input type="number" id="skill_engineering" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Electronics</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Explosives</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Mechanical Engineering</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Fighting</span><input type="number" id="skill_fighting" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hand-to-Hand</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Weapons</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Melee Weapons</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rifles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Threat Awareness</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Exotic</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Medicine</span><input type="number" id="skill_medicine" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Pharmacology</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Psychiatry</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Surgery</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Toxicology</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Observation</span><input type="number" id="skill_observation" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Sight</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Smell and Taste</span>
                     </div>
                 </div>
             </div>
 
-            <div class="spells-grid-table">
-                <div class="spells-grid-header">
-                    <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
-                </div>
-                <div class="spells-grid-row">
-                    <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
-                </div>
-                <div class="spells-grid-row">
-                    <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
-                </div>
-                <div class="spells-grid-row">
-                    <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB CONTENT: JOURNAL REPOSITORY -->
-        <div id="tab-journal" class="tab-panel-content">
-            <div class="section-banner" style="margin-bottom:12px;">Mission Log Journal Intel Repository</div>
-            <div class="notes-layout-split">
-                <div class="notes-sidebar-panel">
-                    <input type="text" id="journal_search_field" class="journal-search-input" placeholder="🔍 Search Title / Date Markers..." oninput="handleJournalSearchInput(this.value)">
-                    <button class="add-note-action-btn" onclick="addNewIntelLogRecord()">+ New Entry</button>
-                    <div class="notes-chronological-list" id="repo_cards_list_container"></div>
-                </div>
-                <div class="notes-editor-workspace">
-                    <div class="repository-meta-header-row">
-                        <input type="text" id="repo_note_title_input" class="repository-title-input" placeholder="Journal Entry Title String..." oninput="handleNoteHeaderMetadataChange('title', this.value)">
-                        <button class="repository-delete-btn" onclick="deleteActiveIntelLogRecord()">Delete Intel Card</button>
+            <div>
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
+                <div class="skill-row">
+                    <span class="skill-name">Persuasion</span><input type="number" id="skill_persuasion" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Intimidation</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Negotiation</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rhetoric</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Deceive</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Invocation</span>
                     </div>
-                    <div style="width:100%;">
-                        <input type="text" id="repo_note_date_input" class="repository-title-input" style="font-size:13px; padding:6px 10px;" placeholder="Mission Timestamp (e.g., October 14, 1943)..." oninput="handleNoteHeaderMetadataChange('date', this.value)">
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Resilience</span><input type="number" id="skill_resilience" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Immunity</span>
                     </div>
-                    <div class="editor-command-bar">
-                        <button class="editor-btn" onclick="execEditorCommand('bold')">B</button>
-                        <button class="editor-btn" style="font-style:italic;" onclick="execEditorCommand('italic')">I</button>
-                        <button class="editor-btn" style="text-decoration:underline;" onclick="execEditorCommand('underline')">U</button>
-                        <button class="editor-btn" style="background-color:#fff2a8; border-color:#dcd088;" onclick="toggleCustomTextHighlight()">Marker</button>
-                        <div style="border-left:1px solid #ccc; margin:0 4px;"></div>
-                        <button class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
-                        <button class="editor-btn" onclick="execEditorCommand('insertOrderedList')">1. List</button>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Stealth</span><input type="number" id="skill_stealth" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rural Stealth</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Urban Stealth</span>
                     </div>
-                    <div id="repo_rich_text_editor" class="wordpad-core-container" contenteditable="true" oninput="handleNoteContentChange(this.innerHTML)"></div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Survival</span><input type="number" id="skill_survival" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hunting</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Mysticism</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Orienteering</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Tactics</span><input type="number" id="skill_tactics" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Covert Operations</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Leadership</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Navy</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Technical Projects</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Vehicles</span><input type="number" id="skill_vehicles" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Vehicles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Tanks</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Aircraft</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Watercraft</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP CONTROLLER CORE IMPLEMENTATION MODULE -->
+    <div id="tab-equipment" class="tab-panel-content">
+        <div class="section-banner">Equipment of Note</div>
+        <div class="equipment-note-grid">
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_1" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_2" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_3" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_4" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_5" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_6" class="equipment-textarea"></textarea>
+            </div>
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_7" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_8" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_9" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_10" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_11" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_12" class="equipment-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="weapons-header-container">
+            <div class="weapons-header-title">Weapons & Armaments</div>
+            <div class="header-ticker-wrap">
+                <label>Ammo</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', -1)">-</div>
+                    <input type="text" id="ticker_ammo" class="ticker-val-field" style="width: 45px;" value="0" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weapons-grid-table">
+            <div class="weapons-grid-header">
+                <span>Name</span><span>Focus</span><span>Range</span><span>Damage</span><span>Salvo</span><span>Size</span><span>Qualities</span>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_1_name" class="grid-textarea"></textarea><textarea id="weapon_1_focus" class="grid-textarea"></textarea><textarea id="weapon_1_range" class="grid-textarea"></textarea><textarea id="weapon_1_damage" class="grid-textarea"></textarea><textarea id="weapon_1_salvo" class="grid-textarea"></textarea><textarea id="weapon_1_size" class="grid-textarea"></textarea><textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_2_name" class="grid-textarea"></textarea><textarea id="weapon_2_focus" class="grid-textarea"></textarea><textarea id="weapon_2_range" class="grid-textarea"></textarea><textarea id="weapon_2_damage" class="grid-textarea"></textarea><textarea id="weapon_2_salvo" class="grid-textarea"></textarea><textarea id="weapon_2_size" class="grid-textarea"></textarea><textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_3_name" class="grid-textarea"></textarea><textarea id="weapon_3_focus" class="grid-textarea"></textarea><textarea id="weapon_3_range" class="grid-textarea"></textarea><textarea id="weapon_3_damage" class="grid-textarea"></textarea><textarea id="weapon_3_salvo" class="grid-textarea"></textarea><textarea id="weapon_3_size" class="grid-textarea"></textarea><textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="footer-split-dashboard" style="margin-top: 15px;">
+            <div class="bio-entry-box">
+                <div class="section-banner" style="margin-top:0;">Biography</div>
+                <textarea id="char_bio" placeholder="Write character origin history..."></textarea>
+            </div>
+            <div class="talents-grid-table">
+                <div class="section-banner" style="margin-top:0;">Talents</div>
+                <div class="talents-grid-header"><span>Name</span><span>Keywords</span><span>Effect</span></div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_1_name" class="talent-textarea"></textarea><textarea id="talent_1_keys" class="talent-textarea"></textarea><textarea id="talent_1_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_2_name" class="talent-textarea"></textarea><textarea id="talent_2_keys" class="talent-textarea"></textarea><textarea id="talent_2_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_3_name" class="talent-textarea"></textarea><textarea id="talent_3_keys" class="talent-textarea"></textarea><textarea id="talent_3_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_4_name" class="talent-textarea"></textarea><textarea id="talent_4_keys" class="talent-textarea"></textarea><textarea id="talent_4_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_5_name" class="talent-textarea"></textarea><textarea id="talent_5_keys" class="talent-textarea"></textarea><textarea id="talent_5_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_6_name" class="talent-textarea"></textarea><textarea id="talent_6_keys" class="talent-textarea"></textarea><textarea id="talent_6_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_7_name" class="talent-textarea"></textarea><textarea id="talent_7_keys" class="talent-textarea"></textarea><textarea id="talent_7_effect" class="talent-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-spells" class="tab-panel-content">
+        <div class="spells-header-container">
+            <div class="spells-header-title">Spells & Sorcery</div>
+            <div class="header-ticker-wrap">
+                <label>Power</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', -1)">-</div>
+                    <input type="text" id="ticker_power" class="ticker-val-field" style="width: 55px;" value="—" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spells-grid-table">
+            <div class="spells-grid-header">
+                <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_4_name" class="spell-textarea"></textarea><textarea id="spell_4_skill" class="spell-textarea"></textarea><textarea id="spell_4_diff" class="spell-textarea"></textarea><textarea id="spell_4_cost" class="spell-textarea"></textarea><textarea id="spell_4_duration" class="spell-textarea"></textarea><textarea id="spell_4_effect" class="spell-textarea"></textarea><textarea id="spell_4_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_5_name" class="spell-textarea"></textarea><textarea id="spell_5_skill" class="spell-textarea"></textarea><textarea id="spell_5_diff" class="spell-textarea"></textarea><textarea id="spell_5_cost" class="spell-textarea"></textarea><textarea id="spell_5_duration" class="spell-textarea"></textarea><textarea id="spell_5_effect" class="spell-textarea"></textarea><textarea id="spell_5_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_6_name" class="spell-textarea"></textarea><textarea id="spell_6_skill" class="spell-textarea"></textarea><textarea id="spell_6_diff" class="spell-textarea"></textarea><textarea id="spell_6_cost" class="spell-textarea"></textarea><textarea id="spell_6_duration" class="spell-textarea"></textarea><textarea id="spell_6_effect" class="spell-textarea"></textarea><textarea id="spell_6_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_7_name" class="spell-textarea"></textarea><textarea id="spell_7_skill" class="spell-textarea"></textarea><textarea id="spell_7_diff" class="spell-textarea"></textarea><textarea id="spell_7_cost" class="spell-textarea"></textarea><textarea id="spell_7_duration" class="spell-textarea"></textarea><textarea id="spell_7_effect" class="spell-textarea"></textarea><textarea id="spell_7_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_8_name" class="spell-textarea"></textarea><textarea id="spell_8_skill" class="spell-textarea"></textarea><textarea id="spell_8_diff" class="spell-textarea"></textarea><textarea id="spell_8_cost" class="spell-textarea"></textarea><textarea id="spell_8_duration" class="spell-textarea"></textarea><textarea id="spell_8_effect" class="spell-textarea"></textarea><textarea id="spell_8_momentum" class="spell-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-notes" class="tab-panel-content">
+        <div class="section-banner" style="margin-top: 25px;">Journal</div>
+        <div class="notes-layout-split">
+            <div class="notes-sidebar-panel">
+                <input type="text" id="journal_search_field" class="journal-search-input" oninput="handleJournalSearchInput(this.value)" placeholder="Search by title or date...">
+                <button type="button" class="add-note-action-btn" onclick="createNewRepositoryNote()">+ Add New Entry</button>
+                <div id="repo_cards_list_container" class="notes-chronological-list"></div>
+            </div>
+
+            <div id="repo_editor_view_panel" class="notes-editor-workspace" style="display: none;">
+                <div class="repository-meta-header-row">
+                    <input type="text" id="repo_note_title_input" class="repository-title-input" oninput="handleNoteTitleChange(this.value)" placeholder="Enter Note Title...">
+                    <button type="button" class="repository-delete-btn" onclick="deleteCurrentRepositoryNote()">Delete Note</button>
+                </div>
+                
+                <div class="editor-command-bar">
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('bold')"><b>B</b></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertOrderedList')">1. List</button>
+                    <button type="button" class="editor-btn" style="background: #fff2a8; border-color: #e0ca3c;" onclick="toggleCustomTextHighlight()">Highlight</button>
+                    <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
+                </div>
+
+                <div id="repo_rich_text_editor" class="wordpad-core-container" contenteditable="true" oninput="handleNoteContentChange(this.innerHTML)"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let saveTimer = null;
+let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
+
+// Note Repository App State Engines
+let characterNotesLogArray = [];
+let currentSelectedNoteId = null;
+let currentJournalSearchString = "";
+
+function switchSheetTab(tabId, buttonElement) {
+    document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    buttonElement.classList.add('active');
+}
+
+function execEditorCommand(cmd, value = null) {
+    document.execCommand(cmd, false, value);
+    document.getElementById('repo_rich_text_editor').focus();
+}
+
+/* SMART RTE TOGGLEABLE HIGHLIGHT MECHANICS */
+function toggleCustomTextHighlight() {
+    const activeSelection = window.getSelection();
+    if (!activeSelection || activeSelection.rangeCount === 0 || activeSelection.isCollapsed) return;
+
+    const selectedRange = activeSelection.getRangeAt(0);
+    
+    // Test if the selection is perfectly nested within or covers an existing custom mark node
+    let containerElement = selectedRange.commonAncestorContainer;
+    if (containerElement.nodeType === 3) {
+        containerElement = containerElement.parentNode;
+    }
+    
+    const nearestMarkNode = containerElement.closest('mark.journal-custom-highlight');
+    
+    if (nearestMarkNode) {
+        // Unhighlight action: Extract texts out of the mark wrapper
+        const plainTextContents = document.createTextNode(nearestMarkNode.textContent);
+        nearestMarkNode.parentNode.replaceChild(plainTextContents, nearestMarkNode);
+    } else {
+        // Highlight action: Create fresh markup wrapper element node
+        const customMarkWrapper = document.createElement('mark');
+        customMarkWrapper.className = "journal-custom-highlight";
+        
+        try {
+            customMarkWrapper.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(customMarkWrapper);
+            activeSelection.removeAllRanges();
+        } catch(e) {
+            // Fallback gracefully to standard command structure if structural ranges cross complex node blocks
+            document.execCommand('hiliteColor', false, '#fff2a8');
+        }
+    }
+    
+    // Save content updates out to local storage states
+    const richTextContainer = document.getElementById('repo_rich_text_editor');
+    handleNoteContentChange(richTextContainer.innerHTML);
+    richTextContainer.focus();
+}
+
+function queueAutosave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
+    }, 1000);
+}
+
+function newCharacter() {
+    if (!confirm("Are you sure you want to clear this sheet?")) return;
+    localStorage.removeItem("achtung_cthulhu_save");
+    
+    document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    document.querySelectorAll('input[type="number"]').forEach(el => {
+        if (!el.id.startsWith("attr_")) el.value = 0;
+    });
+    ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
+        const input = document.getElementById("attr_" + attr);
+        if (input) input.value = 6;
+    });
+    document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+    });
+
+    // Reset Manual Resize Metrics back to default heights
+    document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+        el.style.height = "";
+    });
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+        row.removeAttribute('data-saved-height');
+    });
+
+    // Clear Notes App State
+    characterNotesLogArray = [];
+    currentSelectedNoteId = null;
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+    renderNoteRepositorySidebar();
+    document.getElementById('repo_editor_view_panel').style.display = "none";
+
+    tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
+    updateAllCalculations();
+}
+
+// NOTE REPOSITORY APP IMPLEMENTATION ENGINE
+function createNewRepositoryNote() {
+    const timestampString = new Date().toLocaleString();
+    const newNoteObj = {
+        id: "note_" + Date.now(),
+        title: "Untitled Journal Entry",
+        date: timestampString,
+        content: "<p></p>"
+    };
+    characterNotesLogArray.unshift(newNoteObj);
+    currentSelectedNoteId = newNoteObj.id;
+    
+    // Clear the search field on new entry creation to ensure visibility
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+    
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
+}
+
+function handleJournalSearchInput(queryValue) {
+    currentJournalSearchString = queryValue.toLowerCase().trim();
+    renderNoteRepositorySidebar();
+}
+
+function normalizeDatePunctuation(str) {
+    // Normalizes punctuation markers like dashes, slashes, spaces, and periods out of timestamps
+    return str.replace(/[\/\-\.\s]/g, "");
+}
+
+function renderNoteRepositorySidebar() {
+    const listContainer = document.getElementById('repo_cards_list_container');
+    listContainer.innerHTML = "";
+    
+    // Process search expressions normalization
+    const searchClean = normalizeDatePunctuation(currentJournalSearchString);
+    
+    characterNotesLogArray.forEach(note => {
+        // Primary text validation checks
+        const noteTitleClean = (note.title || "").toLowerCase();
+        const noteDateClean = (note.date || "").toLowerCase();
+        
+        // Secondary structural strip punctuation evaluation logic checks for flexible date criteria search matches
+        const dateStripped = normalizeDatePunctuation(noteDateClean);
+        
+        const matchesTitle = noteTitleClean.includes(currentJournalSearchString);
+        const matchesDateDirect = noteDateClean.includes(currentJournalSearchString);
+        const matchesDateNormalized = searchClean !== "" && dateStripped.includes(searchClean);
+        
+        // Show item if no search criteria is present OR if it fulfills any clean search query vector
+        if (currentJournalSearchString === "" || matchesTitle || matchesDateDirect || matchesDateNormalized) {
+            const cardNode = document.createElement('div');
+            cardNode.className = "note-list-card-item";
+            if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
+            cardNode.onclick = () => selectActiveNote(note.id);
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.className = "note-card-title-text";
+            titleDiv.innerText = note.title || "Untitled Journal Entry";
+            
+            const dateDiv = document.createElement('div');
+            dateDiv.className = "note-card-meta-date";
+            dateDiv.innerText = note.date;
+            
+            cardNode.appendChild(titleDiv);
+            cardNode.appendChild(dateDiv);
+            listContainer.appendChild(cardNode);
+        }
+    });
+}
+
+function selectActiveNote(id) {
+    currentSelectedNoteId = id;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+}
+
+function loadActiveNoteIntoEditor() {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (!activeNote) {
+        document.getElementById('repo_editor_view_panel').style.display = "none";
+        return;
+    }
+    document.getElementById('repo_editor_view_panel').style.display = "flex";
+    document.getElementById('repo_note_title_input').value = activeNote.title || "";
+    document.getElementById('repo_rich_text_editor').innerHTML = activeNote.content || "";
+}
+
+function handleNoteTitleChange(newTitle) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.title = newTitle;
+        renderNoteRepositorySidebar(); // Rerender to dynamically update matches
+        queueAutosave();
+    }
+}
+
+function handleNoteContentChange(newHTML) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.content = newHTML;
+        queueAutosave();
+    }
+}
+
+function deleteCurrentRepositoryNote() {
+    if (!confirm("Delete this journal note permanently?")) return;
+    characterNotesLogArray = characterNotesLogArray.filter(n => n.id !== currentSelectedNoteId);
+    currentSelectedNoteId = characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
+}
+
+function validateAttrCap(input) {
+    let val = parseInt(input.value);
+    if (isNaN(val)) val = 0; 
+    if (val > 15) input.value = 15; 
+    if (val < 0) input.value = 0;
+    updateAllCalculations();
+}
+
+function toggleFocus(el) {
+    el.classList.toggle("active");
+    queueAutosave();
+}
+
+function cycleInjuryState(element) {
+    if (!element.classList.contains("state-M") && !element.classList.contains("state-P")) {
+        element.classList.add("state-M");
+        element.innerText = "M";
+    } else if (element.classList.contains("state-M")) {
+        element.classList.remove("state-M");
+        element.classList.add("state-P");
+        element.innerText = "P";
+    } else {
+        element.classList.remove("state-P");
+        element.innerText = "";
+    }
+    queueAutosave();
+}
+
+function updateAllCalculations() {
+    updateAttributeCDFields();
+    updateStressCalculations();
+    updateResistanceCalculations();
+}
+
+function calculateCDValue(score) {
+    if (score <= 8) return "—";
+    if (score === 9) return "+1cd";
+    if (score === 10 || score === 11) return "+2cd";
+    if (score === 12 || score === 13) return "+3cd";
+    if (score === 14 || score === 15) return "+4cd";
+    return "+5cd"; 
+}
+
+function updateAttributeCDFields() {
+    ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
+        const baseVal = parseInt(document.getElementById("attr_" + attr).value) || 0;
+        const targetBonusField = document.getElementById("bonus_" + attr);
+        if (targetBonusField) targetBonusField.value = calculateCDValue(baseVal);
+    });
+}
+
+function calculateResistanceBase(score) {
+    if (score <= 8) return 0; 
+    if (score === 9) return 1;
+    if (score === 10 || score === 11) return 2;
+    if (score === 12 || score === 13) return 3;
+    if (score === 14 || score === 15) return 4;
+    return 5; 
+}
+
+function updateResistanceCalculations() {
+    const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
+    const willScore = parseInt(document.getElementById('attr_will').value) || 0;
+    
+    if (tickerManualOffsets.ticker_armour === undefined) tickerManualOffsets.ticker_armour = 0;
+    if (tickerManualOffsets.ticker_courage === undefined) tickerManualOffsets.ticker_courage = 0;
+    if (tickerManualOffsets.ticker_fortune === undefined) tickerManualOffsets.ticker_fortune = 0;
+    if (tickerManualOffsets.ticker_exp === undefined) tickerManualOffsets.ticker_exp = 0;
+    if (tickerManualOffsets.ticker_ammo === undefined) tickerManualOffsets.ticker_ammo = 0;
+    if (tickerManualOffsets.ticker_power === undefined) tickerManualOffsets.ticker_power = 0;
+
+    const totalArmour = calculateResistanceBase(brawnScore) + tickerManualOffsets.ticker_armour;
+    const totalCourage = calculateResistanceBase(willScore) + tickerManualOffsets.ticker_courage;
+
+    const armourDisplay = document.getElementById("ticker_armour");
+    armourDisplay.value = (brawnScore <= 8 && totalArmour <= 0) ? "—" : totalArmour;
+
+    const courageDisplay = document.getElementById("ticker_courage");
+    courageDisplay.value = (willScore <= 8 && totalCourage <= 0) ? "—" : totalCourage;
+
+    document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
+    document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
+    document.getElementById("ticker_ammo").value = tickerManualOffsets.ticker_ammo;
+
+    const powerDisplay = document.getElementById("ticker_power");
+    if (powerDisplay) {
+        const currentPower = tickerManualOffsets.ticker_power;
+        powerDisplay.value = (currentPower === 0) ? "—" : `+${currentPower}cd`;
+    }
+}
+
+function adjustTickerField(id, amount) {
+    if (id === "ticker_fortune" || id === "ticker_exp" || id === "ticker_power" || id === "ticker_ammo") {
+        tickerManualOffsets[id] = Math.max(0, (tickerManualOffsets[id] || 0) + amount);
+    } else {
+        tickerManualOffsets[id] = (tickerManualOffsets[id] || 0) + amount;
+    }
+    updateResistanceCalculations();
+    queueAutosave();
+}
+
+function updateStressCalculations() {
+    const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
+    const willBase = parseInt(document.getElementById('attr_will').value) || 0;
+    const highestBase = Math.max(brawnBase, willBase);
+    const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
+    const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
+
+    document.getElementById('calc_highest_attr').value = highestBase;
+    document.getElementById('input_stress_bonus').value = resilienceSkillRank;
+
+    const total = highestBase + resilienceSkillRank - fatigue;
+    document.getElementById('output_stress_max').value = total;
+
+    const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
+    for (let i = 0; i < boxes.length; i++) {
+        if (i < total) {
+            boxes[i].disabled = false;
+        } else {
+            boxes[i].checked = false;
+            boxes[i].disabled = true;
+        }
+    }
+}
+
+function getActiveFocuses() {
+    const focusData = {};
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+        const active = [];
+        row.querySelectorAll(".focus-clickable-text.active").forEach(f => active.push(f.innerText.trim()));
+        focusData[skillInput.id] = active;
+    });
+    return focusData;
+}
+
+function setActiveFocuses(focuses) {
+    if (!focuses) return;
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+        const active = focuses[skillInput.id] || [];
+        row.querySelectorAll(".focus-clickable-text").forEach(f => {
+            f.classList.toggle("active", active.includes(f.innerText.trim()));
+        });
+    });
+}
+
+function getInjuryStates() {
+    const injuryData = {};
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        injuryData[box.id] = box.innerText || "";
+    });
+    return injuryData;
+}
+
+function setInjuryStates(injuries) {
+    if (!injuries) return;
+    Object.keys(injuries).forEach(id => {
+        const box = document.getElementById(id);
+        if (!box) return;
+        const state = injuries[id];
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+        if (state === "M" || state === "P") {
+            box.classList.add("state-" + state);
+            box.innerText = state;
+        }
+    });
+}
+
+// Compile manual height attributes to string records
+function gatherCustomLayoutHeights() {
+    const heightMap = {};
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        const savedHeight = row.getAttribute('data-saved-height');
+        if (savedHeight) heightMap[identifier] = savedHeight;
+    });
+    return heightMap;
+}
+
+function restoreCustomLayoutHeights(heightMap) {
+    if (!heightMap) return;
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        if (heightMap[identifier]) {
+            row.setAttribute('data-saved-height', heightMap[identifier]);
+            row.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(textarea => {
+                textarea.style.height = heightMap[identifier];
+            });
+        }
+    });
+}
+
+// Master Serialization Engines
+function compileCharacterData() {
+    const saveData = {};
+    document.querySelectorAll("input, textarea").forEach(el => {
+        if (!el.id || el.id === "loadFile" || el.id === "journal_search_field" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
+        if (el.id.startsWith("ticker_")) return;
+        saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
+    });
+    saveData.tickerOffsets = tickerManualOffsets;
+    saveData.focuses = getActiveFocuses();
+    saveData.injuries = getInjuryStates();
+    saveData.layoutHeights = gatherCustomLayoutHeights();
+    
+    // Bundle the whole notes array and tracking profile state
+    saveData.notesRepositoryLog = characterNotesLogArray;
+    saveData.activeRepositoryNoteId = currentSelectedNoteId;
+    return saveData;
+}
+
+function applyCharacterData(saveData) {
+    if (!saveData) return;
+    Object.keys(saveData).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets" || id === "layoutHeights" || id === "notesRepositoryLog" || id === "activeRepositoryNoteId") return;
+        if (el.type === "checkbox") {
+            el.checked = saveData[id];
+        } else {
+            el.value = saveData[id];
+        }
+    });
+    
+    if (saveData.tickerOffsets) {
+        tickerManualOffsets = saveData.tickerOffsets;
+    } else {
+        tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
+    }
+    
+    if (tickerManualOffsets.ticker_ammo === undefined) tickerManualOffsets.ticker_ammo = 0;
+
+    setActiveFocuses(saveData.focuses);
+    setInjuryStates(saveData.injuries);
+    restoreCustomLayoutHeights(saveData.layoutHeights);
+
+    characterNotesLogArray = saveData.notesRepositoryLog || [];
+    currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
+    
+    // Reset any lingering temporary UI filter strings upon load
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+
+    updateAllCalculations();
+}
+
+function saveCharacter() {
+    const dataPayload = compileCharacterData();
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
+    
+    let rawName = document.getElementById("char_name").value.trim();
+    let safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
+    let filename = safeName ? `AC-${safeName}.json` : "AC-Character.json";
+
+    const blob = new Blob([JSON.stringify(dataPayload, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function loadCharacter(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const saveData = JSON.parse(e.target.result);
+            applyCharacterData(saveData);
+            localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
+        } catch (err) {
+            alert("Error parsing character JSON file.");
+        }
+    };
+    reader.readAsText(file);
+}
+
+// Unison Grid Resizing Dynamic Layout Listeners
+document.addEventListener('mouseup', function(e) {
+    if (e.target.classList && (e.target.classList.contains('spell-textarea') || e.target.classList.contains('equipment-textarea'))) {
+        const isSpell = e.target.classList.contains('spell-textarea');
+        const targetRowClass = isSpell ? '.spells-grid-row' : '.equipment-grid-row';
+        const targetTextareaClass = isSpell ? '.spell-textarea' : '.equipment-textarea';
+        
+        let parentRow = e.target.closest(targetRowClass);
+        if (parentRow) {
+            let currentHeight = e.target.style.height;
+            if (currentHeight) {
+                parentRow.setAttribute('data-saved-height', currentHeight);
+                parentRow.querySelectorAll(targetTextareaClass).forEach(textarea => {
+                    textarea.style.height = currentHeight;
+                });
+                queueAutosave();
+            }
+        }
+    }
+});
+
+document.addEventListener("input", function (e) {
+    if (e.target.id === "loadFile" || e.target.id === "journal_search_field") return;
+    if (e.target.id.startsWith("attr_")) {
+        validateAttrCap(e.target);
+    } else if (e.target.id === "skill_resilience" || e.target.id === "input_stress_fatigue") {
+        updateStressCalculations();
+    }
+    queueAutosave();
+});
+
+document.addEventListener("change", function (e) {
+    if (e.target.id === "loadFile") return;
+    queueAutosave();
+});
+
+updateAllCalculations();
+
+(function loadFromLocal() {
+    const data = localStorage.getItem("achtung_cthulhu_save");
+    if (!data) return;
+    applyCharacterData(JSON.parse(data));
+})();
+</script>
+
     <script type="module">
-        // 1. Module Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getFirestore, collection, doc, getDocs, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  // 1. Import Firebase Core and Services
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-        // 2. Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
-            authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
-            projectId: "achtung-cthulhu-sheet",
-            storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
-            messagingSenderId: "657673754871",
-            appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
-        };
+  // 2. Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
+    authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
+    projectId: "achtung-cthulhu-sheet",
+    storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
+    messagingSenderId: "657673754871",
+    appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
+  };
 
-        // 3. Initialize App and Services
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+  // 3. Initialize App and Services
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
 
-        // 4. Track Active State Variables
-        let currentUser = null;
-        let activeSlotId = "slot_1";
-        let isDownloadingData = false;
+  // 4. Track Active State Variables
+  let currentUser = null;
+  let activeSlotId = "slot_1";
+  let isDownloadingData = false;
 
-        // 5. DOM Elements (The UI Controls)
-        const charSheetContainer = document.getElementById("main-character-sheet");
-        const loggedOutZone = document.getElementById("auth-logged-out-zone");
-        const loggedInZone = document.getElementById("auth-logged-in-zone");
-        const emailInput = document.getElementById("auth-email");
-        const passwordInput = document.getElementById("auth-password");
-        const userDisplayEmail = document.getElementById("user-display-email");
-        const characterSelect = document.getElementById("character-select");
-        const btnLogin = document.getElementById("btn-login");
-        const btnRegister = document.getElementById("btn-register");
-        const btnForgotPassword = document.getElementById("btn-forgot-password");
-        const btnLogout = document.getElementById("btn-logout");
-        const btnNewCharacter = document.getElementById("btn-new-character");
-        const btnDeleteCharacter = document.getElementById("btn-delete-character");
-        const btnExportSheet = document.getElementById("btn-export-sheet");
-        const btnImportSheet = document.getElementById("btn-import-sheet");
-        const cloudImportFile = document.getElementById("cloud-import-file");
+  // 5. DOM Elements (The UI Controls)
+  const charSheetContainer = document.getElementById("main-character-sheet");
+  const loggedOutZone = document.getElementById("auth-logged-out-zone");
+  const loggedInZone = document.getElementById("auth-logged-in-zone");
+  const emailInput = document.getElementById("auth-email");
+  const passwordInput = document.getElementById("auth-password");
+  const userDisplayEmail = document.getElementById("user-display-email");
+  const characterSelect = document.getElementById("character-select");
+  
+  const btnLogin = document.getElementById("btn-login");
+  const btnRegister = document.getElementById("btn-register");
+  const btnForgotPassword = document.getElementById("btn-forgot-password");
+  const btnLogout = document.getElementById("btn-logout");
+  const btnNewCharacter = document.getElementById("btn-new-character");
+  const btnDeleteCharacter = document.getElementById("btn-delete-character");
+  const btnExportSheet = document.getElementById("btn-export-sheet");
+  const btnImportSheet = document.getElementById("btn-import-sheet");
+  const cloudImportFile = document.getElementById("cloud-import-file");
 
-        // Global functions attachment for HTML click bindings
-        window.switchSheetTab = switchSheetTab;
-        window.execEditorCommand = execEditorCommand;
-        window.toggleCustomTextHighlight = toggleCustomTextHighlight;
-        window.handleJournalSearchInput = handleJournalSearchInput;
-        window.addNewIntelLogRecord = addNewIntelLogRecord;
-        window.deleteActiveIntelLogRecord = deleteActiveIntelLogRecord;
-        window.handleNoteHeaderMetadataChange = handleNoteHeaderMetadataChange;
-        window.handleNoteContentChange = handleNoteContentChange;
-        window.adjustTickerField = adjustTickerField;
-        window.cycleInjuryState = cycleInjuryState;
-        window.updateStressCalculations = updateStressCalculations;
-        window.toggleFocus = toggleFocus;
+  // ==========================================
+  //  PHASE A: AUTHENTICATION
+  // ==========================================
 
-        let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
-        let characterNotesLogArray = [];
-        let currentSelectedNoteId = null;
-        let currentJournalSearchString = "";
+  // Register New Account
+  btnRegister.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Account created successfully!");
+    } catch (error) {
+      alert("Registration Error: " + error.message);
+    }
+  });
 
-        function switchSheetTab(tabId, buttonElement) {
-            document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            buttonElement.classList.add('active');
+  // Log In Existing Account
+  btnLogin.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      alert("Login Error: " + error.message);
+    }
+  });
+
+  // Forgot Password Reset Routine
+  btnForgotPassword.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return alert("Please type your email address into the text box first, then click Forgot Password.");
+    
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Please check your inbox or spam folder.");
+    } catch (error) {
+      alert("Reset Error: " + error.message);
+    }
+  });
+
+  // Log Out
+  btnLogout.addEventListener("click", () => {
+    signOut(auth).then(() => {
+      localStorage.removeItem("achtung_cthulhu_save");
+      location.reload(); 
+    });
+  });
+
+  // ==========================================
+  //  PHASE B: MANAGING THE ACCOUNT STATE
+  // ==========================================
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      userDisplayEmail.textContent = `User: ${user.email}`;
+      
+      loggedOutZone.style.display = "none";
+      loggedInZone.style.display = "flex";
+      
+      // REVEAL character sheet container when verified!
+      if (charSheetContainer) charSheetContainer.style.display = "block";
+      
+      await loadCharacterList();
+    } else {
+      currentUser = null;
+      loggedOutZone.style.display = "flex";
+      loggedInZone.style.display = "none";
+      
+      // HIDE character sheet container when unauthorized!
+      if (charSheetContainer) charSheetContainer.style.display = "none";
+    }
+  });
+
+  // ==========================================
+  //  PHASE C: LOADING, SAVING & MANAGING SLOTS
+  // ==========================================
+  async function loadCharacterList() {
+    if (!currentUser) return;
+    characterSelect.innerHTML = "";
+    
+    try {
+      const slotsRef = collection(db, "users", currentUser.uid, "characters");
+      const querySnapshot = await getDocs(slotsRef);
+      
+      if (querySnapshot.empty) {
+        activeSlotId = "slot_1";
+        await saveCharacterToCloud();
+        const option = new Option("Slot 1 (New Character)", "slot_1");
+        characterSelect.add(option);
+        return;
+      }
+      
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
+        const option = new Option(displayName, docSnap.id);
+        characterSelect.add(option);
+      });
+      
+      characterSelect.value = activeSlotId;
+      if (!characterSelect.value && characterSelect.options.length > 0) {
+        activeSlotId = characterSelect.options[0].value;
+        characterSelect.value = activeSlotId;
+      }
+      
+      await loadCharacterFromCloud();
+    } catch (error) {
+      console.error("Error generating character list: ", error);
+    }
+  }
+
+  async function loadCharacterFromCloud() {
+    if (!currentUser || !activeSlotId) return;
+    isDownloadingData = true;
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const characterData = docSnap.data();
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(characterData);
+          localStorage.setItem("achtung_cthulhu_save", JSON.stringify(characterData));
         }
+      }
+    } catch (error) {
+      console.error("Error loading cloud data: ", error);
+    } finally {
+      isDownloadingData = false;
+    }
+  }
 
-        function execEditorCommand(cmd, value = null) {
-            document.execCommand(cmd, false, value);
-            document.getElementById('repo_rich_text_editor').focus();
-        }
+  async function saveCharacterToCloud() {
+    if (!currentUser || !activeSlotId || isDownloadingData) return;
+    
+    const localDataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!localDataString) return;
+    
+    const characterData = JSON.parse(localDataString);
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await setDoc(docRef, characterData, { merge: true });
+      console.log(`Cloud Auto-Synced: ${activeSlotId}`);
+    } catch (error) {
+      console.error("Cloud Save Failure: ", error);
+    }
+  }
 
-        /* SMART RTE TOGGLEABLE HIGHLIGHT MECHANICS */
-        function toggleCustomTextHighlight() {
-            const activeSelection = window.getSelection();
-            if (!activeSelection || activeSelection.rangeCount === 0 || activeSelection.isCollapsed) return;
-            const selectedRange = activeSelection.getRangeAt(0);
-            
-            let containerElement = selectedRange.commonAncestorContainer;
-            if (containerElement.nodeType === 3) {
-                containerElement = containerElement.parentNode;
-            }
-            const nearestMarkNode = containerElement.closest('mark.journal-custom-highlight');
-            if (nearestMarkNode) {
-                const plainTextContents = document.createTextNode(nearestMarkNode.textContent);
-                nearestMarkNode.parentNode.replaceChild(plainTextContents, nearestMarkNode);
-            } else {
-                const customMarkWrapper = document.createElement('mark');
-                customMarkWrapper.className = "journal-custom-highlight";
-                try {
-                    customMarkWrapper.appendChild(selectedRange.extractContents());
-                    selectedRange.insertNode(customMarkWrapper);
-                    activeSelection.removeAllRanges();
-                } catch(e) {
-                    document.execCommand('hiliteColor', false, '#fff2a8');
-                }
-            }
-            const richTextContainer = document.getElementById('repo_rich_text_editor');
-            handleNoteContentChange(richTextContainer.innerHTML);
-            richTextContainer.focus();
-        }
+  characterSelect.addEventListener("change", async (e) => {
+    activeSlotId = e.target.value;
+    await loadCharacterFromCloud();
+  });
 
-        function queueAutosave() {
-            if (typeof saveCharacter === "function") {
-                saveCharacter();
-            }
-        }
+  // + Add New Routine
+  btnNewCharacter.addEventListener("click", async () => {
+    if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
-        function addNewIntelLogRecord() {
-            const freshlyMintedNoteRecordObj = {
-                id: "intel_note_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
-                title: "New Intel Entry Log",
-                date: "",
-                htmlContent: "<p>Write custom entry reports details here...</p>"
-            };
-            characterNotesLogArray.unshift(freshlyMintedNoteRecordObj);
-            currentSelectedNoteId = freshlyMintedNoteRecordObj.id;
-            currentJournalSearchString = "";
-            document.getElementById('journal_search_field').value = "";
-            renderNoteRepositorySidebar();
-            loadActiveNoteIntoEditor();
-            queueAutosave();
-        }
+    // 1. Generate a fresh timestamp ID for this new cloud slot
+    const newSlotId = "slot_" + Date.now();
+    
+    // 2. Clear out local memory cache completely
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
+    
+    // 3. FORCE all onscreen input nodes to empty defaults immediately before reloading
+    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
+      input.value = "";
+    });
+    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+      checkbox.checked = false;
+    });
 
-        function handleJournalSearchInput(queryValue) {
-            currentJournalSearchString = queryValue.toLowerCase().trim();
-            renderNoteRepositorySidebar();
-        }
-
-        function normalizeDatePunctuation(str) {
-            return str.replace(/[\/\-\.\s]/g, "");
-        }
-
-        function renderNoteRepositorySidebar() {
-            const listContainer = document.getElementById('repo_cards_list_container');
-            listContainer.innerHTML = "";
-            const searchClean = normalizeDatePunctuation(currentJournalSearchString);
-            
-            characterNotesLogArray.forEach(note => {
-                const noteTitleClean = (note.title || "").toLowerCase();
-                const noteDateClean = (note.date || "").toLowerCase();
-                const dateStripped = normalizeDatePunctuation(noteDateClean);
-                const matchesTitle = noteTitleClean.includes(currentJournalSearchString);
-                const matchesDateDirect = noteDateClean.includes(currentJournalSearchString);
-                const matchesDateNormalized = searchClean !== "" && dateStripped.includes(searchClean);
-
-                if (currentJournalSearchString === "" || matchesTitle || matchesDateDirect || matchesDateNormalized) {
-                    const cardNode = document.createElement('div');
-                    cardNode.className = "note-list-card-item";
-                    if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
-                    cardNode.onclick = () => selectActiveNote(note.id);
-
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = "note-card-title-text";
-                    titleDiv.innerText = note.title || "Untitled Journal Entry";
-
-                    const dateDiv = document.createElement('div');
-                    dateDiv.className = "note-card-meta-date";
-                    dateDiv.innerText = note.date || "No Operational Timestamp Set";
-
-                    cardNode.appendChild(titleDiv);
-                    cardNode.appendChild(dateDiv);
-                    listContainer.appendChild(cardNode);
-                }
-            });
-        }
-
-        function selectActiveNote(passedId) {
-            currentSelectedNoteId = passedId;
-            document.querySelectorAll('.note-list-card-item').forEach(card => card.classList.remove('selected-active'));
-            renderNoteRepositorySidebar();
-            loadActiveNoteIntoEditor();
-        }
-
-        function loadActiveNoteIntoEditor() {
-            const activeNoteInstance = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
-            const titleInput = document.getElementById('repo_note_title_input');
-            const dateInput = document.getElementById('repo_note_date_input');
-            const visualEditorBody = document.getElementById('repo_rich_text_editor');
-
-            if (activeNoteInstance) {
-                titleInput.value = activeNoteInstance.title || "";
-                dateInput.value = activeNoteInstance.date || "";
-                visualEditorBody.innerHTML = activeNoteInstance.htmlContent || "";
-                titleInput.disabled = false;
-                dateInput.disabled = false;
-                visualEditorBody.contentEditable = "true";
-            } else {
-                titleInput.value = "";
-                dateInput.value = "";
-                visualEditorBody.innerHTML = "<p style='color:#999; font-style:italic;'>No entry selected. Build a fresh intel module log node card to unlock workspace.</p>";
-                titleInput.disabled = true;
-                dateInput.disabled = true;
-                visualEditorBody.contentEditable = "false";
-            }
-        }
-
-        function handleNoteHeaderMetadataChange(propertyKeyString, mutatedStringValue) {
-            const matchedInternalObject = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
-            if (!matchedInternalObject) return;
-            matchedInternalObject[propertyKeyString] = mutatedStringValue;
-            
-            if (propertyKeyString === 'title') {
-                const selectedDOMNodeCard = document.querySelector('.note-list-card-item.selected-active .note-card-title-text');
-                if (selectedDOMNodeCard) selectedDOMNodeCard.innerText = mutatedStringValue || "Untitled Journal Entry";
-            }
-            if (propertyKeyString === 'date') {
-                const selectedDOMNodeCard = document.querySelector('.note-list-card-item.selected-active .note-card-meta-date');
-                if (selectedDOMNodeCard) selectedDOMNodeCard.innerText = mutatedStringValue || "No Operational Timestamp Set";
-            }
-            queueAutosave();
-        }
-
-        function handleNoteContentChange(mutatedHTMLContentString) {
-            const matchedInternalObject = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
-            if (!matchedInternalObject) return;
-            matchedInternalObject.htmlContent = mutatedHTMLContentString;
-            queueAutosave();
-        }
-
-        function deleteActiveIntelLogRecord() {
-            if (!currentSelectedNoteId) return;
-            if (!confirm("Permanently erase this intelligence entry?")) return;
-            characterNotesLogArray = characterNotesLogArray.filter(n => n.id !== currentSelectedNoteId);
-            currentSelectedNoteId = characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null;
-            currentJournalSearchString = "";
-            document.getElementById('journal_search_field').value = "";
-            renderNoteRepositorySidebar();
-            loadActiveNoteIntoEditor();
-            queueAutosave();
-        }
-
-        function adjustTickerField(fieldId, direction) {
-            const valField = document.getElementById(fieldId);
-            if (!valField) return;
-            let currentVal = parseInt(valField.value) || 0;
-            if (fieldId === "ticker_power" && valField.value === "—") currentVal = 0;
-            let newVal = currentVal + direction;
-            if (newVal < 0) newVal = 0;
-            valField.value = newVal;
-            queueAutosave();
-        }
-
-        function cycleInjuryState(element) {
-            if (!element.innerText) {
-                element.classList.add("state-M");
-                element.innerText = "M";
-            } else if (element.classList.contains("state-M")) {
-                element.classList.remove("state-M");
-                element.classList.add("state-P");
-                element.innerText = "P";
-            } else {
-                element.classList.remove("state-P");
-                element.innerText = "";
-            }
-            queueAutosave();
-        }
-
-        function updateAllCalculations() {
-            updateAttributeCDFields();
-            updateStressCalculations();
-            updateResistanceCalculations();
-        }
-
-        function calculateCDValue(score) {
-            if (score <= 8) return "—";
-            if (score === 9) return "+1cd";
-            if (score === 10 || score === 11) return "+2cd";
-            if (score === 12 || score === 13) return "+3cd";
-            if (score === 14 || score === 15) return "+4cd";
-            return "+5cd";
-        }
-
-        function updateAttributeCDFields() {
-            ["agility", "brawn", "coordination", "insight", "reason", "will"].forEach(attr => {
-                const baseVal = parseInt(document.getElementById("attr_" + attr).value) || 0;
-                const targetBonusField = document.getElementById("bonus_" + attr);
-                if (targetBonusField) targetBonusField.value = calculateCDValue(baseVal);
-            });
-        }
-
-        function calculateResistanceBase(score) {
-            if (score <= 8) return 0;
-            if (score === 9) return 1;
-            if (score === 10 || score === 11) return 2;
-            if (score === 12 || score === 13) return 3;
-            if (score === 14 || score === 15) return 4;
-            return 5;
-        }
-
-        function updateResistanceCalculations() {
-            const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
-            const willScore = parseInt(document.getElementById('attr_will').value) || 0;
-            const resilienceRank = parseInt(document.getElementById('skill_resilience').value) || 0;
-            const mentalBase = calculateResistanceBase(willScore) + resilienceRank;
-            const mentalField = document.getElementById('calc_mental_resistance');
-            if (mentalField) mentalField.value = mentalBase;
-        }
-
-        function updateStressCalculations() {
-            const brawn = parseInt(document.getElementById('attr_brawn').value) || 0;
-            const will = parseInt(document.getElementById('attr_will').value) || 0;
-            const highestBase = Math.max(brawn, will);
-            const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
-            const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
-
-            document.getElementById('calc_highest_attr').value = highestBase;
-            document.getElementById('input_stress_bonus').value = resilienceSkillRank;
-
-            const total = highestBase + resilienceSkillRank - fatigue;
-            document.getElementById('output_stress_max').value = total;
-
-            const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
-            for (let i = 0; i < boxes.length; i++) {
-                if (i < total) {
-                    boxes[i].disabled = false;
-                } else {
-                    boxes[i].checked = false;
-                    boxes[i].disabled = true;
-                }
-            }
-        }
-
-        function getActiveFocuses() {
-            const focusData = {};
-            document.querySelectorAll(".skill-row").forEach(row => {
-                const skillInput = row.querySelector("input");
-                if (!skillInput) return;
-                const active = [];
-                row.querySelectorAll(".focus-clickable-text.active").forEach(f => active.push(f.innerText.trim()));
-                focusData[skillInput.id] = active;
-            });
-            return focusData;
-        }
-
-        function setActiveFocuses(focuses) {
-            if (!focuses) return;
-            document.querySelectorAll(".skill-row").forEach(row => {
-                const skillInput = row.querySelector("input");
-                if (!skillInput) return;
-                const active = focuses[skillInput.id] || [];
-                row.querySelectorAll(".focus-clickable-text").forEach(f => {
-                    f.classList.toggle("active", active.includes(f.innerText.trim()));
-                });
-            });
-        }
-
-        function getInjuryStates() {
-            const injuryData = {};
-            document.querySelectorAll(".injury-cycle-box").forEach(box => {
-                injuryData[box.id] = box.innerText || "";
-            });
-            return injuryData;
-        }
-
-        function setInjuryStates(injuries) {
-            if (!injuries) return;
-            Object.keys(injuries).forEach(id => {
-                const box = document.getElementById(id);
-                if (!box) return;
-                const state = injuries[id];
-                box.classList.remove("state-M", "state-P");
-                box.innerText = state;
-                if (state === "M") box.classList.add("state-M");
-                if (state === "P") box.classList.add("state-P");
-            });
-        }
-
-        function getStressCheckboxesState() {
-            const states = [];
-            const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
-            for (let b of boxes) {
-                states.push(b.checked);
-            }
-            return states;
-        }
-
-        function setStressCheckboxesState(states) {
-            if (!states) return;
-            const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
-            for (let i = 0; i < boxes.length; i++) {
-                if (boxes[i] && states[i] !== undefined) {
-                    boxes[i].checked = states[i];
-                }
-            }
-        }
-
-        function captureCustomLayoutHeights() {
-            return {
-                bio: document.getElementById('char_bio').style.height || "",
-                eq1: document.getElementById('eq_note_1').style.height || ""
-            };
-        }
-
-        function restoreCustomLayoutHeights(heights) {
-            if (!heights) return;
-            if (heights.bio) document.getElementById('char_bio').style.height = heights.bio;
-            if (heights.eq1) {
-                document.querySelectorAll(".equipment-textarea").forEach(tx => tx.style.height = heights.eq1);
-            }
-        }
-
-        function toggleFocus(element) {
-            element.classList.toggle("active");
-            queueAutosave();
-        }
-
-        function compileCharacterData() {
-            const dataPayload = {};
-            document.querySelectorAll("#main-character-sheet input, #main-character-sheet textarea").forEach(el => {
-                const id = el.id;
-                if (!id || id === "calc_highest_attr" || id === "input_stress_bonus" || id === "output_stress_max" || id === "calc_mental_resistance" || id.startsWith("bonus_") || id.startsWith("repo_")) return;
-                if (el.type === "checkbox") {
-                    dataPayload[id] = el.checked;
-                } else {
-                    dataPayload[id] = el.value;
-                }
-            });
-            dataPayload.focuses = getActiveFocuses();
-            dataPayload.injuries = getInjuryStates();
-            dataPayload.stressBoxes = getStressCheckboxesState();
-            dataPayload.layoutHeights = captureCustomLayoutHeights();
-            dataPayload.notesRepositoryLog = characterNotesLogArray;
-            dataPayload.activeRepositoryNoteId = currentSelectedNoteId;
-            return dataPayload;
-        }
-
-        function applyCharacterData(saveData) {
-            if (!saveData) return;
-            document.querySelectorAll("#main-character-sheet input, #main-character-sheet textarea").forEach(el => {
-                const id = el.id;
-                if (!id || id === "calc_highest_attr" || id === "input_stress_bonus" || id === "output_stress_max" || id === "calc_mental_resistance" || id.startsWith("bonus_") || id.startsWith("repo_") || id === "injuries" || id === "layoutHeights" || id === "notesRepositoryLog" || id === "activeRepositoryNoteId") return;
-                if (el.type === "checkbox") {
-                    el.checked = saveData[id] || false;
-                } else {
-                    el.value = saveData[id] !== undefined ? saveData[id] : "";
-                }
-            });
-            setActiveFocuses(saveData.focuses);
-            setInjuryStates(saveData.injuries);
-            setStressCheckboxesState(saveData.stressBoxes);
-            restoreCustomLayoutHeights(saveData.layoutHeights);
-            characterNotesLogArray = saveData.notesRepositoryLog || [];
-            currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
-            currentJournalSearchString = "";
-            document.getElementById('journal_search_field').value = "";
-            renderNoteRepositorySidebar();
-            loadActiveNoteIntoEditor();
-            updateAllCalculations();
-        }
-
-        function saveCharacter() {
-            if (isDownloadingData) return;
-            const dataPayload = compileCharacterData();
-            localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
-        }
-
-        // Add automated event hook bindings to inputs to drive active computation & background autosaves
-        document.querySelectorAll("#main-character-sheet input, #main-character-sheet textarea").forEach(inputNode => {
-            const id = inputNode.id;
-            if (id && (id.startsWith("attr_") || id.startsWith("skill_") || id === "input_stress_fatigue")) {
-                inputNode.addEventListener("input", updateAllCalculations);
-            }
-            inputNode.addEventListener("input", queueAutosave);
-            if (inputNode.type === "checkbox") {
-                inputNode.addEventListener("change", queueAutosave);
-            }
-        });
-
-        // Initialize computation matrices on startup
+    try {
+      // 4. Create a clean base record directly in your Firestore database document
+      const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
+      await setDoc(docRef, { char_name: "" }, { merge: false });
+      
+      // 5. Explicitly redirect our app's active tracking pointer to the new slot ID!
+      activeSlotId = newSlotId;
+      
+      // 6. Refresh the cloud list cache so the selector reflects the update
+      await loadCharacterList();
+      
+      // 7. Explicitly force the select element dropdown box to pick our new slot row
+      characterSelect.value = newSlotId;
+      
+      // 8. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+      if (typeof updateAllCalculations === "function") {
         updateAllCalculations();
+      }
+      
+      alert("New character sheet successfully created and selected!");
+    } catch (error) {
+      console.error("Failed to initialize new cloud sheet: ", error);
+      alert("Error creating sheet: " + error.message);
+    }
+  });
 
-        // ==========================================
-        //  PHASE B: FIREBASE AUTH & USER STATE
-        // ==========================================
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                loggedOutZone.style.display = "none";
-                loggedInZone.style.display = "flex";
-                userDisplayEmail.innerText = `Account: ${user.email}`;
-                
-                // Read active tracking slots
-                const savedSlotId = localStorage.getItem(`activeSlotId_${user.uid}`);
-                activeSlotId = savedSlotId ? savedSlotId : "slot_1";
-                
-                await loadCharacterList();
-            } else {
-                currentUser = null;
-                loggedOutZone.style.display = "flex";
-                loggedInZone.style.display = "none";
-                if (charSheetContainer) charSheetContainer.style.display = "none";
-            }
-        });
+  // Delete Routine
+  btnDeleteCharacter.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await deleteDoc(docRef);
+      alert("Slot deleted.");
+      activeSlotId = "slot_1";
+      await loadCharacterList();
+    } catch (error) {
+      alert("Deletion Error: " + error.message);
+    }
+  });
 
-        // ==========================================
-        //  PHASE C: LOADING, SAVING & MANAGING SLOTS
-        // ==========================================
-        async function loadCharacterList() {
-            if (!currentUser) return;
-            characterSelect.innerHTML = "";
-            
-            try {
-                const slotsRef = collection(db, "users", currentUser.uid, "characters");
-                const querySnapshot = await getDocs(slotsRef);
-                
-                if (querySnapshot.empty) {
-                    activeSlotId = "slot_1";
-                    await saveCharacterToCloud();
-                    const option = new Option("Slot 1 (New Character)", "slot_1");
-                    characterSelect.add(option);
-                    if (charSheetContainer) charSheetContainer.style.display = "block";
-                    await loadCharacterFromCloud();
-                    return;
-                }
-                
-                const characterArray = [];
-                querySnapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const displayName = data.char_name?.trim() || `Saved Sheet (${docSnap.id})`;
-                    characterArray.push({ id: docSnap.id, name: displayName });
-                });
+  // ==========================================
+  //  PHASE D: EXPORT & IMPORT MODULES
+  // ==========================================
 
-                // Sort slots alphabetically by Character Name
-                characterArray.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+  // Export Button Handler
+  btnExportSheet.addEventListener("click", () => {
+    const dataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!dataString) return alert("No character data found to export.");
+    
+    // Grab character name for the filename fallback
+    const currentData = JSON.parse(dataString);
+    const filename = (currentData.char_name || "character").replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-                characterArray.forEach((char) => {
-                    const option = new Option(char.name, char.id);
-                    characterSelect.add(option);
-                });
+    const blob = new Blob([dataString], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}_backup.json`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
 
-                if (characterArray.some(c => c.id === activeSlotId)) {
-                    characterSelect.value = activeSlotId;
-                } else {
-                    activeSlotId = characterArray[0].id;
-                    characterSelect.value = activeSlotId;
-                    localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
-                }
+  // Import Button click acts as virtual trigger for input window
+  btnImportSheet.addEventListener("click", () => {
+    cloudImportFile.click();
+  });
 
-                if (charSheetContainer) charSheetContainer.style.display = "block";
-                await loadCharacterFromCloud();
-                
-            } catch (error) {
-                console.error("Error generating character list: ", error);
-            }
+  // Read uploaded backup file and force sync update
+  cloudImportFile.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        
+        // Apply imported data into local interface fields
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(importedData);
         }
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
+        
+        // Push the imported state immediately into the cloud database active slot
+        await saveCharacterToCloud();
+        
+        // Update character select labels to display the imported sheet name text
+        await loadCharacterList();
+        
+        alert("Character sheet successfully imported and synced to the cloud!");
+      } catch (err) {
+        alert("Error parsing backup file.");
+      }
+    };
+    reader.readAsText(file);
+    cloudImportFile.value = ""; // clear selector cache
+  });
 
-        async function saveCharacterToCloud() {
-            if (!currentUser || !activeSlotId) return;
-            try {
-                const dataPayload = compileCharacterData();
-                const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
-                await setDoc(docRef, dataPayload, { merge: true });
-            } catch (error) {
-                console.error("Cloud synchronization failed: ", error);
-            }
-        }
+  // Live-update dropdown list label as name types
+  document.getElementById("char_name").addEventListener("input", (e) => {
+    if (!currentUser || !activeSlotId) return;
+    const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
+    if (activeOption) {
+      activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
+    }
+  });
 
-        async function loadCharacterFromCloud() {
-            if (!currentUser || !activeSlotId) return;
-            isDownloadingData = true;
-            try {
-                const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    applyCharacterData(docSnap.data());
-                } else {
-                    applyCharacterData({});
-                }
-            } catch (error) {
-                console.error("Error drawing data payload down: ", error);
-            } finally {
-                isDownloadingData = false;
-            }
-        }
+  // ==========================================
+  //  PHASE E: OVERRIDE AUTOSAVE HOOKS
+  // ==========================================
+  if (typeof queueAutosave === "function") {
+    const originalQueueAutosave = queueAutosave;
+    queueAutosave = function() {
+      originalQueueAutosave();
+      saveCharacterToCloud();
+    };
+  }
+</script>
 
-        // ==========================================
-        //  PHASE D: BUTTON ACTION REGISTRATION HOOKS
-        // ==========================================
-        btnLogin.addEventListener("click", async () => {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-            if (!email || !password) return alert("Complete credentials fields.");
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (err) {
-                alert("Login failed: " + err.message);
-            }
-        });
-
-        btnRegister.addEventListener("click", async () => {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-            if (!email || !password) return alert("Complete email and password parameters to continue.");
-            try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                alert("Account formed successfully.");
-            } catch (err) {
-                alert("Registration rejection error: " + err.message);
-            }
-        });
-
-        btnForgotPassword.addEventListener("click", async () => {
-            const email = emailInput.value.trim();
-            if (!email) return alert("Write your email in the log entry input element to receive reset updates.");
-            try {
-                await sendPasswordResetEmail(auth, email);
-                alert("Security credentials update email routed out.");
-            } catch (err) {
-                alert("Action failed: " + err.message);
-            }
-        });
-
-        btnLogout.addEventListener("click", async () => {
-            try {
-                await signOut(auth);
-            } catch (err) {
-                console.error("Logout runtime execution error: ", err);
-            }
-        });
-
-        characterSelect.addEventListener("change", async (e) => {
-            activeSlotId = e.target.value;
-            localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
-            await loadCharacterFromCloud();
-        });
-
-        btnNewCharacter.addEventListener("click", async () => {
-            if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
-            const newSlotId = "slot_" + Date.now();
-            localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
-            
-            document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
-                input.value = "";
-            });
-            document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
-                checkbox.checked = false;
-            });
-
-            try {
-                const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
-                await setDoc(docRef, { char_name: "" }, { merge: false });
-                activeSlotId = newSlotId;
-                localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
-                await loadCharacterList();
-                characterSelect.value = newSlotId;
-                updateAllCalculations();
-                await saveCharacterToCloud();
-            } catch (err) {
-                console.error("Failed forming character entry block payload: ", err);
-            }
-        });
-
-        btnDeleteCharacter.addEventListener("click", async () => {
-            if (!confirm("Irreversibly erase this cloud sheet slot database entry payload?")) return;
-            try {
-                const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
-                await deleteDoc(docRef);
-                alert("Slot removed.");
-                activeSlotId = "slot_1";
-                localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
-                await loadCharacterList();
-            } catch (err) {
-                alert("Deletion error: " + err.message);
-            }
-        });
-
-        btnExportSheet.addEventListener("click", () => {
-            const dataPayload = compileCharacterData();
-            let rawName = document.getElementById("char_name").value.trim();
-            let safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
-            let filename = safeName ? `AC-${safeName}.json` : "AC-Character.json";
-
-            const blob = new Blob([JSON.stringify(dataPayload, null, 2)], { type: "application/json" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        btnImportSheet.addEventListener("click", () => {
-            cloudImportFile.click();
-        });
-
-        cloudImportFile.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = async function (e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    const importSlotId = "slot_" + Date.now();
-                    activeSlotId = importSlotId;
-                    localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
-
-                    applyCharacterData(importedData);
-                    await saveCharacterToCloud();
-                    await loadCharacterList();
-                    characterSelect.value = importSlotId;
-                    alert("Import sync completed.");
-                } catch (err) {
-                    alert("Defective JSON composition structure asset mapping file import error: " + err.message);
-                }
-            };
-            reader.readAsText(file);
-            cloudImportFile.value = ""; 
-        });
-
-        document.getElementById("char_name").addEventListener("input", (e) => {
-            if (!currentUser || !activeSlotId) return;
-            const newName = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
-            const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
-            if (activeOption) {
-                activeOption.textContent = newName;
-            }
-        });
-
-        document.getElementById("char_name").addEventListener("blur", async () => {
-            await loadCharacterList();
-            characterSelect.value = activeSlotId;
-        });
-
-        // ==========================================
-        //  PHASE E: OVERRIDE AUTOSAVE HOOKS
-        // ==========================================
-        if (typeof queueAutosave === "function") {
-            const originalQueueAutosave = queueAutosave;
-            queueAutosave = function() {
-                originalQueueAutosave();
-                saveCharacterToCloud();
-            };
-        }
-    </script>
-</body>
+  </body>
 </html>
