@@ -342,7 +342,7 @@
 
         .spell-textarea {
             width: 100%;
-            height: 48px; /* Slightly taller bounding box to handle spell parsing descriptions cleanly */
+            height: 96px; /* Doubled height constraint to offer comfortable layout parsing */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -695,7 +695,7 @@
             padding: 2px;
         }
 
-        .auxiliary-ticker-btn {
+        .ticker-control-btn.auxiliary-ticker-btn {
             width: 18px;
             height: 22px;
             font-size: 12px;
@@ -846,6 +846,7 @@
 
 <div class="charsheet">
 
+    <!-- PERSISTENT CONTROL HEADER BLOCK -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -873,6 +874,7 @@
         </div>
     </div>
 
+    <!-- TAB COMPARTMENT 1: MAIN CHARACTER PROFILE -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -883,6 +885,7 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
+        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -940,6 +943,7 @@
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
+            <!-- Left Side: Stress Tracker -->
             <div class="dashboard-block">
                 <h3>Stress Tracking & Resistances</h3>
                 <div class="stress-top-panel-wrapper">
@@ -990,6 +994,7 @@
                 </div>
             </div>
 
+            <!-- Right Side: Resources -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
@@ -1013,6 +1018,7 @@
             </div>
         </div>
 
+        <!-- Independent Condition Row -->
         <div class="condition-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -1033,6 +1039,7 @@
             </div>
         </div>
 
+        <!-- STABILIZED SKILLS SECTION -->
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
             <div>
@@ -1173,6 +1180,7 @@
         </div>
     </div>
 
+    <!-- TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX -->
     <div id="tab-equipment" class="tab-panel-content">
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
@@ -1228,6 +1236,7 @@
         </div>
     </div>
 
+    <!-- TAB COMPARTMENT 3: SPELLS & MYSTICISM MATRIX -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="spells-header-container">
             <div class="spells-header-title">Spells & Sorcery</div>
@@ -1245,27 +1254,35 @@
             <div class="spells-grid-header">
                 <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
             </div>
+            <!-- Spell Row 1 -->
             <div class="spells-grid-row">
                 <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 2 -->
             <div class="spells-grid-row">
                 <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 3 -->
             <div class="spells-grid-row">
                 <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 4 -->
             <div class="spells-grid-row">
                 <textarea id="spell_4_name" class="spell-textarea"></textarea><textarea id="spell_4_skill" class="spell-textarea"></textarea><textarea id="spell_4_diff" class="spell-textarea"></textarea><textarea id="spell_4_cost" class="spell-textarea"></textarea><textarea id="spell_4_duration" class="spell-textarea"></textarea><textarea id="spell_4_effect" class="spell-textarea"></textarea><textarea id="spell_4_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 5 -->
             <div class="spells-grid-row">
                 <textarea id="spell_5_name" class="spell-textarea"></textarea><textarea id="spell_5_skill" class="spell-textarea"></textarea><textarea id="spell_5_diff" class="spell-textarea"></textarea><textarea id="spell_5_cost" class="spell-textarea"></textarea><textarea id="spell_5_duration" class="spell-textarea"></textarea><textarea id="spell_5_effect" class="spell-textarea"></textarea><textarea id="spell_5_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 6 -->
             <div class="spells-grid-row">
                 <textarea id="spell_6_name" class="spell-textarea"></textarea><textarea id="spell_6_skill" class="spell-textarea"></textarea><textarea id="spell_6_diff" class="spell-textarea"></textarea><textarea id="spell_6_cost" class="spell-textarea"></textarea><textarea id="spell_6_duration" class="spell-textarea"></textarea><textarea id="spell_6_effect" class="spell-textarea"></textarea><textarea id="spell_6_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 7 -->
             <div class="spells-grid-row">
                 <textarea id="spell_7_name" class="spell-textarea"></textarea><textarea id="spell_7_skill" class="spell-textarea"></textarea><textarea id="spell_7_diff" class="spell-textarea"></textarea><textarea id="spell_7_cost" class="spell-textarea"></textarea><textarea id="spell_7_duration" class="spell-textarea"></textarea><textarea id="spell_7_effect" class="spell-textarea"></textarea><textarea id="spell_7_momentum" class="spell-textarea"></textarea>
             </div>
+            <!-- Spell Row 8 -->
             <div class="spells-grid-row">
                 <textarea id="spell_8_name" class="spell-textarea"></textarea><textarea id="spell_8_skill" class="spell-textarea"></textarea><textarea id="spell_8_diff" class="spell-textarea"></textarea><textarea id="spell_8_cost" class="spell-textarea"></textarea><textarea id="spell_8_duration" class="spell-textarea"></textarea><textarea id="spell_8_effect" class="spell-textarea"></textarea><textarea id="spell_8_momentum" class="spell-textarea"></textarea>
             </div>
@@ -1274,6 +1291,7 @@
 
 </div>
 
+<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
 let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0 };
