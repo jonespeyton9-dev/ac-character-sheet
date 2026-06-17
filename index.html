@@ -90,55 +90,6 @@
             padding-bottom: 9px; 
         }
 
-        /* Right-aligned Save/Load Area */
-        .save-area {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; 
-            padding-bottom: 12px; 
-        }
-
-        .save-load-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Control Buttons */
-        .save-load-bar button,
-        .load-button {
-            background-color: #4a5d34;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .save-load-bar button.reset-btn {
-            background-color: #8b2626;
-        }
-
-        .save-load-bar button:hover,
-        .load-button:hover {
-            opacity: 0.9;
-        }
-
-        /* Warning block under buttons */
-        .save-warning-text {
-            font-size: 10px;
-            color: #777;
-            opacity: 0.85;
-            text-align: right;
-            margin-top: 6px;
-            max-width: 300px;
-            line-height: 1.3;
-        }
-
         /* =========================================
            TAB ARCHITECTURE & SHEET SECTIONS
         =========================================== */
@@ -1058,37 +1009,51 @@
 </head>
 <body>
 
-    <div id="firebase-account-bar" style="background-color: #1a252f; color: #ffffff; padding: 12px 20px; font-family: sans-serif; border-bottom: 2px solid #2c3e50; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+    <div id="firebase-account-bar" style="background-color: #2c0d11; color: #ffffff; padding: 12px 20px; font-family: sans-serif; border-bottom: 2px solid #50171e; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
   
-  <div style="font-weight: bold; font-size: 1.1rem; color: #00bc8c;">
-    🔮 Cloud Sync Portal
+  <style>
+    #firebase-account-bar input:focus, #firebase-account-bar select:focus {
+      background-color: #421319 !important;
+      color: #ffffff !important;
+      outline: 1px solid #a62c3a !important;
+    }
+  </style>
+
+  <div style="font-weight: bold; font-size: 1.1rem; color: #ff4d5a; letter-spacing: 0.5px;">
+    Majestic HQ Login
   </div>
 
   <div id="auth-logged-out-zone" style="display: flex; align-items: center; gap: 10px;">
-    <input type="email" id="auth-email" placeholder="Email Address" style="padding: 6px 10px; border: 1px solid #4e5d6c; background-color: #2b3e50; color: white; border-radius: 4px; width: 180px;">
-    <input type="password" id="auth-password" placeholder="Password" style="padding: 6px 10px; border: 1px solid #4e5d6c; background-color: #2b3e50; color: white; border-radius: 4px; width: 140px;">
-    <button id="btn-login" style="padding: 6px 14px; background-color: #375a7f; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Log In</button>
-    <button id="btn-register" style="padding: 6px 14px; background-color: #444; color: #ccc; border: 1px solid #555; border-radius: 4px; cursor: pointer;">Register</button>
+    <input type="email" id="auth-email" placeholder="Email Address" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 180px;">
+    <input type="text" id="auth-password" placeholder="Password" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 140px;">
+    <button id="btn-login" style="padding: 6px 14px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Log In</button>
+    <button id="btn-register" style="padding: 6px 14px; background-color: #331115; color: #ccc; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Register</button>
+    <span id="btn-forgot-password" style="color: #ff4d5a; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-left: 5px;">Forgot Password?</span>
   </div>
 
-  <div id="auth-logged-in-zone" style="display: none; align-items: center; gap: 15px; width: 100%; justify-content: space-between; flex-grow: 1; max-width: 700px;">
+  <div id="auth-logged-in-zone" style="display: none; align-items: center; gap: 15px; width: 100%; justify-content: space-between; flex-grow: 1; max-width: 850px;">
     
-    <span id="user-display-email" style="font-size: 0.9rem; color: #b4bcc2;">Loading account...</span>
+    <span id="user-display-email" style="font-size: 0.9rem; color: #cca3a6;">Loading account...</span>
     
     <div style="display: flex; align-items: center; gap: 8px;">
-      <label for="character-select" style="font-size: 0.9rem; color: #fff;">Sheet Slot:</label>
-      <select id="character-select" style="padding: 6px 10px; background-color: #2b3e50; color: white; border: 1px solid #4e5d6c; border-radius: 4px; min-width: 160px;">
+      <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
+      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
         </select>
-      <button id="btn-new-character" style="padding: 6px 12px; background-color: #00bc8c; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ New Sheet</button>
-      <button id="btn-delete-character" style="padding: 6px 12px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
+      <button id="btn-new-character" style="padding: 6px 12px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ New Sheet</button>
+      
+      <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
+      <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
+      <input type="file" id="cloud-import-file" accept=".json" style="display: none;">
+
+      <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
     </div>
 
-    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #e74c3c; border: 1px solid #e74c3c; border-radius: 4px; cursor: pointer;">Log Out</button>
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
   </div>
 
 </div>
 
-<div class="charsheet">
+<div class="charsheet" id="main-character-sheet" style="display: none;">
 
     <div class="persistent-header-block">
         <div class="main-header-banner">
@@ -2136,7 +2101,8 @@ updateAllCalculations();
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     signOut, 
-    onAuthStateChanged 
+    onAuthStateChanged,
+    sendPasswordResetEmail
   } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
   // 2. Firebase Configuration
@@ -2156,10 +2122,11 @@ updateAllCalculations();
 
   // 4. Track Active State Variables
   let currentUser = null;
-  let activeSlotId = "slot_1"; // Default starting character slot
-  let isDownloadingData = false; // Prevents autosave loops while pulling data down
+  let activeSlotId = "slot_1";
+  let isDownloadingData = false;
 
   // 5. DOM Elements (The UI Controls)
+  const charSheetContainer = document.getElementById("main-character-sheet");
   const loggedOutZone = document.getElementById("auth-logged-out-zone");
   const loggedInZone = document.getElementById("auth-logged-in-zone");
   const emailInput = document.getElementById("auth-email");
@@ -2169,12 +2136,16 @@ updateAllCalculations();
   
   const btnLogin = document.getElementById("btn-login");
   const btnRegister = document.getElementById("btn-register");
+  const btnForgotPassword = document.getElementById("btn-forgot-password");
   const btnLogout = document.getElementById("btn-logout");
   const btnNewCharacter = document.getElementById("btn-new-character");
   const btnDeleteCharacter = document.getElementById("btn-delete-character");
+  const btnExportSheet = document.getElementById("btn-export-sheet");
+  const btnImportSheet = document.getElementById("btn-import-sheet");
+  const cloudImportFile = document.getElementById("cloud-import-file");
 
   // ==========================================
-  //  PHASE A: AUTHENTICATION (LOG IN / REGISTER)
+  //  PHASE A: AUTHENTICATION
   // ==========================================
 
   // Register New Account
@@ -2204,10 +2175,22 @@ updateAllCalculations();
     }
   });
 
+  // Forgot Password Reset Routine
+  btnForgotPassword.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return alert("Please type your email address into the text box first, then click Forgot Password.");
+    
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Please check your inbox or spam folder.");
+    } catch (error) {
+      alert("Reset Error: " + error.message);
+    }
+  });
+
   // Log Out
   btnLogout.addEventListener("click", () => {
     signOut(auth).then(() => {
-      // Clear data on log out
       localStorage.removeItem("achtung_cthulhu_save");
       location.reload(); 
     });
@@ -2216,42 +2199,39 @@ updateAllCalculations();
   // ==========================================
   //  PHASE B: MANAGING THE ACCOUNT STATE
   // ==========================================
-
-  // Listen for login/logout actions automatically
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
-      userDisplayEmail.textContent = `Logged in as: ${user.email}`;
+      userDisplayEmail.textContent = `User: ${user.email}`;
       
-      // Swap UI layout states smoothly
       loggedOutZone.style.display = "none";
       loggedInZone.style.display = "flex";
       
-      // Load their collection of saved character slots
+      // REVEAL character sheet container when verified!
+      if (charSheetContainer) charSheetContainer.style.display = "block";
+      
       await loadCharacterList();
     } else {
       currentUser = null;
       loggedOutZone.style.display = "flex";
       loggedInZone.style.display = "none";
+      
+      // HIDE character sheet container when unauthorized!
+      if (charSheetContainer) charSheetContainer.style.display = "none";
     }
   });
 
   // ==========================================
-  //  PHASE C: LOADING & SAVING CHARACTERS
+  //  PHASE C: LOADING, SAVING & MANAGING SLOTS
   // ==========================================
-
-  // Fetch the list of character slots from the cloud
   async function loadCharacterList() {
     if (!currentUser) return;
-    
-    // Clear out old dropdown entries
     characterSelect.innerHTML = "";
     
     try {
       const slotsRef = collection(db, "users", currentUser.uid, "characters");
       const querySnapshot = await getDocs(slotsRef);
       
-      // If they have no saved characters yet, create a fresh default one
       if (querySnapshot.empty) {
         activeSlotId = "slot_1";
         await saveCharacterToCloud();
@@ -2260,29 +2240,28 @@ updateAllCalculations();
         return;
       }
       
-      // Populate dropdown with existing sheets found in their folder
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        // Match your exact input ID 'char_name' to display their character's actual name!
         const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
         const option = new Option(displayName, docSnap.id);
         characterSelect.add(option);
       });
       
-      // Auto-load the first character sheet in their dropdown list
-      activeSlotId = characterSelect.value;
-      await loadCharacterFromCloud();
+      characterSelect.value = activeSlotId;
+      if (!characterSelect.value && characterSelect.options.length > 0) {
+        activeSlotId = characterSelect.options[0].value;
+        characterSelect.value = activeSlotId;
+      }
       
+      await loadCharacterFromCloud();
     } catch (error) {
       console.error("Error generating character list: ", error);
     }
   }
 
-  // Load selected sheet data down into the HTML fields
   async function loadCharacterFromCloud() {
     if (!currentUser || !activeSlotId) return;
-    
-    isDownloadingData = true; // Block autosave while fields overwrite
+    isDownloadingData = true;
     
     try {
       const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
@@ -2290,26 +2269,21 @@ updateAllCalculations();
       
       if (docSnap.exists()) {
         const characterData = docSnap.data();
-        
-        // Use your original function to populate the HTML elements
         if (typeof applyCharacterData === "function") {
           applyCharacterData(characterData);
-          // Also back it up locally just in case
           localStorage.setItem("achtung_cthulhu_save", JSON.stringify(characterData));
         }
       }
     } catch (error) {
       console.error("Error loading cloud data: ", error);
     } finally {
-      isDownloadingData = false; // Unblock autosave
+      isDownloadingData = false;
     }
   }
 
-  // Push current stats up to active cloud slot
   async function saveCharacterToCloud() {
     if (!currentUser || !activeSlotId || isDownloadingData) return;
     
-    // Read the current local state compiled by your app
     const localDataString = localStorage.getItem("achtung_cthulhu_save");
     if (!localDataString) return;
     
@@ -2324,29 +2298,27 @@ updateAllCalculations();
     }
   }
 
-  // Swap characters via Dropdown Select
   characterSelect.addEventListener("change", async (e) => {
     activeSlotId = e.target.value;
     await loadCharacterFromCloud();
   });
 
-  // Create a brand new fresh slot
+  // + New Sheet Routine
   btnNewCharacter.addEventListener("click", async () => {
-    const newSlotId = "slot_" + Date.now(); // Generate unique timestamp ID
+    const newSlotId = "slot_" + Date.now();
     activeSlotId = newSlotId;
     
-    // Clear all fields on screen by injecting a blank object template
     if (typeof applyCharacterData === "function") {
       applyCharacterData({}); 
     }
     
-    // Instantly initialize this slot in the cloud
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     await saveCharacterToCloud();
     await loadCharacterList();
     characterSelect.value = newSlotId;
   });
 
-  // Delete current slot
+  // Delete Routine
   btnDeleteCharacter.addEventListener("click", async () => {
     if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
     
@@ -2354,6 +2326,7 @@ updateAllCalculations();
       const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
       await deleteDoc(docRef);
       alert("Slot deleted.");
+      activeSlotId = "slot_1";
       await loadCharacterList();
     } catch (error) {
       alert("Deletion Error: " + error.message);
@@ -2361,23 +2334,65 @@ updateAllCalculations();
   });
 
   // ==========================================
-  //  PHASE D: OVERRIDE AUTOSAVE LOOP TO CLOUD
+  //  PHASE D: EXPORT & IMPORT MODULES
   // ==========================================
-  
-  // Intercept your original app's autosave calls and forward them to Firebase!
-  if (typeof queueAutosave === "function") {
-    const originalQueueAutosave = queueAutosave;
-    
-    queueAutosave = function() {
-      // 1. Run your original storage save first
-      originalQueueAutosave();
-      
-      // 2. Stream the update right into your Firebase database document
-      saveCharacterToCloud();
-    };
-  }
 
-        // Live-update the dropdown label as the player types their character name
+  // Export Button Handler
+  btnExportSheet.addEventListener("click", () => {
+    const dataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!dataString) return alert("No character data found to export.");
+    
+    // Grab character name for the filename fallback
+    const currentData = JSON.parse(dataString);
+    const filename = (currentData.char_name || "character").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+    const blob = new Blob([dataString], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}_backup.json`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  // Import Button click acts as virtual trigger for input window
+  btnImportSheet.addEventListener("click", () => {
+    cloudImportFile.click();
+  });
+
+  // Read uploaded backup file and force sync update
+  cloudImportFile.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        
+        // Apply imported data into local interface fields
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(importedData);
+        }
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
+        
+        // Push the imported state immediately into the cloud database active slot
+        await saveCharacterToCloud();
+        
+        // Update character select labels to display the imported sheet name text
+        await loadCharacterList();
+        
+        alert("Character sheet successfully imported and synced to the cloud!");
+      } catch (err) {
+        alert("Error parsing backup file.");
+      }
+    };
+    reader.readAsText(file);
+    cloudImportFile.value = ""; // clear selector cache
+  });
+
+  // Live-update dropdown list label as name types
   document.getElementById("char_name").addEventListener("input", (e) => {
     if (!currentUser || !activeSlotId) return;
     const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
@@ -2385,6 +2400,17 @@ updateAllCalculations();
       activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
     }
   });
+
+  // ==========================================
+  //  PHASE E: OVERRIDE AUTOSAVE HOOKS
+  // ==========================================
+  if (typeof queueAutosave === "function") {
+    const originalQueueAutosave = queueAutosave;
+    queueAutosave = function() {
+      originalQueueAutosave();
+      saveCharacterToCloud();
+    };
+  }
 </script>
 
   </body>
