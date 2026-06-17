@@ -857,7 +857,7 @@
         ====================================================== */
         .notes-layout-split {
             display: grid;
-            grid-template-columns: 210px 1fr; /* Slimmed down sidebar width */
+            grid-template-columns: 210px 1fr; 
             gap: 20px;
             width: 100%;
             box-sizing: border-box;
@@ -874,6 +874,16 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+        }
+
+        .journal-search-input {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
         }
 
         .add-note-action-btn {
@@ -1030,6 +1040,14 @@
 
         .wordpad-core-container p { margin: 0 0 10px 0; }
         .wordpad-core-container ul, .wordpad-core-container ol { margin: 0 0 10px 20px; padding: 0; }
+        
+        /* Premium markup highlights layout */
+        mark.journal-custom-highlight {
+            background-color: #fff2a8 !important;
+            color: inherit !important;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
 
         input:focus, textarea:focus {
             outline: none;
@@ -1499,6 +1517,7 @@
         <div class="section-banner" style="margin-top: 25px;">Journal</div>
         <div class="notes-layout-split">
             <div class="notes-sidebar-panel">
+                <input type="text" id="journal_search_field" class="journal-search-input" oninput="handleJournalSearchInput(this.value)" placeholder="Search by title or date...">
                 <button type="button" class="add-note-action-btn" onclick="createNewRepositoryNote()">+ Add New Entry</button>
                 <div id="repo_cards_list_container" class="notes-chronological-list"></div>
             </div>
@@ -1515,7 +1534,7 @@
                     <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
                     <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
                     <button type="button" class="editor-btn" onclick="execEditorCommand('insertOrderedList')">1. List</button>
-                    <button type="button" class="editor-btn" style="background: #fff2a8; border-color: #e0ca3c;" onclick="execEditorCommand('hiliteColor', '#fff2a8')">Highlight</button>
+                    <button type="button" class="editor-btn" style="background: #fff2a8; border-color: #e0ca3c;" onclick="toggleCustomTextHighlight()">Highlight</button>
                     <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
                 </div>
 
@@ -1533,6 +1552,7 @@ let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune:
 // Note Repository App State Engines
 let characterNotesLogArray = [];
 let currentSelectedNoteId = null;
+let currentJournalSearchString = "";
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
@@ -1544,6 +1564,46 @@ function switchSheetTab(tabId, buttonElement) {
 function execEditorCommand(cmd, value = null) {
     document.execCommand(cmd, false, value);
     document.getElementById('repo_rich_text_editor').focus();
+}
+
+/* SMART RTE TOGGLEABLE HIGHLIGHT MECHANICS */
+function toggleCustomTextHighlight() {
+    const activeSelection = window.getSelection();
+    if (!activeSelection || activeSelection.rangeCount === 0 || activeSelection.isCollapsed) return;
+
+    const selectedRange = activeSelection.getRangeAt(0);
+    
+    // Test if the selection is perfectly nested within or covers an existing custom mark node
+    let containerElement = selectedRange.commonAncestorContainer;
+    if (containerElement.nodeType === 3) {
+        containerElement = containerElement.parentNode;
+    }
+    
+    const nearestMarkNode = containerElement.closest('mark.journal-custom-highlight');
+    
+    if (nearestMarkNode) {
+        // Unhighlight action: Extract texts out of the mark wrapper
+        const plainTextContents = document.createTextNode(nearestMarkNode.textContent);
+        nearestMarkNode.parentNode.replaceChild(plainTextContents, nearestMarkNode);
+    } else {
+        // Highlight action: Create fresh markup wrapper element node
+        const customMarkWrapper = document.createElement('mark');
+        customMarkWrapper.className = "journal-custom-highlight";
+        
+        try {
+            customMarkWrapper.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(customMarkWrapper);
+            activeSelection.removeAllRanges();
+        } catch(e) {
+            // Fallback gracefully to standard command structure if structural ranges cross complex node blocks
+            document.execCommand('hiliteColor', false, '#fff2a8');
+        }
+    }
+    
+    // Save content updates out to local storage states
+    const richTextContainer = document.getElementById('repo_rich_text_editor');
+    handleNoteContentChange(richTextContainer.innerHTML);
+    richTextContainer.focus();
 }
 
 function queueAutosave() {
@@ -1583,6 +1643,8 @@ function newCharacter() {
     // Clear Notes App State
     characterNotesLogArray = [];
     currentSelectedNoteId = null;
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
     renderNoteRepositorySidebar();
     document.getElementById('repo_editor_view_panel').style.display = "none";
 
@@ -1601,32 +1663,64 @@ function createNewRepositoryNote() {
     };
     characterNotesLogArray.unshift(newNoteObj);
     currentSelectedNoteId = newNoteObj.id;
+    
+    // Clear the search field on new entry creation to ensure visibility
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+    
     renderNoteRepositorySidebar();
     loadActiveNoteIntoEditor();
     queueAutosave();
+}
+
+function handleJournalSearchInput(queryValue) {
+    currentJournalSearchString = queryValue.toLowerCase().trim();
+    renderNoteRepositorySidebar();
+}
+
+function normalizeDatePunctuation(str) {
+    // Normalizes punctuation markers like dashes, slashes, spaces, and periods out of timestamps
+    return str.replace(/[\/\-\.\s]/g, "");
 }
 
 function renderNoteRepositorySidebar() {
     const listContainer = document.getElementById('repo_cards_list_container');
     listContainer.innerHTML = "";
     
+    // Process search expressions normalization
+    const searchClean = normalizeDatePunctuation(currentJournalSearchString);
+    
     characterNotesLogArray.forEach(note => {
-        const cardNode = document.createElement('div');
-        cardNode.className = "note-list-card-item";
-        if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
-        cardNode.onclick = () => selectActiveNote(note.id);
+        // Primary text validation checks
+        const noteTitleClean = (note.title || "").toLowerCase();
+        const noteDateClean = (note.date || "").toLowerCase();
         
-        const titleDiv = document.createElement('div');
-        titleDiv.className = "note-card-title-text";
-        titleDiv.innerText = note.title || "Untitled Journal Entry";
+        // Secondary structural strip punctuation evaluation logic checks for flexible date criteria search matches
+        const dateStripped = normalizeDatePunctuation(noteDateClean);
         
-        const dateDiv = document.createElement('div');
-        dateDiv.className = "note-card-meta-date";
-        dateDiv.innerText = note.date;
+        const matchesTitle = noteTitleClean.includes(currentJournalSearchString);
+        const matchesDateDirect = noteDateClean.includes(currentJournalSearchString);
+        const matchesDateNormalized = searchClean !== "" && dateStripped.includes(searchClean);
         
-        cardNode.appendChild(titleDiv);
-        cardNode.appendChild(dateDiv);
-        listContainer.appendChild(cardNode);
+        // Show item if no search criteria is present OR if it fulfills any clean search query vector
+        if (currentJournalSearchString === "" || matchesTitle || matchesDateDirect || matchesDateNormalized) {
+            const cardNode = document.createElement('div');
+            cardNode.className = "note-list-card-item";
+            if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
+            cardNode.onclick = () => selectActiveNote(note.id);
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.className = "note-card-title-text";
+            titleDiv.innerText = note.title || "Untitled Journal Entry";
+            
+            const dateDiv = document.createElement('div');
+            dateDiv.className = "note-card-meta-date";
+            dateDiv.innerText = note.date;
+            
+            cardNode.appendChild(titleDiv);
+            cardNode.appendChild(dateDiv);
+            listContainer.appendChild(cardNode);
+        }
     });
 }
 
@@ -1651,8 +1745,7 @@ function handleNoteTitleChange(newTitle) {
     const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
     if (activeNote) {
         activeNote.title = newTitle;
-        const activeCard = document.querySelector('.note-list-card-item.selected-active .note-card-title-text');
-        if (activeCard) activeCard.innerText = newTitle || "Untitled Journal Entry";
+        renderNoteRepositorySidebar(); // Rerender to dynamically update matches
         queueAutosave();
     }
 }
@@ -1874,7 +1967,7 @@ function restoreCustomLayoutHeights(heightMap) {
 function compileCharacterData() {
     const saveData = {};
     document.querySelectorAll("input, textarea").forEach(el => {
-        if (!el.id || el.id === "loadFile" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
+        if (!el.id || el.id === "loadFile" || el.id === "journal_search_field" || el.id.startsWith("bonus_") || el.id === "calc_highest_attr" || el.id === "input_stress_bonus" || el.id === "output_stress_max") return;
         if (el.id.startsWith("ticker_")) return;
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
     });
@@ -1915,6 +2008,11 @@ function applyCharacterData(saveData) {
 
     characterNotesLogArray = saveData.notesRepositoryLog || [];
     currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
+    
+    // Reset any lingering temporary UI filter strings upon load
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+
     renderNoteRepositorySidebar();
     loadActiveNoteIntoEditor();
 
@@ -1976,7 +2074,7 @@ document.addEventListener('mouseup', function(e) {
 });
 
 document.addEventListener("input", function (e) {
-    if (e.target.id === "loadFile") return;
+    if (e.target.id === "loadFile" || e.target.id === "journal_search_field") return;
     if (e.target.id.startsWith("attr_")) {
         validateAttrCap(e.target);
     } else if (e.target.id === "skill_resilience" || e.target.id === "input_stress_fatigue") {
