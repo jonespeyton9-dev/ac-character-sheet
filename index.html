@@ -1565,18 +1565,27 @@ function toggleCustomTextHighlight() {
 
     const selectedRange = activeSelection.getRangeAt(0);
     
-    // Test if the selection is perfectly nested within or covers an existing custom mark node
+    // Check if selection is inside a mark node
     let containerElement = selectedRange.commonAncestorContainer;
     if (containerElement.nodeType === 3) {
         containerElement = containerElement.parentNode;
     }
-    
     const nearestMarkNode = containerElement.closest('mark.journal-custom-highlight');
-    
-    if (nearestMarkNode) {
-        // Unhighlight action: Extract texts out of the mark wrapper
-        const plainTextContents = document.createTextNode(nearestMarkNode.textContent);
-        nearestMarkNode.parentNode.replaceChild(plainTextContents, nearestMarkNode);
+
+    // Also check if any mark nodes exist anywhere within the selected range
+    const fragment = selectedRange.cloneContents();
+    const marksWithinSelection = fragment.querySelectorAll('mark.journal-custom-highlight');
+    const hasMarksInside = marksWithinSelection.length > 0;
+
+    if (nearestMarkNode || hasMarksInside) {
+        // Unhighlight: strip all mark wrappers within the editor that overlap the selection
+        const editor = document.getElementById('repo_rich_text_editor');
+        editor.querySelectorAll('mark.journal-custom-highlight').forEach(mark => {
+            const plainText = document.createTextNode(mark.textContent);
+            mark.parentNode.replaceChild(plainText, mark);
+        });
+        // Normalize merges any adjacent text nodes left behind
+        editor.normalize();
     } else {
         // Highlight action: Create fresh markup wrapper element node
         const customMarkWrapper = document.createElement('mark');
@@ -1587,7 +1596,6 @@ function toggleCustomTextHighlight() {
             selectedRange.insertNode(customMarkWrapper);
             activeSelection.removeAllRanges();
         } catch(e) {
-            // Fallback gracefully to standard command structure if structural ranges cross complex node blocks
             document.execCommand('hiliteColor', false, '#fff2a8');
         }
     }
@@ -2318,11 +2326,21 @@ updateAllCalculations();
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     
     // 3. FORCE all onscreen input nodes to empty defaults immediately before reloading
-    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
+    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet textarea").forEach(input => {
       input.value = "";
+    });
+    document.querySelectorAll("#main-character-sheet input[type='number']").forEach(input => {
+      input.value = input.id.startsWith("attr_") ? 6 : 0;
     });
     document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
       checkbox.checked = false;
+    });
+    document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+    document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+      el.style.height = "";
+    });
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+      row.removeAttribute('data-saved-height');
     });
 
     try {
