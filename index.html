@@ -1610,7 +1610,7 @@ function queueAutosave() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
         localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
-    }, 1000);
+    }, 450);
 }
 
 function newCharacter() {
@@ -2317,7 +2317,6 @@ updateAllCalculations();
 
   // + Add New Routine
   btnNewCharacter.addEventListener("click", async () => {
-    if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
     // 1. Generate a fresh timestamp ID for this new cloud slot
     const newSlotId = "slot_" + Date.now();
@@ -2325,39 +2324,45 @@ updateAllCalculations();
     // 2. Clear out local memory cache completely
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
     
-    // 3. FORCE all onscreen input nodes to empty defaults immediately before reloading
-    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet textarea").forEach(input => {
-      input.value = "";
-    });
-    document.querySelectorAll("#main-character-sheet input[type='number']").forEach(input => {
-      input.value = input.id.startsWith("attr_") ? 6 : 0;
-    });
-    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
-      checkbox.checked = false;
-    });
-    document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
-    document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
-      el.style.height = "";
-    });
-    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
-      row.removeAttribute('data-saved-height');
-    });
-
     try {
-      // 4. Create a clean base record directly in your Firestore database document
+      // 3. Create a clean base record directly in your Firestore database document
       const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
       await setDoc(docRef, { char_name: "" }, { merge: false });
       
-      // 5. Explicitly redirect our app's active tracking pointer to the new slot ID!
+      // 4. Explicitly redirect our app's active tracking pointer to the new slot ID!
       activeSlotId = newSlotId;
       
-      // 6. Refresh the cloud list cache so the selector reflects the update
+      // 5. Refresh the cloud list cache so the selector reflects the update
       await loadCharacterList();
       
-      // 7. Explicitly force the select element dropdown box to pick our new slot row
+      // 6. Explicitly force the select element dropdown box to pick our new slot row
       characterSelect.value = newSlotId;
-      
-      // 8. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+
+      // 7. FORCE all onscreen input nodes to empty defaults AFTER cloud load so nothing overwrites them
+      document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet textarea").forEach(input => {
+        input.value = "";
+      });
+      document.querySelectorAll("#main-character-sheet input[type='number']").forEach(input => {
+        input.value = input.id.startsWith("attr_") ? 6 : 0;
+      });
+      document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+      document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+        el.style.height = "";
+      });
+      document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+        row.removeAttribute('data-saved-height');
+      });
+
+      // 8. Switch back to the main tab
+      const mainTabBtn = document.querySelector(".tab-btn");
+      if (mainTabBtn && typeof switchSheetTab === "function") {
+        switchSheetTab('tab-main', mainTabBtn);
+      }
+
+      // 9. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
       if (typeof updateAllCalculations === "function") {
         updateAllCalculations();
       }
@@ -2370,8 +2375,7 @@ updateAllCalculations();
   });
 
   // Delete Routine
-  btnDeleteCharacter.addEventListener("click", async () => {
-    if (!confirm("Are you sure you want to permanently delete this cloud character sheet?")) return;
+ btnDeleteCharacter.addEventListener("click", async () => {
     
     try {
       const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
