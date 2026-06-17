@@ -1037,7 +1037,7 @@
     
     <div style="display: flex; align-items: center; gap: 8px;">
       <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
-      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
+      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px; max-width: 200px;">
         </select>
       <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
       
@@ -1048,7 +1048,7 @@
       <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
     </div>
 
-    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Logout</button>
   </div>
 
 </div>
@@ -2223,11 +2223,15 @@ updateAllCalculations();
         return;
       }
       
+      const slotEntries = [];
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
-        const option = new Option(displayName, docSnap.id);
-        characterSelect.add(option);
+        slotEntries.push({ displayName, id: docSnap.id });
+      });
+      slotEntries.sort((a, b) => a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase()));
+      slotEntries.forEach(({ displayName, id }) => {
+        characterSelect.add(new Option(displayName, id));
       });
       
       characterSelect.value = activeSlotId;
@@ -2404,13 +2408,18 @@ updateAllCalculations();
     cloudImportFile.value = ""; // clear selector cache
   });
 
-  // Live-update dropdown list label as name types
+  // Live-update dropdown list label as name types, then re-sort alphabetically
   document.getElementById("char_name").addEventListener("input", (e) => {
     if (!currentUser || !activeSlotId) return;
     const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
     if (activeOption) {
       activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
     }
+    const options = Array.from(characterSelect.options);
+    options.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
+    characterSelect.innerHTML = "";
+    options.forEach(opt => characterSelect.add(opt));
+    characterSelect.value = activeSlotId;
   });
 
   // ==========================================
