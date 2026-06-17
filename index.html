@@ -1021,16 +1021,6 @@
             color: #ffffff !important;
             outline: 1px solid #a62c3a !important;
         }
-
-        #empty-state-modal {
-            text-align: center; 
-            padding: 50px; 
-            background: #dcd088; 
-            border: 2px dashed #4a5d34; 
-            border-radius: 8px; 
-            width: 600px; 
-            margin: 50px auto;
-        }
     </style>
 </head>
 <body>
@@ -1064,15 +1054,6 @@
         </div>
     </div>
 
-    <div id="empty-state-modal" style="display: none;">
-        <h2>Join the Fight!</h2>
-        <p>You have no active character sheets. Create a new one or import an existing file to begin.</p>
-        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
-            <button id="modal-add-new" style="padding: 10px 20px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ Add New</button>
-            <button id="modal-import" style="padding: 10px 20px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Import</button>
-        </div>
-    </div>
-
     <div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu</h1>
@@ -1090,6 +1071,7 @@
             </div>
         </div>
 
+        <!-- TAB CONTENT: IDENTITY -->
         <div id="tab-identity" class="tab-panel-content active">
             <div class="identity-grid">
                 <div class="field-box"><label>Character Name</label><input type="text" id="char_name"></div>
@@ -1340,6 +1322,7 @@
             </div>
         </div>
 
+        <!-- TAB CONTENT: EQUIPMENT -->
         <div id="tab-equipment" class="tab-panel-content">
             <div class="section-banner">Equipment of Note</div>
             <div class="equipment-note-grid">
@@ -1425,6 +1408,7 @@
             </div>
         </div>
 
+        <!-- TAB CONTENT: SPELLS -->
         <div id="tab-spells" class="tab-panel-content">
             <div class="spells-header-container">
                 <div class="spells-header-title">Spells & Sorcery</div>
@@ -1454,6 +1438,7 @@
             </div>
         </div>
 
+        <!-- TAB CONTENT: JOURNAL REPOSITORY -->
         <div id="tab-journal" class="tab-panel-content">
             <div class="section-banner" style="margin-bottom:12px;">Mission Log Journal Intel Repository</div>
             <div class="notes-layout-split">
@@ -1485,6 +1470,7 @@
         </div>
     </div>
 
+    <!-- MAIN APP CONTROLLER CORE IMPLEMENTATION MODULE -->
     <script type="module">
         // 1. Module Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
@@ -1980,7 +1966,6 @@
                 loggedOutZone.style.display = "flex";
                 loggedInZone.style.display = "none";
                 if (charSheetContainer) charSheetContainer.style.display = "none";
-                toggleEmptyState(false); // HIDE the modal when completely logged out
             }
         });
 
@@ -1995,18 +1980,16 @@
                 const slotsRef = collection(db, "users", currentUser.uid, "characters");
                 const querySnapshot = await getDocs(slotsRef);
                 
-                // 1. Handle empty state
                 if (querySnapshot.empty) {
-                    toggleEmptyState(true); // SHOW THE MODAL
                     activeSlotId = "slot_1";
                     await saveCharacterToCloud();
                     const option = new Option("Slot 1 (New Character)", "slot_1");
                     characterSelect.add(option);
+                    if (charSheetContainer) charSheetContainer.style.display = "block";
+                    await loadCharacterFromCloud();
                     return;
                 }
                 
-                // 2. We found characters, show the sheet, build the array
-                toggleEmptyState(false); 
                 const characterArray = [];
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
@@ -2014,17 +1997,23 @@
                     characterArray.push({ id: docSnap.id, name: displayName });
                 });
 
-                // 3. Sort alphabetically
+                // Sort slots alphabetically by Character Name
                 characterArray.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
-                // 4. Populate dropdown
                 characterArray.forEach((char) => {
                     const option = new Option(char.name, char.id);
                     characterSelect.add(option);
                 });
 
-                // 5. Final settings
-                characterSelect.value = activeSlotId;
+                if (characterArray.some(c => c.id === activeSlotId)) {
+                    characterSelect.value = activeSlotId;
+                } else {
+                    activeSlotId = characterArray[0].id;
+                    characterSelect.value = activeSlotId;
+                    localStorage.setItem(`activeSlotId_${currentUser.uid}`, activeSlotId);
+                }
+
+                if (charSheetContainer) charSheetContainer.style.display = "block";
                 await loadCharacterFromCloud();
                 
             } catch (error) {
@@ -2052,7 +2041,6 @@
                 if (docSnap.exists()) {
                     applyCharacterData(docSnap.data());
                 } else {
-                    // Fallback to clear defaults if slot is missing
                     applyCharacterData({});
                 }
             } catch (error) {
@@ -2220,28 +2208,6 @@
                 saveCharacterToCloud();
             };
         }
-
-        function toggleEmptyState(isEmpty) {
-            const sheetContent = document.getElementById("main-character-sheet"); 
-            const modal = document.getElementById("empty-state-modal");
-            
-            if (isEmpty) {
-                sheetContent.style.display = "none";
-                modal.style.display = "block";
-            } else {
-                sheetContent.style.display = "block";
-                modal.style.display = "none";
-            }
-        }
-
-        // Connect the empty-state modal buttons to interact with main actions
-        document.getElementById("modal-add-new").addEventListener("click", () => {
-            btnNewCharacter.click();
-        });
-
-        document.getElementById("modal-import").addEventListener("click", () => {
-            btnImportSheet.click();
-        });
     </script>
 </body>
 </html>
