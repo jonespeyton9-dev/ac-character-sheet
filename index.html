@@ -2421,13 +2421,29 @@ updateAllCalculations();
     cloudImportFile.value = ""; // clear selector cache
   });
 
-  // Live-update dropdown list label as name types
+  // Live-update dropdown list label as name is typed
   document.getElementById("char_name").addEventListener("input", (e) => {
     if (!currentUser || !activeSlotId) return;
+    
+    // 1. Get the new name
+    const newName = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
+    
+    // 2. Find and update the label in the dropdown menu
     const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
     if (activeOption) {
-      activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
+      activeOption.textContent = newName;
+      
+      // 3. Optional: Re-sort the list if you want it to jump to the new alphabetical position 
+      // Note: Only do this if you don't mind the dropdown menu re-ordering while you type.
+      // If you prefer it to re-sort only on a "blur" (when you click out of the box), 
+      // use the block below instead:
     }
+  });
+
+        document.getElementById("char_name").addEventListener("blur", async () => {
+    // This triggers a full re-fetch and re-sort whenever you finish typing a name
+    await loadCharacterList();
+    characterSelect.value = activeSlotId;
   });
 
   // ==========================================
