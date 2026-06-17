@@ -2263,8 +2263,8 @@ updateAllCalculations();
       // Populate dropdown with existing sheets found in their folder
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        // Use character name field if it exists, otherwise default to slot ID
-        const displayName = data.character_name || data.name || `Saved Sheet (${docSnap.id})`;
+        // Match your exact input ID 'char_name' to display their character's actual name!
+        const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
         const option = new Option(displayName, docSnap.id);
         characterSelect.add(option);
       });
@@ -2376,6 +2376,15 @@ updateAllCalculations();
       saveCharacterToCloud();
     };
   }
+
+        // Live-update the dropdown label as the player types their character name
+  document.getElementById("char_name").addEventListener("input", (e) => {
+    if (!currentUser || !activeSlotId) return;
+    const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
+    if (activeOption) {
+      activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
+    }
+  });
 </script>
 
   </body>
