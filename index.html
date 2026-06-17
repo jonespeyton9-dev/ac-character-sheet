@@ -1048,7 +1048,7 @@
       <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
     </div>
 
-    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer;">Log Out</button>
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer; white-space: nowrap; font-size: 0.85rem;">Logout</button>
   </div>
 
 </div>
@@ -2223,10 +2223,19 @@ updateAllCalculations();
         return;
       }
       
+      const characterArray = [];
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
-        const option = new Option(displayName, docSnap.id);
+        const displayName = data.char_name?.trim() || `Saved Sheet (${docSnap.id})`;
+        characterArray.push({ id: docSnap.id, name: displayName });
+      });
+
+      // Sort alphabetically
+      characterArray.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
+      // Populate dropdown
+      characterArray.forEach((char) => {
+        const option = new Option(char.name, char.id);
         characterSelect.add(option);
       });
       
@@ -2383,19 +2392,27 @@ updateAllCalculations();
       try {
         const importedData = JSON.parse(e.target.result);
         
-        // Apply imported data into local interface fields
+        // 1. FORCE the import to generate a brand new unique slot ID
+        const importSlotId = "slot_" + Date.now();
+        activeSlotId = importSlotId;
+        
+        // 2. Apply imported data into local interface fields
         if (typeof applyCharacterData === "function") {
           applyCharacterData(importedData);
         }
         localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
         
-        // Push the imported state immediately into the cloud database active slot
-        await saveCharacterToCloud();
+        // 3. Stream this new data package into its own distinct database document
+        const docRef = doc(db, "users", currentUser.uid, "characters", importSlotId);
+        await setDoc(docRef, importedData, { merge: true });
         
-        // Update character select labels to display the imported sheet name text
+        // 4. Reload the alphabetical dropdown selection list
         await loadCharacterList();
         
-        alert("Character sheet successfully imported and synced to the cloud!");
+        // 5. Instantly lock the dropdown selector onto the freshly imported sheet
+        characterSelect.value = importSlotId;
+        
+        alert("Character backup successfully imported as a brand new cloud sheet!");
       } catch (err) {
         alert("Error parsing backup file.");
       }
