@@ -1021,6 +1021,16 @@
             color: #ffffff !important;
             outline: 1px solid #a62c3a !important;
         }
+
+        #empty-state-modal {
+    text-align: center; 
+    padding: 50px; 
+    background: #dcd088; 
+    border: 2px dashed #4a5d34; 
+    border-radius: 8px; 
+    width: 600px; 
+    margin: 50px auto;
+}
     </style>
 </head>
 <body>
@@ -1063,6 +1073,15 @@
 
 <div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
 
+    <div id="empty-state-modal" style="display: none; text-align: center; padding: 50px; background: #dcd088; border: 2px dashed #4a5d34; border-radius: 8px;">
+    <h2>Join the Fight!</h2>
+    <p>You have no active character sheets. Create a new one or import an existing file to begin.</p>
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+        <button id="modal-add-new" style="padding: 10px 20px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ Add New</button>
+        <button id="modal-import" style="padding: 10px 20px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Import</button>
+    </div>
+</div>
+    
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -2223,7 +2242,9 @@ updateAllCalculations();
       const slotsRef = collection(db, "users", currentUser.uid, "characters");
       const querySnapshot = await getDocs(slotsRef);
       
+      // 1. Handle empty state
       if (querySnapshot.empty) {
+        toggleEmptyState(true); // SHOW THE MODAL
         activeSlotId = "slot_1";
         await saveCharacterToCloud();
         const option = new Option("Slot 1 (New Character)", "slot_1");
@@ -2231,12 +2252,32 @@ updateAllCalculations();
         return;
       }
       
+      // 2. We found characters, show the sheet, build the array
+      toggleEmptyState(false); 
       const characterArray = [];
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const displayName = data.char_name?.trim() || `Saved Sheet (${docSnap.id})`;
         characterArray.push({ id: docSnap.id, name: displayName });
       });
+
+      // 3. Sort alphabetically
+      characterArray.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
+      // 4. Populate dropdown
+      characterArray.forEach((char) => {
+        const option = new Option(char.name, char.id);
+        characterSelect.add(option);
+      });
+
+      // 5. Final settings
+      characterSelect.value = activeSlotId;
+      await loadCharacterFromCloud();
+      
+    } catch (error) {
+      console.error("Error generating character list: ", error);
+    }
+  }
 
       // Sort alphabetically
       characterArray.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
@@ -2463,6 +2504,20 @@ updateAllCalculations();
       originalQueueAutosave();
       saveCharacterToCloud();
     };
+  }
+
+  function toggleEmptyState(isEmpty) {
+    // This finds the sheet container you previously set to display: none
+    const sheetContent = document.getElementById("main-character-sheet"); 
+    const modal = document.getElementById("empty-state-modal");
+    
+    if (isEmpty) {
+      sheetContent.style.display = "none";
+      modal.style.display = "block";
+    } else {
+      sheetContent.style.display = "block";
+      modal.style.display = "none";
+    }
   }
 </script>
 
