@@ -1060,10 +1060,9 @@
     <div style="background-color: #4a5d34; color: white; padding: 16px 30px; border-radius: 4px; margin-bottom: 30px;">
       <h2 style="margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px;">Join the Fight!</h2>
     </div>
-    <p style="color: #555; margin-bottom: 25px; font-size: 15px;">No character sheets found. Create a new one or import an existing backup.</p>
+    <p style="color: #555; margin-bottom: 25px; font-size: 15px;">No character sheets found. Create a new one to get started.</p>
     <div style="display: flex; gap: 15px; justify-content: center;">
       <button onclick="document.getElementById('btn-new-character').click()" style="padding: 10px 24px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">+ New Character</button>
-      <button onclick="document.getElementById('btn-import-sheet').click()" style="padding: 10px 24px; background-color: #cbbd77; color: #333; border: 1px solid #aaa; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">Import Backup</button>
     </div>
   </div>
 </div>
@@ -2248,7 +2247,8 @@ updateAllCalculations();
       });
       slotEntries.sort((a, b) => a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase()));
       slotEntries.forEach(({ displayName, id }) => {
-        characterSelect.add(new Option(displayName, id));
+        const truncated = displayName.length > 28 ? displayName.slice(0, 28) + "…" : displayName;
+        characterSelect.add(new Option(truncated, id));
       });
       
       characterSelect.value = activeSlotId;
@@ -2443,7 +2443,10 @@ updateAllCalculations();
     const options = Array.from(characterSelect.options);
     options.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
     characterSelect.innerHTML = "";
-    options.forEach(opt => characterSelect.add(opt));
+    options.forEach(opt => {
+      opt.text = opt.text.length > 28 ? opt.text.slice(0, 28) + "…" : opt.text;
+      characterSelect.add(opt);
+    });
     characterSelect.value = activeSlotId;
   });
 
