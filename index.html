@@ -238,15 +238,23 @@
 
         /* EQUIPMENT & TALENTS TAB GRID SYSTEMS */
         .equipment-note-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
+            display: flex;
+            flex-direction: column;
             width: 100%;
             box-sizing: border-box;
         }
 
+        .equipment-grid-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+            align-items: stretch;
+        }
+
         .equipment-textarea {
             width: 100%;
+            min-height: 60px;
             height: 60px;
             padding: 8px;
             border: 1px solid #ccc;
@@ -255,7 +263,7 @@
             font-family: Arial, sans-serif;
             box-sizing: border-box;
             background-color: #fafafa;
-            resize: none;
+            resize: vertical;
             overflow-y: auto;
             line-height: 1.3;
         }
@@ -298,7 +306,7 @@
         /* Scrollable, wrapping textareas to replace raw text fields in grid structures */
         .grid-textarea {
             width: 100%;
-            height: 48px; /* Slightly heightened constraint to manage wrapping bounds gracefully */
+            height: 48px; 
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -348,7 +356,6 @@
             align-items: stretch;
         }
 
-        /* CSS Grid optimization forces all textareas within the same row to match whatever row height is dragged */
         .spell-textarea {
             width: 100%;
             min-height: 96px; 
@@ -360,7 +367,7 @@
             font-size: 13px;
             font-family: Arial, sans-serif;
             background-color: #fafafa;
-            resize: vertical; /* Explicitly grants individual vertical drag indicators */
+            resize: vertical; 
             overflow-y: auto;
             line-height: 1.3;
         }
@@ -846,17 +853,134 @@
         }
 
         /* ====================================================
-           INTEGRATED RICH TEXT WORD PAD DESIGNATION (NOTES)
+           INTEGRATED NOTE REPOSITORY INTERFACE DESIGNS
         ====================================================== */
-        .notes-tab-wrapper {
-            display: flex;
-            flex-direction: column;
+        .notes-layout-split {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
             width: 100%;
             box-sizing: border-box;
             background: #fdfdfd;
             border: 1px solid #ddd;
             border-radius: 6px;
             padding: 15px;
+            min-height: 520px;
+        }
+
+        .notes-sidebar-panel {
+            border-right: 1px solid #eee;
+            padding-right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .add-note-action-btn {
+            background-color: #4a5d34;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .add-note-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .notes-chronological-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 440px;
+        }
+
+        .note-list-card-item {
+            background: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+        }
+
+        .note-list-card-item:hover {
+            background: #f0f0f0;
+            border-color: #bbb;
+        }
+
+        .note-list-card-item.selected-active {
+            background: #4a5d34;
+            color: white;
+            border-color: #4a5d34;
+        }
+
+        .note-card-title-text {
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .note-card-meta-date {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .note-list-card-item.selected-active .note-card-meta-date {
+            color: #e6da93;
+            opacity: 1;
+        }
+
+        .notes-editor-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .repository-meta-header-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .repository-title-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        .repository-delete-btn {
+            background-color: #8b2626;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .repository-delete-btn:hover {
+            opacity: 0.9;
         }
 
         .editor-command-bar {
@@ -866,7 +990,6 @@
             padding: 6px;
             border-radius: 4px;
             border: 1px solid #ccc;
-            margin-bottom: 12px;
         }
 
         .editor-btn {
@@ -887,7 +1010,9 @@
 
         .wordpad-core-container {
             width: 100%;
-            min-height: 450px;
+            flex-grow: 1;
+            min-height: 360px;
+            max-height: 420px;
             border: 1px solid #ccc;
             border-radius: 4px;
             background: #fff;
@@ -903,14 +1028,8 @@
             border-color: #4a5d34;
         }
 
-        .wordpad-core-container p {
-            margin: 0 0 10px 0;
-        }
-
-        .wordpad-core-container ul {
-            margin: 0 0 10px 20px;
-            padding: 0;
-        }
+        .wordpad-core-container p { margin: 0 0 10px 0; }
+        .wordpad-core-container ul { margin: 0 0 10px 20px; padding: 0; }
 
         input:focus, textarea:focus {
             outline: none;
@@ -923,7 +1042,6 @@
 
 <div class="charsheet">
 
-    <!-- PERSISTENT CONTROL HEADER BLOCK -->
     <div class="persistent-header-block">
         <div class="main-header-banner">
             <h1>Achtung! Cthulhu Character Record Sheet</h1>
@@ -952,7 +1070,6 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 1: MAIN CHARACTER PROFILE -->
     <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
@@ -963,7 +1080,6 @@
             <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
         </div>
 
-        <!-- Personal Truths Row -->
         <div class="section-banner">Personal Truths & Scars</div>
         <div class="truths-row">
             <textarea id="truth_1"></textarea>
@@ -1021,7 +1137,6 @@
 
         <div class="section-banner">Combat & Status Trackers</div>
         <div class="dashboard-layout-grid">
-            <!-- Left Side: Stress Tracker -->
             <div class="dashboard-block">
                 <h3>Stress Tracking & Resistances</h3>
                 <div class="stress-top-panel-wrapper">
@@ -1072,7 +1187,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Resources -->
             <div class="dashboard-block">
                 <h3>Resources</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
@@ -1096,7 +1210,6 @@
             </div>
         </div>
 
-        <!-- Independent Condition Row -->
         <div class="condition-layout-grid" style="margin-top: 15px;">
             <div>
                 <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
@@ -1117,7 +1230,6 @@
             </div>
         </div>
 
-        <!-- STABILIZED SKILLS SECTION -->
         <div class="section-banner">Skills & Focuses</div>
         <div class="skills-container">
             <div>
@@ -1258,22 +1370,25 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 2: EQUIPMENT & TALENTS MATRIX -->
     <div id="tab-equipment" class="tab-panel-content">
         <div class="section-banner">Equipment of Note</div>
         <div class="equipment-note-grid">
-            <textarea id="eq_note_1" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_2" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_3" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_4" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_5" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_6" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_7" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_8" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_9" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_10" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_11" class="equipment-textarea"></textarea>
-            <textarea id="eq_note_12" class="equipment-textarea"></textarea>
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_1" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_2" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_3" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_4" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_5" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_6" class="equipment-textarea"></textarea>
+            </div>
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_7" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_8" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_9" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_10" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_11" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_12" class="equipment-textarea"></textarea>
+            </div>
         </div>
 
         <div class="weapons-header-container">
@@ -1336,7 +1451,6 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 3: SPELLS & MYSTICISM MATRIX -->
     <div id="tab-spells" class="tab-panel-content">
         <div class="spells-header-container">
             <div class="spells-header-title">Spells & Sorcery</div>
@@ -1354,7 +1468,6 @@
             <div class="spells-grid-header">
                 <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
             </div>
-            <!-- Spell Rows (1-8) -->
             <div class="spells-grid-row">
                 <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
             </div>
@@ -1382,29 +1495,42 @@
         </div>
     </div>
 
-    <!-- TAB COMPARTMENT 4: INTEGRATED SESSION LOGS & NOTES -->
     <div id="tab-notes" class="tab-panel-content">
-        <div class="section-banner" style="margin-top: 25px;">Session Notes Journal</div>
-        <div class="notes-tab-wrapper">
-            <!-- Content Formatting Tool Controls -->
-            <div class="editor-command-bar">
-                <button type="button" class="editor-btn" onclick="execEditorCommand('bold')"><b>B</b></button>
-                <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
-                <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
-                <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
-                <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
+        <div class="section-banner" style="margin-top: 25px;">Journal Log & Note Repository</div>
+        <div class="notes-layout-split">
+            <div class="notes-sidebar-panel">
+                <button type="button" class="add-note-action-btn" onclick="createNewRepositoryNote()">+ Add New Entry</button>
+                <div id="repo_cards_list_container" class="notes-chronological-list"></div>
             </div>
-            <!-- Interactive Workspace Body Block -->
-            <div id="session_journal_box" class="wordpad-core-container" contenteditable="true" oninput="queueAutosave()"></div>
+
+            <div id="repo_editor_view_panel" class="notes-editor-workspace" style="display: none;">
+                <div class="repository-meta-header-row">
+                    <input type="text" id="repo_note_title_input" class="repository-title-input" oninput="handleNoteTitleChange(this.value)" placeholder="Enter Note Title...">
+                    <button type="button" class="repository-delete-btn" onclick="deleteCurrentRepositoryNote()">Delete Note</button>
+                </div>
+                
+                <div class="editor-command-bar">
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('bold')"><b>B</b></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
+                    <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
+                </div>
+
+                <div id="repo_rich_text_editor" class="wordpad-core-container" contenteditable="true" oninput="handleNoteContentChange(this.innerHTML)"></div>
+            </div>
         </div>
     </div>
 
 </div>
 
-<!-- DATA AUTOMATION ENGINE SCRIPT -->
 <script>
 let saveTimer = null;
 let tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
+
+// Note Repository App State Engines
+let characterNotesLogArray = [];
+let currentSelectedNoteId = null;
 
 function switchSheetTab(tabId, buttonElement) {
     document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
@@ -1413,11 +1539,9 @@ function switchSheetTab(tabId, buttonElement) {
     buttonElement.classList.add('active');
 }
 
-// Inline Wordpad Execution Core
 function execEditorCommand(cmd) {
     document.execCommand(cmd, false, null);
-    document.getElementById('session_journal_box').focus();
-    queueAutosave();
+    document.getElementById('repo_rich_text_editor').focus();
 }
 
 function queueAutosave() {
@@ -1430,6 +1554,7 @@ function queueAutosave() {
 function newCharacter() {
     if (!confirm("Are you sure you want to clear this sheet?")) return;
     localStorage.removeItem("achtung_cthulhu_save");
+    
     document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
     document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
     document.querySelectorAll('input[type="number"]').forEach(el => {
@@ -1444,9 +1569,108 @@ function newCharacter() {
         box.classList.remove("state-M", "state-P");
         box.innerText = "";
     });
-    document.getElementById("session_journal_box").innerHTML = "";
+
+    // Reset Manual Resize Metrics back to default heights
+    document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+        el.style.height = "";
+    });
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+        row.removeAttribute('data-saved-height');
+    });
+
+    // Clear Notes App State
+    characterNotesLogArray = [];
+    currentSelectedNoteId = null;
+    renderNoteRepositorySidebar();
+    document.getElementById('repo_editor_view_panel').style.display = "none";
+
     tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
     updateAllCalculations();
+}
+
+// NOTE REPOSITORY APP IMPLEMENTATION ENGINE
+function createNewRepositoryNote() {
+    const timestampString = new Date().toLocaleString();
+    const newNoteObj = {
+        id: "note_" + Date.now(),
+        title: "Untitled Journal Entry",
+        date: timestampString,
+        content: "<p></p>"
+    };
+    characterNotesLogArray.unshift(newNoteObj);
+    currentSelectedNoteId = newNoteObj.id;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
+}
+
+function renderNoteRepositorySidebar() {
+    const listContainer = document.getElementById('repo_cards_list_container');
+    listContainer.innerHTML = "";
+    
+    characterNotesLogArray.forEach(note => {
+        const cardNode = document.createElement('div');
+        cardNode.className = "note-list-card-item";
+        if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
+        cardNode.onclick = () => selectActiveNote(note.id);
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = "note-card-title-text";
+        titleDiv.innerText = note.title || "Untitled Journal Entry";
+        
+        const dateDiv = document.createElement('div');
+        dateDiv.className = "note-card-meta-date";
+        dateDiv.innerText = note.date;
+        
+        cardNode.appendChild(titleDiv);
+        cardNode.appendChild(dateDiv);
+        listContainer.appendChild(cardNode);
+    });
+}
+
+function selectActiveNote(id) {
+    currentSelectedNoteId = id;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+}
+
+function loadActiveNoteIntoEditor() {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (!activeNote) {
+        document.getElementById('repo_editor_view_panel').style.display = "none";
+        return;
+    }
+    document.getElementById('repo_editor_view_panel').style.display = "flex";
+    document.getElementById('repo_note_title_input').value = activeNote.title || "";
+    document.getElementById('repo_rich_text_editor').innerHTML = activeNote.content || "";
+}
+
+function handleNoteTitleChange(newTitle) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.title = newTitle;
+        // Quietly refresh the title text on the element node without re-building the selection tree
+        const activeCard = document.querySelector('.note-list-card-item.selected-active .note-card-title-text');
+        if (activeCard) activeCard.innerText = newTitle || "Untitled Journal Entry";
+        queueAutosave();
+    }
+}
+
+function handleNoteContentChange(newHTML) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.content = newHTML;
+        queueAutosave();
+    }
+}
+
+function deleteCurrentRepositoryNote() {
+    if (!confirm("Delete this journal note permanently?")) return;
+    characterNotesLogArray = characterNotesLogArray.filter(n => n.id !== currentSelectedNoteId);
+    currentSelectedNoteId = characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
 }
 
 function validateAttrCap(input) {
@@ -1512,6 +1736,15 @@ function calculateResistanceBase(score) {
 function updateResistanceCalculations() {
     const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
     const willScore = parseInt(document.getElementById('attr_will').value) || 0;
+    
+    // Safety check fallback constraints prevent older files from parsing undefined NaN parameters
+    if (tickerManualOffsets.ticker_armour === undefined) tickerManualOffsets.ticker_armour = 0;
+    if (tickerManualOffsets.ticker_courage === undefined) tickerManualOffsets.ticker_courage = 0;
+    if (tickerManualOffsets.ticker_fortune === undefined) tickerManualOffsets.ticker_fortune = 0;
+    if (tickerManualOffsets.ticker_exp === undefined) tickerManualOffsets.ticker_exp = 0;
+    if (tickerManualOffsets.ticker_ammo === undefined) tickerManualOffsets.ticker_ammo = 0;
+    if (tickerManualOffsets.ticker_power === undefined) tickerManualOffsets.ticker_power = 0;
+
     const totalArmour = calculateResistanceBase(brawnScore) + tickerManualOffsets.ticker_armour;
     const totalCourage = calculateResistanceBase(willScore) + tickerManualOffsets.ticker_courage;
 
@@ -1534,9 +1767,9 @@ function updateResistanceCalculations() {
 
 function adjustTickerField(id, amount) {
     if (id === "ticker_fortune" || id === "ticker_exp" || id === "ticker_power" || id === "ticker_ammo") {
-        tickerManualOffsets[id] = Math.max(0, tickerManualOffsets[id] + amount);
+        tickerManualOffsets[id] = Math.max(0, (tickerManualOffsets[id] || 0) + amount);
     } else {
-        tickerManualOffsets[id] += amount;
+        tickerManualOffsets[id] = (tickerManualOffsets[id] || 0) + amount;
     }
     updateResistanceCalculations();
     queueAutosave();
@@ -1613,7 +1846,31 @@ function setInjuryStates(injuries) {
     });
 }
 
-// Data Handling Engines
+// Compile manual height attributes to string records
+function gatherCustomLayoutHeights() {
+    const heightMap = {};
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        const savedHeight = row.getAttribute('data-saved-height');
+        if (savedHeight) heightMap[identifier] = savedHeight;
+    });
+    return heightMap;
+}
+
+function restoreCustomLayoutHeights(heightMap) {
+    if (!heightMap) return;
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        if (heightMap[identifier]) {
+            row.setAttribute('data-saved-height', heightMap[identifier]);
+            row.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(textarea => {
+                textarea.style.height = heightMap[identifier];
+            });
+        }
+    });
+}
+
+// Master Serialization Engines
 function compileCharacterData() {
     const saveData = {};
     document.querySelectorAll("input, textarea").forEach(el => {
@@ -1621,10 +1878,14 @@ function compileCharacterData() {
         if (el.id.startsWith("ticker_")) return;
         saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
     });
-    saveData.journalHTML = document.getElementById("session_journal_box").innerHTML;
     saveData.tickerOffsets = tickerManualOffsets;
     saveData.focuses = getActiveFocuses();
     saveData.injuries = getInjuryStates();
+    saveData.layoutHeights = gatherCustomLayoutHeights();
+    
+    // Bundle the whole notes array and tracking profile state
+    saveData.notesRepositoryLog = characterNotesLogArray;
+    saveData.activeRepositoryNoteId = currentSelectedNoteId;
     return saveData;
 }
 
@@ -1632,21 +1893,33 @@ function applyCharacterData(saveData) {
     if (!saveData) return;
     Object.keys(saveData).forEach(id => {
         const el = document.getElementById(id);
-        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets" || id === "journalHTML") return;
+        if (!el || id === "focuses" || id === "injuries" || id === "tickerOffsets" || id === "layoutHeights" || id === "notesRepositoryLog" || id === "activeRepositoryNoteId") return;
         if (el.type === "checkbox") {
             el.checked = saveData[id];
         } else {
             el.value = saveData[id];
         }
     });
-    if (saveData.journalHTML) {
-        document.getElementById("session_journal_box").innerHTML = saveData.journalHTML;
+    
+    if (saveData.tickerOffsets) {
+        tickerManualOffsets = saveData.tickerOffsets;
     } else {
-        document.getElementById("session_journal_box").innerHTML = "";
+        tickerManualOffsets = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
     }
-    if (saveData.tickerOffsets) tickerManualOffsets = saveData.tickerOffsets;
+    
+    // Enforce Fallback safety initialization properties
+    if (tickerManualOffsets.ticker_ammo === undefined) tickerManualOffsets.ticker_ammo = 0;
+
     setActiveFocuses(saveData.focuses);
     setInjuryStates(saveData.injuries);
+    restoreCustomLayoutHeights(saveData.layoutHeights);
+
+    // Reconstruct Repository Notebook Logs
+    characterNotesLogArray = saveData.notesRepositoryLog || [];
+    currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+
     updateAllCalculations();
 }
 
@@ -1654,7 +1927,6 @@ function saveCharacter() {
     const dataPayload = compileCharacterData();
     localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
     
-    // Dynamic Name Generation Engine Logic
     let rawName = document.getElementById("char_name").value.trim();
     let safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
     let filename = safeName ? `AC-${safeName}.json` : "AC-Character.json";
@@ -1684,16 +1956,22 @@ function loadCharacter(event) {
     reader.readAsText(file);
 }
 
-// Unison Grid Row Resizing Handler Module
+// Unison Grid Resizing Dynamic Layout Listeners
 document.addEventListener('mouseup', function(e) {
-    if (e.target.classList && e.target.classList.contains('spell-textarea')) {
-        let parentRow = e.target.closest('.spells-grid-row');
+    if (e.target.classList && (e.target.classList.contains('spell-textarea') || e.target.classList.contains('equipment-textarea'))) {
+        const isSpell = e.target.classList.contains('spell-textarea');
+        const targetRowClass = isSpell ? '.spells-grid-row' : '.equipment-grid-row';
+        const targetTextareaClass = isSpell ? '.spell-textarea' : '.equipment-textarea';
+        
+        let parentRow = e.target.closest(targetRowClass);
         if (parentRow) {
             let currentHeight = e.target.style.height;
             if (currentHeight) {
-                parentRow.querySelectorAll('.spell-textarea').forEach(textarea => {
+                parentRow.setAttribute('data-saved-height', currentHeight);
+                parentRow.querySelectorAll(targetTextareaClass).forEach(textarea => {
                     textarea.style.height = currentHeight;
                 });
+                queueAutosave();
             }
         }
     }
