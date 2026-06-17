@@ -1039,7 +1039,7 @@
       <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
       <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; min-width: 160px;">
         </select>
-      <button id="btn-new-character" style="padding: 6px 12px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ New Sheet</button>
+      <button id="btn-new-character" style="padding: 6px 12px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">+ Add New</button>
       
       <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
       <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
@@ -1053,7 +1053,7 @@
 
 </div>
 
-<div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 20px;">
+<div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
 
     <div class="persistent-header-block">
         <div class="main-header-banner">
@@ -1066,12 +1066,7 @@
                 <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
                 <button class="tab-btn" onclick="switchSheetTab('tab-notes', this)">Notes</button>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-main" class="tab-panel-content active">
+            </div> </div> </div> <div id="tab-main" class="tab-panel-content active">
         <div class="identity-grid">
             <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
             <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
@@ -2291,32 +2286,27 @@ updateAllCalculations();
     await loadCharacterFromCloud();
   });
 
-  // + New Sheet Routine
+  // + Add New Routine
   btnNewCharacter.addEventListener("click", async () => {
     if (!confirm("Create a brand new character sheet? Your current sheet is automatically synced to the cloud.")) return;
 
+    // 1. Set a completely empty data object into local storage memory
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
+    
+    // 2. Generate a fresh timestamp ID for this new cloud slot
     const newSlotId = "slot_" + Date.now();
     activeSlotId = newSlotId;
     
-    // 1. Manually reset all interactive input types on the page to default/blank
-    document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet input[type='number'], #main-character-sheet textarea").forEach(input => {
-      input.value = "";
-    });
-    
-    document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
-      checkbox.checked = false;
-    });
-
-    // 2. Call your original layout calculations to reset dynamic stress tracks/caps back to zero
-    if (typeof updateAllCalculations === "function") {
-      updateAllCalculations();
+    try {
+      // 3. Force initialize this blank slot directly in your Firestore database
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await setDoc(docRef, { char_name: "" }, { merge: false });
+      
+      // 4. Force a clean window reload. When it reboots, it will naturally see the new empty slot and load a pristine blank sheet!
+      location.reload();
+    } catch (error) {
+      console.error("Failed to initialize new cloud sheet: ", error);
     }
-    
-    // 3. Clear the background memory cache and initialize the fresh slate in Firestore
-    localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
-    await saveCharacterToCloud();
-    await loadCharacterList();
-    characterSelect.value = newSlotId;
   });
 
   // Delete Routine
