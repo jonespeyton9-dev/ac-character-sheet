@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Achtung! Cthulhu Character Sheet</title>
+    <style>
+        /* Base Configuration */
+        body { 
+            padding: 20px; 
+            background-color: #575757; 
+            font-family: Arial, sans-serif; 
+            color: #333;
+        }
+        
+        .charsheet { 
+            background: #e6da93; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15); 
+            width: 1000px;  
+            margin: 0 auto;            
+            box-sizing: border-box;
+        }
+
+        /* Title Header */
+        .main-header-banner {
+            background-color: #4a5d34; 
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        .main-header-banner h1 {
+            margin: 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================
+           PERSISTENT INTERACTION HEADER SYSTEM
+        =========================================== */
+        .persistent-header-block {
+            border-bottom: 2px solid #4a5d34;
+            padding-bottom: 0px; 
+            margin-bottom: 20px;
+        }
+
+        .control-panel-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; 
+            width: 100%;
+        }
+
+        /* Left-aligned Tab Group */
+        .tab-navigation-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: -2px; 
+            position: relative;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            background-color: #cbbd77;
+            color: #333;
+            border: 1px solid #aaa;
+            border-bottom: none;
+            padding: 8px 18px;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #b3a560;
+        }
+
+        /* Flush Manila Folder Link State */
+        .tab-btn.active {
+            background-color: #4a5d34;
+            color: white;
+            border: 1px solid #4a5d34;
+            border-bottom: 1px solid #4a5d34; 
+            padding-bottom: 9px; 
+        }
+
+        /* =========================================
+           TAB ARCHITECTURE & SHEET SECTIONS
+        =========================================== */
+        .tab-panel-content {
+            display: none; 
+        }
+
+        .tab-panel-content.active {
+            display: block;
+        }
+
+        /* Thematic section banners */
+        .section-banner {
+            background-color: #4a5d34;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            box-sizing: border-box;
+        }
+
+        /* Header Ticker Container Configurations */
+        .weapons-header-container,
+        .spells-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4a5d34;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            box-sizing: border-box;
+        }
+
+        .weapons-header-title,
+        .spells-header-title {
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-ticker-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .header-ticker-wrap label {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* IDENTITY SYSTEM */
+        .identity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .field-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .field-box label {
+            background-color: #4a5d34;
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 13px;
+            border-radius: 4px 4px 0 0;
+            text-transform: uppercase;
+        }
+        .field-box input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+            width: 100%;
+            background-color: #fafafa;
+        }
+
+        /* EQUIPMENT & TALENTS TAB GRID SYSTEMS */
+        .equipment-note-grid {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .equipment-grid-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+            align-items: stretch;
+        }
+
+        .equipment-textarea {
+            width: 100%;
+            min-height: 60px;
+            height: 60px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            resize: vertical;
+            overflow-y: auto;
+            line-height: 1.3;
+        }
+
+        /* Proportional Weapon Grid Construction Layout */
+        .weapons-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .weapons-grid-header, .weapons-grid-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .weapons-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+            align-items: center;
+        }
+
+        .weapons-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Scrollable, wrapping textareas to replace raw text fields in grid structures */
+        .grid-textarea {
+            width: 100%;
+            height: 48px; 
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
+        }
+
+        /* ====================================================
+           DYNAMIC SPELLS GRID ARCHITECTURE WITH UNISON RESIZE
+        ====================================================== */
+        .spells-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .spells-grid-header, .spells-grid-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr 2fr;
+            gap: 8px;
+        }
+
+        .spells-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+            align-items: center;
+        }
+
+        .spells-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+            align-items: stretch;
+        }
+
+        .spell-textarea {
+            width: 100%;
+            min-height: 96px; 
+            height: 96px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            resize: vertical; 
+            overflow-y: auto;
+            line-height: 1.3;
+        }
+
+        /* FIXED SPLIT DASHBOARD LAYOUT */
+        .footer-split-dashboard {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+            width: 100%;
+            align-items: stretch; 
+            box-sizing: border-box;
+        }
+
+        .bio-entry-box {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .bio-entry-box textarea {
+            width: 100%;
+            flex-grow: 1; 
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            resize: none;
+            background-color: #fafafa;
+            line-height: 1.5;
+        }
+
+        .talents-grid-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .talents-grid-header, .talents-grid-row {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr 2.5fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .talents-grid-header {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .talents-grid-row {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+        }
+
+        .talents-grid-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .talent-textarea {
+            width: 100%;
+            height: 54px; 
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            resize: none;
+            overflow-y: auto;
+            line-height: 1.3;
+        }
+
+        /* PERSONAL TRUTHS GRID */
+        .truths-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+        .truths-row textarea {
+            width: 100%;
+            min-height: 65px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            resize: none; 
+            background-color: #fafafa;
+        }
+
+        /* ATTRIBUTES FRAMEWORK */
+        .attributes-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+        .attribute-card {
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        .attribute-card label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+        /* Updated Suffix Read-Only Bonus Display Box */
+        .cd-bonus-container {
+            margin-top: 10px;
+            border-top: 1px dashed #ddd;
+            padding-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cd-display-input {
+            width: 75px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #e9ecef;
+            color: #495057;
+            cursor: not-allowed;
+        }
+
+        input[type="number"] {
+            width: 60px; 
+            height: 32px; 
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 auto;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        /* Combat Tracker Grid */
+        .dashboard-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 25px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Independent Conditions & Languages Grid Layout Split */
+        .condition-layout-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr; 
+            gap: 25px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dashboard-block {
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-block h3 {
+            margin: 0 0 15px 0;
+            color: #4a5d34;
+            font-size: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        /* Side-by-Side Flex Split for Calculator + Resistances Column */
+        .stress-top-panel-wrapper {
+            display: flex;
+            gap: 15px;
+            align-items: stretch;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .unified-math-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            background: #fcfcfc;
+            border: 1px solid #eee;
+            padding: 8px 12px;
+            border-radius: 6px;
+            flex-grow: 1;
+        }
+
+        .math-box-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .math-box-node label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+            text-align: center;
+        }
+
+        .unified-math-row .math-sign {
+            font-weight: bold;
+            font-size: 16px;
+            color: #888;
+            margin-top: 16px;
+        }
+
+        .math-box-node input[readonly],
+        .math-box-node input[disabled] {
+            background-color: #e9ecef !important;
+            color: #495057;
+            border-color: #ced4da;
+            cursor: not-allowed;
+        }
+
+        /* Stacked Vertical Resistances Layout column */
+        .resistances-column-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 165px;
+            justify-content: center;
+        }
+
+        .checkbox-matrix-20 {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            justify-items: center;
+            padding: 5px 0;
+        }
+
+        .checkbox-matrix-20 input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-matrix-20 input[type="checkbox"]:disabled {
+            opacity: 0.15;
+            cursor: not-allowed;
+        }
+
+        /* Dynamic Section Ticker Row Styles */
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .resource-ticker-expanded {
+            flex-grow: 1;
+            padding: 12px 10px;
+            margin-bottom: 2px;
+        }
+
+        .ticker-item label {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #444;
+        }
+
+        /* Spliced Ticker Controllers */
+        .interactive-ticker-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ticker-control-btn {
+            background: #eee;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 22px;
+            height: 26px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        .ticker-control-btn:hover { background: #ddd; }
+
+        .ticker-val-field {
+            width: 45px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fdfdfd;
+        }
+
+        .auxiliary-ticker-field {
+            width: 34px;
+            font-size: 12px;
+            padding: 2px;
+        }
+
+        .ticker-control-btn.auxiliary-ticker-btn {
+            width: 18px;
+            height: 22px;
+            font-size: 12px;
+        }
+
+        .injuries-container {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            align-items: flex-start;
+        }
+
+        .injury-card {
+            position: relative;
+            flex: 1;
+        }
+
+        .injury-cycle-box {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .injury-cycle-box.state-M { 
+            border-color: #31708f; 
+            color: #31708f; 
+            background: #d9edf7; 
+        }
+
+        .injury-cycle-box.state-P { 
+            border-color: #a94442; 
+            color: #a94442; 
+            background: #f2dede; 
+        }
+
+        .injury-description {
+            width: 100%;
+            height: 90px;
+            padding: 6px 8px 6px 34px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            resize: none;
+            line-height: 1.3;
+        }
+
+        .injury-card.state-M .injury-description {
+            border-color: #31708f;
+            background: #f0f8fd;
+        }
+
+        .injury-card.state-P .injury-description {
+            border-color: #a94442;
+            background: #fdf5f5;
+        }
+
+        .languages-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .languages-row textarea {
+            width: 100%;
+            height: 90px;
+            min-height: 90px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            resize: none; 
+        }
+
+        /* ====================================================
+           FIXED SKILLS GRID SYSTEM 
+        ====================================================== */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            align-items: start; 
+        }
+
+        .skills-column-header {
+            display: grid;
+            grid-template-columns: 110px 60px 1fr;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #777;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            gap: 10px;
+        }
+
+        .skill-row {
+            display: grid;
+            grid-template-columns: 110px 60px 1fr;
+            align-items: center;
+            height: 96px; 
+            padding: 6px 10px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            font-size: 13px;
+            color: #333;
+            text-transform: uppercase;
+        }
+
+        .focus-links-div {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: center;
+            color: #ccc;
+            font-weight: normal;
+            font-size: 11px;
+            line-height: 1.4;
+            max-height: 84px;
+            overflow-y: auto; 
+        }
+
+        .focus-clickable-text {
+            color: #555;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.12s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin: 0 1px;
+            display: inline-block;
+        }
+
+        .focus-clickable-text:hover {
+            color: #111;
+            background: #eee;
+        }
+
+        .focus-clickable-text.active {
+            background-color: #4a5d34 !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        /* ====================================================
+           INTEGRATED JOURNAL REPOSITORY INTERFACE DESIGNS
+        ====================================================== */
+        .notes-layout-split {
+            display: grid;
+            grid-template-columns: 210px 1fr; 
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            min-height: 520px;
+        }
+
+        .notes-sidebar-panel {
+            border-right: 1px solid #eee;
+            padding-right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .journal-search-input {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        .add-note-action-btn {
+            background-color: #4a5d34;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .add-note-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .notes-chronological-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 440px;
+        }
+
+        .note-list-card-item {
+            background: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+        }
+
+        .note-list-card-item:hover {
+            background: #f0f0f0;
+            border-color: #bbb;
+        }
+
+        .note-list-card-item.selected-active {
+            background: #4a5d34;
+            color: white;
+            border-color: #4a5d34;
+        }
+
+        .note-card-title-text {
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .note-card-meta-date {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .note-list-card-item.selected-active .note-card-meta-date {
+            color: #e6da93;
+            opacity: 1;
+        }
+
+        .notes-editor-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .repository-meta-header-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .repository-title-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        .repository-delete-btn {
+            background-color: #8b2626;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .repository-delete-btn:hover {
+            opacity: 0.9;
+        }
+
+        .editor-command-bar {
+            display: flex;
+            gap: 6px;
+            background: #eee;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .editor-btn {
+            background: #fff;
+            border: 1px solid #bbb;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .editor-btn:hover {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .wordpad-core-container {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 360px;
+            max-height: 420px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .wordpad-core-container:focus {
+            outline: none;
+            border-color: #4a5d34;
+        }
+
+        .wordpad-core-container p { margin: 0 0 10px 0; }
+        .wordpad-core-container ul, .wordpad-core-container ol { margin: 0 0 10px 20px; padding: 0; }
+        
+        /* Premium markup highlights layout */
+        mark.journal-custom-highlight {
+            background-color: #fff2a8 !important;
+            color: inherit !important;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4a5d34 !important;
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="firebase-account-bar" style="background-color: #2c0d11; color: #ffffff; padding: 12px 20px; font-family: sans-serif; border-bottom: 2px solid #50171e; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+  
+  <style>
+    #firebase-account-bar input:focus, #firebase-account-bar select:focus {
+      background-color: #421319 !important;
+      color: #ffffff !important;
+      outline: 1px solid #a62c3a !important;
+    }
+  </style>
+
+  <div style="font-weight: bold; font-size: 1.1rem; color: #ff4d5a; letter-spacing: 0.5px;">
+    Majestic HQ Login
+  </div>
+
+  <div id="auth-logged-out-zone" style="display: flex; align-items: center; gap: 10px;">
+    <input type="email" id="auth-email" placeholder="Email Address" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 180px;">
+    <input type="text" id="auth-password" placeholder="Password" style="padding: 6px 10px; border: 1px solid #50171e; background-color: #421319; color: white; border-radius: 4px; width: 140px;">
+    <button id="btn-login" style="padding: 6px 14px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Log In</button>
+    <button id="btn-register" style="padding: 6px 14px; background-color: #331115; color: #ccc; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Register</button>
+    <span id="btn-forgot-password" style="color: #ff4d5a; font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-left: 5px;">Forgot Password?</span>
+  </div>
+
+  <div id="auth-logged-in-zone" style="display: none; align-items: center; gap: 15px; width: 100%; justify-content: space-between; flex-grow: 1; max-width: 850px;">
+    
+    <span id="user-display-email" style="font-size: 0.9rem; color: #cca3a6;">Loading account...</span>
+    
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <label for="character-select" style="font-size: 0.9rem; color: #fff;">Select Character:</label>
+      <div style="width: 200px; overflow: hidden; flex-shrink: 0;">
+      <select id="character-select" style="padding: 6px 10px; background-color: #421319; color: white; border: 1px solid #50171e; border-radius: 4px; width: 200px;">
+        </select>
+       </div>   
+      <button id="btn-new-character" style="padding: 6px 8px; background-color: #a62c3a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; font-size: 0.85rem;">+ Add New</button>
+      
+      <button id="btn-export-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Export</button>
+      <button id="btn-import-sheet" style="padding: 6px 12px; background-color: #421319; color: #fff; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;">Import</button>
+      <input type="file" id="cloud-import-file" accept=".json" style="display: none;">
+
+      <button id="btn-delete-character" style="padding: 6px 12px; background-color: #721c24; color: white; border: 1px solid #50171e; border-radius: 4px; cursor: pointer;" title="Delete this cloud sheet slot">🗑️</button>
+    </div>
+
+    <button id="btn-logout" style="padding: 6px 12px; background-color: transparent; color: #ff4d5a; border: 1px solid #a62c3a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Logout</button>
+  </div>
+
+</div>
+
+<div id="empty-state-modal" style="display: none; margin-top: 60px; text-align: center; font-family: sans-serif;">
+  <div style="display: inline-block; background: #e6da93; border-radius: 8px; padding: 50px 60px; box-shadow: 0px 4px 15px rgba(0,0,0,0.15);">
+    <div style="background-color: #4a5d34; color: white; padding: 16px 30px; border-radius: 4px; margin-bottom: 30px;">
+      <h2 style="margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px;">Join the Fight!</h2>
+    </div>
+    <p style="color: #555; margin-bottom: 25px; font-size: 15px;">No character sheets found. Create a new one to get started.</p>
+    <div style="display: flex; gap: 15px; justify-content: center;">
+      <button onclick="document.getElementById('btn-new-character').click()" style="padding: 10px 24px; background-color: #4a5d34; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;">+ New Character</button>
+    </div>
+  </div>
+</div>
+    
+<div class="charsheet" id="main-character-sheet" style="display: none; margin-top: 25px;">
+
+    <div class="persistent-header-block">
+        <div class="main-header-banner">
+            <h1>Achtung! Cthulhu Character Record Sheet</h1>
+        </div>
+        
+        <div class="control-panel-row">
+            <div class="tab-navigation-bar">
+                <button class="tab-btn active" onclick="switchSheetTab('tab-main', this)">Main</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-equipment', this)">Equipment / Talents</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-spells', this)">Spells</button>
+                <button class="tab-btn" onclick="switchSheetTab('tab-notes', this)">Notes</button>
+            </div> </div> </div> <div id="tab-main" class="tab-panel-content active">
+        <div class="identity-grid">
+            <div class="field-box"><label>Name</label><input type="text" id="char_name"></div>
+            <div class="field-box"><label>Nationality</label><input type="text" id="char_nationality"></div>
+            <div class="field-box"><label>Rank</label><input type="text" id="char_rank"></div>
+            <div class="field-box"><label>Archetype</label><input type="text" id="char_archetype"></div>
+            <div class="field-box"><label>Background</label><input type="text" id="char_background"></div>
+            <div class="field-box"><label>Characteristic</label><input type="text" id="char_characteristic"></div>
+        </div>
+
+        <div class="section-banner">Personal Truths & Scars</div>
+        <div class="truths-row">
+            <textarea id="truth_1"></textarea>
+            <textarea id="truth_2"></textarea>
+            <textarea id="truth_3"></textarea>
+            <textarea id="truth_4"></textarea>
+            <textarea id="truth_5"></textarea>
+        </div>
+
+        <div class="section-banner">Attributes</div>
+        <div class="attributes-row">
+            <div class="attribute-card">
+                <label>Agility</label>
+                <input type="number" id="attr_agility" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_agility" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Brawn</label>
+                <input type="number" id="attr_brawn" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_brawn" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Coordination</label>
+                <input type="number" id="attr_coordination" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_coordination" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Insight</label>
+                <input type="number" id="attr_insight" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_insight" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Reason</label>
+                <input type="number" id="attr_reason" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_reason" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <label>Will</label>
+                <input type="number" id="attr_will" value="6" min="0" max="15">
+                <div class="cd-bonus-container">
+                    <input type="text" id="bonus_will" class="cd-display-input" value="—" readonly disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-banner">Combat & Status Trackers</div>
+        <div class="dashboard-layout-grid">
+            <div class="dashboard-block">
+                <h3 style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>Stress Tracking &amp; Resistances</span>
+                    <button onclick="clearAllStress()" title="Clear all stress boxes" style="background:none; border:1px solid #ccc; border-radius:3px; color:#999; font-size:10px; padding:2px 7px; cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; font-weight:bold; line-height:1.4;" onmouseover="this.style.color='#555'; this.style.borderColor='#999';" onmouseout="this.style.color='#999'; this.style.borderColor='#ccc';">Clear</button>
+                </h3>
+                <div class="stress-top-panel-wrapper">
+                    <div class="unified-math-row">
+                        <div class="math-box-node">
+                            <label>Attribute</label>
+                            <input type="number" id="calc_highest_attr" disabled>
+                        </div>
+                        <div class="math-sign">+</div>
+                        <div class="math-box-node">
+                            <label>Resilience</label>
+                            <input type="number" id="input_stress_bonus" readonly>
+                        </div>
+                        <div class="math-sign">+</div>
+                        <div class="math-box-node">
+                            <label>Bonus</label>
+                            <input type="number" id="input_stress_talent_bonus" value="0" min="0">
+                        </div>
+                        <div class="math-sign">-</div>
+                        <div class="math-box-node">
+                            <label>Fatigue</label>
+                            <input type="number" id="input_stress_fatigue" value="0">
+                        </div>
+                        <div class="math-sign">=</div>
+                        <div class="math-box-node">
+                            <label>Total</label>
+                            <input type="number" id="output_stress_max" readonly>
+                        </div>
+                    </div>
+
+                    <div class="resistances-column-stack">
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Courage</label>
+                            <div class="interactive-ticker-wrap">
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', -1)">-</div>
+                                <input type="text" id="ticker_courage" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_courage', 1)">+</div>
+                            </div>
+                        </div>
+                        <div class="ticker-item" style="padding: 4px 8px;">
+                            <label style="font-size: 11px;">Armour</label>
+                            <div class="interactive-ticker-wrap">
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', -1)">-</div>
+                                <input type="text" id="ticker_armour" class="ticker-val-field auxiliary-ticker-field" value="—" readonly>
+                                <div class="ticker-control-btn auxiliary-ticker-btn" onclick="adjustTickerField('ticker_armour', 1)">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkbox-matrix-20" id="stress_checkbox_container">
+                    <input type="checkbox" id="stress_1"><input type="checkbox" id="stress_2"><input type="checkbox" id="stress_3"><input type="checkbox" id="stress_4"><input type="checkbox" id="stress_5"><input type="checkbox" id="stress_6"><input type="checkbox" id="stress_7"><input type="checkbox" id="stress_8"><input type="checkbox" id="stress_9"><input type="checkbox" id="stress_10"><input type="checkbox" id="stress_11"><input type="checkbox" id="stress_12"><input type="checkbox" id="stress_13"><input type="checkbox" id="stress_14"><input type="checkbox" id="stress_15"><input type="checkbox" id="stress_16"><input type="checkbox" id="stress_17"><input type="checkbox" id="stress_18"><input type="checkbox" id="stress_19"><input type="checkbox" id="stress_20">
+                </div>
+            </div>
+
+            <div class="dashboard-block">
+                <h3>Resources</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+                    <div class="ticker-item resource-ticker-expanded">
+                        <label>Fortune</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', -1)">-</div>
+                            <input type="text" id="ticker_fortune" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_fortune', 1)">+</div>
+                        </div>
+                    </div>
+                    <div class="ticker-item resource-ticker-expanded">
+                        <label>Exp</label>
+                        <div class="interactive-ticker-wrap">
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', -1)">-</div>
+                            <input type="text" id="ticker_exp" class="ticker-val-field" style="height: 32px; font-size: 16px;" value="0" readonly>
+                            <div class="ticker-control-btn" style="height: 32px; width: 24px;" onclick="adjustTickerField('ticker_exp', 1)">+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="condition-layout-grid" style="margin-top: 15px;">
+            <div>
+                <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Injuries</div>
+                <div class="injuries-container">
+                    <div class="injury-card" id="injury_card_1">
+                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_1"></div>
+                        <textarea class="injury-description" id="injury_1_desc" placeholder="Describe injury..."></textarea>
+                    </div>
+                    <div class="injury-card" id="injury_card_2">
+                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_2"></div>
+                        <textarea class="injury-description" id="injury_2_desc" placeholder="Describe injury..."></textarea>
+                    </div>
+                    <div class="injury-card" id="injury_card_3">
+                        <div class="injury-cycle-box" onclick="cycleInjuryState(this)" id="injury_3"></div>
+                        <textarea class="injury-description" id="injury_3_desc" placeholder="Describe injury..."></textarea>
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: #666; font-style: italic; margin-top: 4px;">Click badge to cycle: M = Mental / P = Physical</div>
+            </div>
+            <div>
+                <div class="section-banner" style="margin-top:0; margin-bottom: 5px;">Languages</div>
+                <div class="languages-row">
+                    <textarea id="language_primary" placeholder="Primary Language"></textarea>
+                    <textarea id="language_secondary" placeholder="Secondary Language"></textarea>
+                    <textarea id="language_other" placeholder="Other Languages"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-banner">Skills & Focuses</div>
+        <div class="skills-container">
+            <div>
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
+                <div class="skill-row">
+                    <span class="skill-name">Academia</span><input type="number" id="skill_academia" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Art</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Cryptography</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Finance</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">History</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Linguistics</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Occultism</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Science</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Athletics</span><input type="number" id="skill_athletics" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Climbing</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Lifting</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Physical Training</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Running</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Swimming</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Throwing</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Engineering</span><input type="number" id="skill_engineering" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Architecture</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Combat Engineering</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Electronics</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Explosives</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Mechanical Engineering</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Fighting</span><input type="number" id="skill_fighting" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Close Quarters</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Handguns</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hand-to-Hand</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Weapons</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Melee Weapons</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rifles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Threat Awareness</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Exotic</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Medicine</span><input type="number" id="skill_medicine" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">First Aid</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Infectious Diseases</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Pharmacology</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Psychiatry</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Surgery</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Toxicology</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Observation</span><input type="number" id="skill_observation" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hearing</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Instincts</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Sight</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Smell and Taste</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="skills-column-header"><span>Skill Name</span><span style="text-align:center;">Rank</span><span>Focuses</span></div>
+                <div class="skill-row">
+                    <span class="skill-name">Persuasion</span><input type="number" id="skill_persuasion" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Charm</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Innuendo</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Intimidation</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Negotiation</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rhetoric</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Deceive</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Invocation</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Resilience</span><input type="number" id="skill_resilience" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Fortitude</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Discipline</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Immunity</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Stealth</span><input type="number" id="skill_stealth" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Camouflage</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Disguise</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Rural Stealth</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Urban Stealth</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Survival</span><input type="number" id="skill_survival" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Animal Handling</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Foraging</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Hunting</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Mysticism</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Orienteering</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Tracking</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Tactics</span><input type="number" id="skill_tactics" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Air Force</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Army</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Covert Operations</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Leadership</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Navy</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Technical Projects</span>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-name">Vehicles</span><input type="number" id="skill_vehicles" value="0" min="0" max="5">
+                    <div class="focus-links-div">
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Cars</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Motorcycles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Heavy Vehicles</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Tanks</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Aircraft</span>-
+                        <span class="focus-clickable-text" onclick="toggleFocus(this)">Watercraft</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-equipment" class="tab-panel-content">
+        <div class="section-banner">Equipment of Note</div>
+        <div class="equipment-note-grid">
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_1" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_2" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_3" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_4" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_5" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_6" class="equipment-textarea"></textarea>
+            </div>
+            <div class="equipment-grid-row">
+                <textarea id="eq_note_7" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_8" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_9" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_10" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_11" class="equipment-textarea"></textarea>
+                <textarea id="eq_note_12" class="equipment-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="weapons-header-container">
+            <div class="weapons-header-title">Weapons & Armaments</div>
+            <div class="header-ticker-wrap">
+                <label>Ammo</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', -1)">-</div>
+                    <input type="text" id="ticker_ammo" class="ticker-val-field" style="width: 45px;" value="0" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_ammo', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weapons-grid-table">
+            <div class="weapons-grid-header">
+                <span>Name</span><span>Focus</span><span>Range</span><span>Damage</span><span>Salvo</span><span>Size</span><span>Qualities</span>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_1_name" class="grid-textarea"></textarea><textarea id="weapon_1_focus" class="grid-textarea"></textarea><textarea id="weapon_1_range" class="grid-textarea"></textarea><textarea id="weapon_1_damage" class="grid-textarea"></textarea><textarea id="weapon_1_salvo" class="grid-textarea"></textarea><textarea id="weapon_1_size" class="grid-textarea"></textarea><textarea id="weapon_1_qualities" class="grid-textarea"></textarea>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_2_name" class="grid-textarea"></textarea><textarea id="weapon_2_focus" class="grid-textarea"></textarea><textarea id="weapon_2_range" class="grid-textarea"></textarea><textarea id="weapon_2_damage" class="grid-textarea"></textarea><textarea id="weapon_2_salvo" class="grid-textarea"></textarea><textarea id="weapon_2_size" class="grid-textarea"></textarea><textarea id="weapon_2_qualities" class="grid-textarea"></textarea>
+            </div>
+            <div class="weapons-grid-row">
+                <textarea id="weapon_3_name" class="grid-textarea"></textarea><textarea id="weapon_3_focus" class="grid-textarea"></textarea><textarea id="weapon_3_range" class="grid-textarea"></textarea><textarea id="weapon_3_damage" class="grid-textarea"></textarea><textarea id="weapon_3_salvo" class="grid-textarea"></textarea><textarea id="weapon_3_size" class="grid-textarea"></textarea><textarea id="weapon_3_qualities" class="grid-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="footer-split-dashboard" style="margin-top: 15px;">
+            <div class="bio-entry-box">
+                <div class="section-banner" style="margin-top:0;">Biography</div>
+                <textarea id="char_bio" placeholder="Write character origin history..."></textarea>
+            </div>
+            <div class="talents-grid-table">
+                <div class="section-banner" style="margin-top:0;">Talents</div>
+                <div class="talents-grid-header"><span>Name</span><span>Keywords</span><span>Effect</span></div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_1_name" class="talent-textarea"></textarea><textarea id="talent_1_keys" class="talent-textarea"></textarea><textarea id="talent_1_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_2_name" class="talent-textarea"></textarea><textarea id="talent_2_keys" class="talent-textarea"></textarea><textarea id="talent_2_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_3_name" class="talent-textarea"></textarea><textarea id="talent_3_keys" class="talent-textarea"></textarea><textarea id="talent_3_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_4_name" class="talent-textarea"></textarea><textarea id="talent_4_keys" class="talent-textarea"></textarea><textarea id="talent_4_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_5_name" class="talent-textarea"></textarea><textarea id="talent_5_keys" class="talent-textarea"></textarea><textarea id="talent_5_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_6_name" class="talent-textarea"></textarea><textarea id="talent_6_keys" class="talent-textarea"></textarea><textarea id="talent_6_effect" class="talent-textarea"></textarea>
+                </div>
+                <div class="talents-grid-row">
+                    <textarea id="talent_7_name" class="talent-textarea"></textarea><textarea id="talent_7_keys" class="talent-textarea"></textarea><textarea id="talent_7_effect" class="talent-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-spells" class="tab-panel-content">
+        <div class="spells-header-container">
+            <div class="spells-header-title">Spells & Sorcery</div>
+            <div class="header-ticker-wrap">
+                <label>Power</label>
+                <div class="interactive-ticker-wrap">
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', -1)">-</div>
+                    <input type="text" id="ticker_power" class="ticker-val-field" style="width: 55px;" value="—" readonly>
+                    <div class="ticker-control-btn" style="background: #fff; color: #333;" onclick="adjustTickerField('ticker_power', 1)">+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spells-grid-table">
+            <div class="spells-grid-header">
+                <span>Name</span><span>Skill</span><span>Difficulty</span><span>Cost</span><span>Duration</span><span>Effect</span><span>Momentum</span>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_1_name" class="spell-textarea"></textarea><textarea id="spell_1_skill" class="spell-textarea"></textarea><textarea id="spell_1_diff" class="spell-textarea"></textarea><textarea id="spell_1_cost" class="spell-textarea"></textarea><textarea id="spell_1_duration" class="spell-textarea"></textarea><textarea id="spell_1_effect" class="spell-textarea"></textarea><textarea id="spell_1_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_2_name" class="spell-textarea"></textarea><textarea id="spell_2_skill" class="spell-textarea"></textarea><textarea id="spell_2_diff" class="spell-textarea"></textarea><textarea id="spell_2_cost" class="spell-textarea"></textarea><textarea id="spell_2_duration" class="spell-textarea"></textarea><textarea id="spell_2_effect" class="spell-textarea"></textarea><textarea id="spell_2_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_3_name" class="spell-textarea"></textarea><textarea id="spell_3_skill" class="spell-textarea"></textarea><textarea id="spell_3_diff" class="spell-textarea"></textarea><textarea id="spell_3_cost" class="spell-textarea"></textarea><textarea id="spell_3_duration" class="spell-textarea"></textarea><textarea id="spell_3_effect" class="spell-textarea"></textarea><textarea id="spell_3_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_4_name" class="spell-textarea"></textarea><textarea id="spell_4_skill" class="spell-textarea"></textarea><textarea id="spell_4_diff" class="spell-textarea"></textarea><textarea id="spell_4_cost" class="spell-textarea"></textarea><textarea id="spell_4_duration" class="spell-textarea"></textarea><textarea id="spell_4_effect" class="spell-textarea"></textarea><textarea id="spell_4_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_5_name" class="spell-textarea"></textarea><textarea id="spell_5_skill" class="spell-textarea"></textarea><textarea id="spell_5_diff" class="spell-textarea"></textarea><textarea id="spell_5_cost" class="spell-textarea"></textarea><textarea id="spell_5_duration" class="spell-textarea"></textarea><textarea id="spell_5_effect" class="spell-textarea"></textarea><textarea id="spell_5_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_6_name" class="spell-textarea"></textarea><textarea id="spell_6_skill" class="spell-textarea"></textarea><textarea id="spell_6_diff" class="spell-textarea"></textarea><textarea id="spell_6_cost" class="spell-textarea"></textarea><textarea id="spell_6_duration" class="spell-textarea"></textarea><textarea id="spell_6_effect" class="spell-textarea"></textarea><textarea id="spell_6_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_7_name" class="spell-textarea"></textarea><textarea id="spell_7_skill" class="spell-textarea"></textarea><textarea id="spell_7_diff" class="spell-textarea"></textarea><textarea id="spell_7_cost" class="spell-textarea"></textarea><textarea id="spell_7_duration" class="spell-textarea"></textarea><textarea id="spell_7_effect" class="spell-textarea"></textarea><textarea id="spell_7_momentum" class="spell-textarea"></textarea>
+            </div>
+            <div class="spells-grid-row">
+                <textarea id="spell_8_name" class="spell-textarea"></textarea><textarea id="spell_8_skill" class="spell-textarea"></textarea><textarea id="spell_8_diff" class="spell-textarea"></textarea><textarea id="spell_8_cost" class="spell-textarea"></textarea><textarea id="spell_8_duration" class="spell-textarea"></textarea><textarea id="spell_8_effect" class="spell-textarea"></textarea><textarea id="spell_8_momentum" class="spell-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-notes" class="tab-panel-content">
+        <div class="section-banner" style="margin-top: 25px;">Journal</div>
+        <div class="notes-layout-split">
+            <div class="notes-sidebar-panel">
+                <input type="text" id="journal_search_field" class="journal-search-input" oninput="handleJournalSearchInput(this.value)" placeholder="Search by title or date...">
+                <button type="button" class="add-note-action-btn" onclick="createNewRepositoryNote()">+ Add New Entry</button>
+                <div id="repo_cards_list_container" class="notes-chronological-list"></div>
+            </div>
+
+            <div id="repo_editor_view_panel" class="notes-editor-workspace" style="display: none;">
+                <div class="repository-meta-header-row">
+                    <input type="text" id="repo_note_title_input" class="repository-title-input" oninput="handleNoteTitleChange(this.value)" placeholder="Enter Note Title...">
+                    <button type="button" class="repository-delete-btn" onclick="deleteCurrentRepositoryNote()">Delete Note</button>
+                </div>
+                
+                <div class="editor-command-bar">
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('bold')"><b>B</b></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('italic')"><i>I</i></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('underline')"><u>U</u></button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertUnorderedList')">• List</button>
+                    <button type="button" class="editor-btn" onclick="execEditorCommand('insertOrderedList')">1. List</button>
+                    <button type="button" class="editor-btn" style="background: #fff2a8; border-color: #e0ca3c;" onclick="toggleCustomTextHighlight()">Highlight</button>
+                    <button type="button" class="editor-btn" style="color: #8b2626;" onclick="execEditorCommand('removeFormat')">Clear Style</button>
+                </div>
+
+                <div id="repo_rich_text_editor" class="wordpad-core-container" contenteditable="true" oninput="handleNoteContentChange(this.innerHTML)"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const TICKER_DEFAULTS = { ticker_courage: 0, ticker_armour: 0, ticker_fortune: 0, ticker_exp: 0, ticker_power: 0, ticker_ammo: 0 };
+
+function ensureTickerDefaults() {
+    Object.keys(TICKER_DEFAULTS).forEach(key => {
+        if (tickerManualOffsets[key] === undefined) tickerManualOffsets[key] = TICKER_DEFAULTS[key];
+    });
+}
+
+let saveTimer = null;
+let tickerManualOffsets = { ...TICKER_DEFAULTS };
+
+// Note Repository App State Engines
+let characterNotesLogArray = [];
+let currentSelectedNoteId = null;
+let currentJournalSearchString = "";
+
+function switchSheetTab(tabId, buttonElement) {
+    document.querySelectorAll('.tab-panel-content').forEach(panel => panel.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    buttonElement.classList.add('active');
+}
+
+function execEditorCommand(cmd, value = null) {
+    document.execCommand(cmd, false, value);
+    document.getElementById('repo_rich_text_editor').focus();
+}
+
+/* SMART RTE TOGGLEABLE HIGHLIGHT MECHANICS */
+function toggleCustomTextHighlight() {
+    const activeSelection = window.getSelection();
+    if (!activeSelection || activeSelection.rangeCount === 0 || activeSelection.isCollapsed) return;
+
+    const selectedRange = activeSelection.getRangeAt(0);
+    
+    // Check if selection is inside a mark node
+    let containerElement = selectedRange.commonAncestorContainer;
+    if (containerElement.nodeType === 3) {
+        containerElement = containerElement.parentNode;
+    }
+    const nearestMarkNode = containerElement.closest('mark.journal-custom-highlight');
+
+    // Also check if any mark nodes exist anywhere within the selected range
+    const fragment = selectedRange.cloneContents();
+    const marksWithinSelection = fragment.querySelectorAll('mark.journal-custom-highlight');
+    const hasMarksInside = marksWithinSelection.length > 0;
+
+    if (nearestMarkNode || hasMarksInside) {
+        // Unhighlight: strip all mark wrappers within the editor that overlap the selection
+        const editor = document.getElementById('repo_rich_text_editor');
+        editor.querySelectorAll('mark.journal-custom-highlight').forEach(mark => {
+            const plainText = document.createTextNode(mark.textContent);
+            mark.parentNode.replaceChild(plainText, mark);
+        });
+        // Normalize merges any adjacent text nodes left behind
+        editor.normalize();
+    } else {
+        // Highlight action: Create fresh markup wrapper element node
+        const customMarkWrapper = document.createElement('mark');
+        customMarkWrapper.className = "journal-custom-highlight";
+        
+        try {
+            customMarkWrapper.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(customMarkWrapper);
+            activeSelection.removeAllRanges();
+        } catch(e) {
+            document.execCommand('hiliteColor', false, '#fff2a8');
+        }
+    }
+    
+    // Save content updates out to local storage states
+    const richTextContainer = document.getElementById('repo_rich_text_editor');
+    handleNoteContentChange(richTextContainer.innerHTML);
+    richTextContainer.focus();
+}
+
+function queueAutosave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
+    }, 450);
+}
+
+function newCharacter() {
+    if (!confirm("Are you sure you want to clear this sheet?")) return;
+    localStorage.removeItem("achtung_cthulhu_save");
+    
+    document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    document.querySelectorAll('input[type="number"]').forEach(el => {
+        if (!el.id.startsWith("attr_")) el.value = 0;
+    });
+    ATTRIBUTES.forEach(attr => {
+        const input = document.getElementById("attr_" + attr);
+        if (input) input.value = 6;
+    });
+    document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+    });
+    document.querySelectorAll(".injury-card").forEach(card => card.classList.remove("state-M", "state-P"));
+    document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+        el.style.height = "";
+    });
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+        row.removeAttribute('data-saved-height');
+    });
+
+    // Clear Notes App State
+    characterNotesLogArray = [];
+    currentSelectedNoteId = null;
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+    renderNoteRepositorySidebar();
+    document.getElementById('repo_editor_view_panel').style.display = "none";
+
+    tickerManualOffsets = { ...TICKER_DEFAULTS };
+    updateAllCalculations();
+}
+
+// NOTE REPOSITORY APP IMPLEMENTATION ENGINE
+function createNewRepositoryNote() {
+    const timestampString = new Date().toLocaleString();
+    const newNoteObj = {
+        id: "note_" + Date.now(),
+        title: "Untitled Journal Entry",
+        date: timestampString,
+        content: "<p></p>"
+    };
+    characterNotesLogArray.unshift(newNoteObj);
+    currentSelectedNoteId = newNoteObj.id;
+    
+    // Clear the search field on new entry creation to ensure visibility
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+    
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
+}
+
+function handleJournalSearchInput(queryValue) {
+    currentJournalSearchString = queryValue.toLowerCase().trim();
+    renderNoteRepositorySidebar();
+}
+
+function normalizeDatePunctuation(str) {
+    // Normalizes punctuation markers like dashes, slashes, spaces, and periods out of timestamps
+    return str.replace(/[\/\-\.\s]/g, "");
+}
+
+function renderNoteRepositorySidebar() {
+    const listContainer = document.getElementById('repo_cards_list_container');
+    listContainer.innerHTML = "";
+    
+    // Process search expressions normalization
+    const searchClean = normalizeDatePunctuation(currentJournalSearchString);
+    
+    characterNotesLogArray.forEach(note => {
+        // Primary text validation checks
+        const noteTitleClean = (note.title || "").toLowerCase();
+        const noteDateClean = (note.date || "").toLowerCase();
+        
+        // Secondary structural strip punctuation evaluation logic checks for flexible date criteria search matches
+        const dateStripped = normalizeDatePunctuation(noteDateClean);
+        
+        const matchesTitle = noteTitleClean.includes(currentJournalSearchString);
+        const matchesDateDirect = noteDateClean.includes(currentJournalSearchString);
+        const matchesDateNormalized = searchClean !== "" && dateStripped.includes(searchClean);
+        
+        // Show item if no search criteria is present OR if it fulfills any clean search query vector
+        if (currentJournalSearchString === "" || matchesTitle || matchesDateDirect || matchesDateNormalized) {
+            const cardNode = document.createElement('div');
+            cardNode.className = "note-list-card-item";
+            if (note.id === currentSelectedNoteId) cardNode.className += " selected-active";
+            cardNode.onclick = () => selectActiveNote(note.id);
+            
+            const titleDiv = document.createElement('div');
+            titleDiv.className = "note-card-title-text";
+            titleDiv.innerText = note.title || "Untitled Journal Entry";
+            
+            const dateDiv = document.createElement('div');
+            dateDiv.className = "note-card-meta-date";
+            dateDiv.innerText = note.date;
+            
+            cardNode.appendChild(titleDiv);
+            cardNode.appendChild(dateDiv);
+            listContainer.appendChild(cardNode);
+        }
+    });
+}
+
+function selectActiveNote(id) {
+    currentSelectedNoteId = id;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+}
+
+function loadActiveNoteIntoEditor() {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (!activeNote) {
+        document.getElementById('repo_editor_view_panel').style.display = "none";
+        return;
+    }
+    document.getElementById('repo_editor_view_panel').style.display = "flex";
+    document.getElementById('repo_note_title_input').value = activeNote.title || "";
+    document.getElementById('repo_rich_text_editor').innerHTML = activeNote.content || "";
+}
+
+function handleNoteTitleChange(newTitle) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.title = newTitle;
+        renderNoteRepositorySidebar(); // Rerender to dynamically update matches
+        queueAutosave();
+    }
+}
+
+function handleNoteContentChange(newHTML) {
+    const activeNote = characterNotesLogArray.find(n => n.id === currentSelectedNoteId);
+    if (activeNote) {
+        activeNote.content = newHTML;
+        queueAutosave();
+    }
+}
+
+function deleteCurrentRepositoryNote() {
+    if (!confirm("Delete this journal note permanently?")) return;
+    characterNotesLogArray = characterNotesLogArray.filter(n => n.id !== currentSelectedNoteId);
+    currentSelectedNoteId = characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null;
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+    queueAutosave();
+}
+
+function validateAttrCap(input) {
+    let val = parseInt(input.value);
+    if (isNaN(val)) val = 0; 
+    if (val > 15) input.value = 15; 
+    if (val < 0) input.value = 0;
+    updateAllCalculations();
+}
+
+function toggleFocus(el) {
+    el.classList.toggle("active");
+    queueAutosave();
+}
+
+function cycleInjuryState(element) {
+    if (!element.classList.contains("state-M") && !element.classList.contains("state-P")) {
+        element.classList.add("state-M");
+        element.innerText = "M";
+    } else if (element.classList.contains("state-M")) {
+        element.classList.remove("state-M");
+        element.classList.add("state-P");
+        element.innerText = "P";
+    } else {
+        element.classList.remove("state-P");
+        element.innerText = "";
+    }
+    const card = element.closest(".injury-card");
+    if (card) {
+        card.classList.remove("state-M", "state-P");
+        if (element.classList.contains("state-M")) card.classList.add("state-M");
+        if (element.classList.contains("state-P")) card.classList.add("state-P");
+    }
+    queueAutosave();
+}
+
+function updateAllCalculations() {
+    updateAttributeCDFields();
+    updateStressCalculations();
+    updateResistanceCalculations();
+}
+
+function calculateCDValue(score) {
+    if (score <= 8) return "—";
+    if (score === 9) return "+1cd";
+    if (score === 10 || score === 11) return "+2cd";
+    if (score === 12 || score === 13) return "+3cd";
+    if (score === 14 || score === 15) return "+4cd";
+    return "+5cd"; 
+}
+
+const ATTRIBUTES = ["agility", "brawn", "coordination", "insight", "reason", "will"];
+
+function updateAttributeCDFields() {
+    ATTRIBUTES.forEach(attr => {
+        const baseVal = parseInt(document.getElementById("attr_" + attr).value) || 0;
+        const targetBonusField = document.getElementById("bonus_" + attr);
+        if (targetBonusField) targetBonusField.value = calculateCDValue(baseVal);
+    });
+}
+
+function calculateResistanceBase(score) {
+    if (score <= 8) return 0; 
+    if (score === 9) return 1;
+    if (score === 10 || score === 11) return 2;
+    if (score === 12 || score === 13) return 3;
+    if (score === 14 || score === 15) return 4;
+    return 5; 
+}
+
+function updateResistanceCalculations() {
+    const brawnScore = parseInt(document.getElementById('attr_brawn').value) || 0;
+    const willScore = parseInt(document.getElementById('attr_will').value) || 0;
+    
+    ensureTickerDefaults();
+
+    const totalArmour = calculateResistanceBase(brawnScore) + tickerManualOffsets.ticker_armour;
+    const totalCourage = calculateResistanceBase(willScore) + tickerManualOffsets.ticker_courage;
+
+    const armourDisplay = document.getElementById("ticker_armour");
+    armourDisplay.value = (brawnScore <= 8 && totalArmour <= 0) ? "—" : totalArmour;
+
+    const courageDisplay = document.getElementById("ticker_courage");
+    courageDisplay.value = (willScore <= 8 && totalCourage <= 0) ? "—" : totalCourage;
+
+    document.getElementById("ticker_fortune").value = tickerManualOffsets.ticker_fortune;
+    document.getElementById("ticker_exp").value = tickerManualOffsets.ticker_exp;
+    document.getElementById("ticker_ammo").value = tickerManualOffsets.ticker_ammo;
+
+    const powerDisplay = document.getElementById("ticker_power");
+    if (powerDisplay) {
+        const currentPower = tickerManualOffsets.ticker_power;
+        powerDisplay.value = (currentPower === 0) ? "—" : `+${currentPower}cd`;
+    }
+}
+
+const TICKER_NON_NEGATIVE = new Set(["ticker_fortune", "ticker_exp", "ticker_power", "ticker_ammo"]);
+
+function adjustTickerField(id, amount) {
+    if (TICKER_NON_NEGATIVE.has(id)) {
+        tickerManualOffsets[id] = Math.max(0, (tickerManualOffsets[id] || 0) + amount);
+    } else {
+        tickerManualOffsets[id] = (tickerManualOffsets[id] || 0) + amount;
+    }
+    updateResistanceCalculations();
+    queueAutosave();
+}
+
+function clearAllStress() {
+    document.querySelectorAll("#stress_checkbox_container input[type='checkbox']").forEach(cb => {
+        if (!cb.disabled) cb.checked = false;
+    });
+    queueAutosave();
+}
+
+function updateStressCalculations() {
+    const brawnBase = parseInt(document.getElementById('attr_brawn').value) || 0;
+    const willBase = parseInt(document.getElementById('attr_will').value) || 0;
+    const highestBase = Math.max(brawnBase, willBase);
+    const resilienceSkillRank = parseInt(document.getElementById('skill_resilience').value) || 0;
+    const talentBonus = parseInt(document.getElementById('input_stress_talent_bonus').value) || 0;
+    const fatigue = parseInt(document.getElementById('input_stress_fatigue').value) || 0;
+
+    document.getElementById('calc_highest_attr').value = highestBase;
+    document.getElementById('input_stress_bonus').value = resilienceSkillRank;
+
+    const total = highestBase + resilienceSkillRank + talentBonus - fatigue;
+    document.getElementById('output_stress_max').value = total;
+
+    const boxes = document.getElementById("stress_checkbox_container").getElementsByTagName("input");
+    for (let i = 0; i < boxes.length; i++) {
+        if (i < total) {
+            boxes[i].disabled = false;
+        } else {
+            boxes[i].checked = false;
+            boxes[i].disabled = true;
+        }
+    }
+}
+
+function getActiveFocuses() {
+    const focusData = {};
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+        const active = [];
+        row.querySelectorAll(".focus-clickable-text.active").forEach(f => active.push(f.innerText.trim()));
+        focusData["focus__" + skillInput.id] = active;
+    });
+    return focusData;
+}
+
+function setActiveFocuses(focuses) {
+    if (!focuses) return;
+    document.querySelectorAll(".skill-row").forEach(row => {
+        const skillInput = row.querySelector("input");
+        if (!skillInput) return;
+        const active = focuses["focus__" + skillInput.id] || focuses[skillInput.id] || [];
+        row.querySelectorAll(".focus-clickable-text").forEach(f => {
+            f.classList.toggle("active", active.includes(f.innerText.trim()));
+        });
+    });
+}
+
+function getInjuryStates() {
+    const injuryData = {};
+    document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        injuryData[box.id] = box.innerText || "";
+    });
+    return injuryData;
+}
+
+function setInjuryStates(injuries) {
+    if (!injuries) return;
+    Object.keys(injuries).forEach(id => {
+        const box = document.getElementById(id);
+        if (!box) return;
+        const state = injuries[id];
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+        const card = box.closest(".injury-card");
+        if (card) card.classList.remove("state-M", "state-P");
+        if (state === "M" || state === "P") {
+            box.classList.add("state-" + state);
+            box.innerText = state;
+            if (card) card.classList.add("state-" + state);
+        }
+    });
+}
+
+// Compile manual height attributes to string records
+function gatherCustomLayoutHeights() {
+    const heightMap = {};
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        const savedHeight = row.getAttribute('data-saved-height');
+        if (savedHeight) heightMap[identifier] = savedHeight;
+    });
+    return heightMap;
+}
+
+function restoreCustomLayoutHeights(heightMap) {
+    if (!heightMap) return;
+    document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach((row, index) => {
+        const identifier = (row.classList.contains('equipment-grid-row') ? 'eq_row_' : 'spell_row_') + index;
+        if (heightMap[identifier]) {
+            row.setAttribute('data-saved-height', heightMap[identifier]);
+            row.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(textarea => {
+                textarea.style.height = heightMap[identifier];
+            });
+        }
+    });
+}
+
+// Master Serialization Engines
+const COMPILE_EXCLUDED_IDS = new Set(["loadFile", "journal_search_field", "calc_highest_attr", "input_stress_bonus", "output_stress_max"]);
+
+function compileCharacterData() {
+    const saveData = {};
+    document.querySelectorAll("input, textarea").forEach(el => {
+        if (!el.id || COMPILE_EXCLUDED_IDS.has(el.id) || el.id.startsWith("bonus_") || el.id.startsWith("ticker_")) return;
+        saveData[el.id] = (el.type === "checkbox") ? el.checked : el.value;
+    });
+    saveData.tickerOffsets = tickerManualOffsets;
+    saveData.focuses = getActiveFocuses();
+    saveData.injuries = getInjuryStates();
+    saveData.layoutHeights = gatherCustomLayoutHeights();
+    
+    // Bundle the whole notes array and tracking profile state
+    saveData.notesRepositoryLog = characterNotesLogArray;
+    saveData.activeRepositoryNoteId = currentSelectedNoteId;
+    return saveData;
+}
+
+const APPLY_EXCLUDED_KEYS = new Set(["focuses", "injuries", "tickerOffsets", "layoutHeights", "notesRepositoryLog", "activeRepositoryNoteId"]);
+
+function applyCharacterData(saveData) {
+    if (!saveData) return;
+    Object.keys(saveData).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el || APPLY_EXCLUDED_KEYS.has(id)) return;
+        if (el.type === "checkbox") {
+            el.checked = saveData[id];
+        } else {
+            el.value = saveData[id];
+        }
+    });
+    
+    if (saveData.tickerOffsets) {
+        tickerManualOffsets = saveData.tickerOffsets;
+    } else {
+        tickerManualOffsets = { ...TICKER_DEFAULTS };
+    }
+    
+    ensureTickerDefaults();
+
+    setActiveFocuses(saveData.focuses);
+    setInjuryStates(saveData.injuries);
+    restoreCustomLayoutHeights(saveData.layoutHeights);
+
+    characterNotesLogArray = saveData.notesRepositoryLog || [];
+    currentSelectedNoteId = saveData.activeRepositoryNoteId || (characterNotesLogArray.length > 0 ? characterNotesLogArray[0].id : null);
+    
+    // Reset any lingering temporary UI filter strings upon load
+    currentJournalSearchString = "";
+    document.getElementById('journal_search_field').value = "";
+
+    renderNoteRepositorySidebar();
+    loadActiveNoteIntoEditor();
+
+    updateAllCalculations();
+}
+
+function saveCharacter() {
+    const dataPayload = compileCharacterData();
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify(dataPayload));
+    
+    let rawName = document.getElementById("char_name").value.trim();
+    let safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
+    let filename = safeName ? `AC-${safeName}.json` : "AC-Character.json";
+
+    const blob = new Blob([JSON.stringify(dataPayload, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function loadCharacter(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const saveData = JSON.parse(e.target.result);
+            applyCharacterData(saveData);
+            localStorage.setItem("achtung_cthulhu_save", JSON.stringify(saveData));
+        } catch (err) {
+            alert("Error parsing character JSON file.");
+        }
+    };
+    reader.readAsText(file);
+}
+
+// Unison Grid Resizing Dynamic Layout Listeners
+document.addEventListener('mouseup', function(e) {
+    if (e.target.classList && (e.target.classList.contains('spell-textarea') || e.target.classList.contains('equipment-textarea'))) {
+        const isSpell = e.target.classList.contains('spell-textarea');
+        const targetRowClass = isSpell ? '.spells-grid-row' : '.equipment-grid-row';
+        const targetTextareaClass = isSpell ? '.spell-textarea' : '.equipment-textarea';
+        
+        let parentRow = e.target.closest(targetRowClass);
+        if (parentRow) {
+            let currentHeight = e.target.style.height;
+            if (currentHeight) {
+                parentRow.setAttribute('data-saved-height', currentHeight);
+                parentRow.querySelectorAll(targetTextareaClass).forEach(textarea => {
+                    textarea.style.height = currentHeight;
+                });
+                queueAutosave();
+            }
+        }
+    }
+});
+
+document.addEventListener("input", function (e) {
+    if (e.target.id === "loadFile" || e.target.id === "journal_search_field") return;
+    if (e.target.id.startsWith("attr_")) {
+        validateAttrCap(e.target);
+    } else if (e.target.id === "skill_resilience" || e.target.id === "input_stress_fatigue" || e.target.id === "input_stress_talent_bonus") {
+        updateStressCalculations();
+    }
+    queueAutosave();
+});
+
+document.addEventListener("change", function (e) {
+    if (e.target.id === "loadFile") return;
+    queueAutosave();
+});
+
+updateAllCalculations();
+
+(function loadFromLocal() {
+    const data = localStorage.getItem("achtung_cthulhu_save");
+    if (!data) return;
+    applyCharacterData(JSON.parse(data));
+})();
+</script>
+
+    <script type="module">
+  // 1. Import Firebase Core and Services
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+  // 2. Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLE5es_NMzmZRYwcy4HbRdp0RFfoE0XAs",
+    authDomain: "achtung-cthulhu-sheet.firebaseapp.com",
+    projectId: "achtung-cthulhu-sheet",
+    storageBucket: "achtung-cthulhu-sheet.firebasestorage.app",
+    messagingSenderId: "657673754871",
+    appId: "1:657673754871:web:f10ebcd43d93382cc61bf2"
+  };
+
+  // 3. Initialize App and Services
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // 4. Track Active State Variables
+  let currentUser = null;
+  let activeSlotId = "slot_1";
+  let isDownloadingData = false;
+
+  // 5. DOM Elements (The UI Controls)
+  const charSheetContainer = document.getElementById("main-character-sheet");
+  const loggedOutZone = document.getElementById("auth-logged-out-zone");
+  const loggedInZone = document.getElementById("auth-logged-in-zone");
+  const emailInput = document.getElementById("auth-email");
+  const passwordInput = document.getElementById("auth-password");
+  const userDisplayEmail = document.getElementById("user-display-email");
+  const characterSelect = document.getElementById("character-select");
+  
+  const btnLogin = document.getElementById("btn-login");
+  const btnRegister = document.getElementById("btn-register");
+  const btnForgotPassword = document.getElementById("btn-forgot-password");
+  const btnLogout = document.getElementById("btn-logout");
+  const btnNewCharacter = document.getElementById("btn-new-character");
+  const btnDeleteCharacter = document.getElementById("btn-delete-character");
+  const btnExportSheet = document.getElementById("btn-export-sheet");
+  const btnImportSheet = document.getElementById("btn-import-sheet");
+  const cloudImportFile = document.getElementById("cloud-import-file");
+
+  // ==========================================
+  //  PHASE A: AUTHENTICATION
+  // ==========================================
+
+  // Register New Account
+  btnRegister.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Account created successfully!");
+    } catch (error) {
+      alert("Registration Error: " + error.message);
+    }
+  });
+
+  // Log In Existing Account
+  btnLogin.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return alert("Please enter both an email and password.");
+    
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      alert("Login Error: " + error.message);
+    }
+  });
+
+  // Forgot Password Reset Routine
+  btnForgotPassword.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return alert("Please type your email address into the text box first, then click Forgot Password.");
+    
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Please check your inbox or spam folder.");
+    } catch (error) {
+      alert("Reset Error: " + error.message);
+    }
+  });
+
+  // Log Out
+  btnLogout.addEventListener("click", () => {
+    signOut(auth).then(() => {
+      localStorage.removeItem("achtung_cthulhu_save");
+      location.reload(); 
+    });
+  });
+
+  // ==========================================
+  //  PHASE B: MANAGING THE ACCOUNT STATE
+  // ==========================================
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      userDisplayEmail.textContent = `User: ${user.email}`;
+      
+      loggedOutZone.style.display = "none";
+      loggedInZone.style.display = "flex";
+      
+      // REVEAL character sheet container when verified!
+      if (charSheetContainer) charSheetContainer.style.display = "block";
+      
+      await loadCharacterList();
+    } else {
+      currentUser = null;
+      loggedOutZone.style.display = "flex";
+      loggedInZone.style.display = "none";
+      
+      // HIDE character sheet container when unauthorized!
+      if (charSheetContainer) charSheetContainer.style.display = "none";
+    }
+  });
+
+  // ==========================================
+  //  PHASE C: LOADING, SAVING & MANAGING SLOTS
+  // ==========================================
+  async function loadCharacterList() {
+    if (!currentUser) return;
+    characterSelect.innerHTML = "";
+    
+    try {
+      const slotsRef = collection(db, "users", currentUser.uid, "characters");
+      const querySnapshot = await getDocs(slotsRef);
+      
+      if (querySnapshot.empty) {
+        if (charSheetContainer) charSheetContainer.style.display = "none";
+        const emptyModal = document.getElementById("empty-state-modal");
+        if (emptyModal) emptyModal.style.display = "block";
+        return;
+      }
+      if (charSheetContainer) charSheetContainer.style.display = "block";
+      const emptyModal = document.getElementById("empty-state-modal");
+      if (emptyModal) emptyModal.style.display = "none";
+      
+      const slotEntries = [];
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const displayName = data.char_name || `Saved Sheet (${docSnap.id})`;
+        slotEntries.push({ displayName, id: docSnap.id });
+      });
+      slotEntries.sort((a, b) => a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase()));
+      slotEntries.forEach(({ displayName, id }) => {
+        const truncated = displayName.length > 28 ? displayName.slice(0, 28) + "…" : displayName;
+        characterSelect.add(new Option(truncated, id));
+      });
+      
+      characterSelect.value = activeSlotId;
+      if (!characterSelect.value && characterSelect.options.length > 0) {
+        activeSlotId = characterSelect.options[0].value;
+        characterSelect.value = activeSlotId;
+      }
+      
+      await loadCharacterFromCloud();
+    } catch (error) {
+      console.error("Error generating character list: ", error);
+    }
+  }
+
+  async function loadCharacterFromCloud() {
+    if (!currentUser || !activeSlotId) return;
+    isDownloadingData = true;
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const characterData = docSnap.data();
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(characterData);
+          localStorage.setItem("achtung_cthulhu_save", JSON.stringify(characterData));
+        }
+      }
+    } catch (error) {
+      console.error("Error loading cloud data: ", error);
+    } finally {
+      isDownloadingData = false;
+    }
+  }
+
+  async function saveCharacterToCloud() {
+    if (!currentUser || !activeSlotId || isDownloadingData) return;
+    
+    const localDataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!localDataString) return;
+    
+    const characterData = JSON.parse(localDataString);
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await setDoc(docRef, characterData, { merge: true });
+      console.log(`Cloud Auto-Synced: ${activeSlotId}`);
+    } catch (error) {
+      console.error("Cloud Save Failure: ", error);
+    }
+  }
+
+  characterSelect.addEventListener("change", async (e) => {
+    activeSlotId = e.target.value;
+    await loadCharacterFromCloud();
+  });
+
+  // + Add New Routine
+  btnNewCharacter.addEventListener("click", async () => {
+
+    // 1. Generate a fresh timestamp ID for this new cloud slot
+    const newSlotId = "slot_" + Date.now();
+    
+    // 2. Clear out local memory cache completely
+    localStorage.setItem("achtung_cthulhu_save", JSON.stringify({}));
+    
+    try {
+      // 3. Create a clean base record directly in your Firestore database document
+      const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
+      await setDoc(docRef, { char_name: "" }, { merge: false });
+      
+      // 4. Explicitly redirect our app's active tracking pointer to the new slot ID!
+      activeSlotId = newSlotId;
+      
+      // 5. Refresh the cloud list cache so the selector reflects the update
+      await loadCharacterList();
+      
+      // 6. Explicitly force the select element dropdown box to pick our new slot row
+      characterSelect.value = newSlotId;
+
+      // 7. FORCE all onscreen input nodes to empty defaults AFTER cloud load so nothing overwrites them
+      document.querySelectorAll("#main-character-sheet input[type='text'], #main-character-sheet textarea").forEach(input => {
+        input.value = "";
+      });
+      document.querySelectorAll("#main-character-sheet input[type='number']").forEach(input => {
+        input.value = input.id.startsWith("attr_") ? 6 : 0;
+      });
+      document.querySelectorAll("#main-character-sheet input[type='checkbox']").forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      document.querySelectorAll(".focus-clickable-text").forEach(f => f.classList.remove("active"));
+      document.querySelectorAll(".injury-cycle-box").forEach(box => {
+        box.classList.remove("state-M", "state-P");
+        box.innerText = "";
+      });
+      document.querySelectorAll(".injury-card").forEach(card => card.classList.remove("state-M", "state-P"));
+      document.querySelectorAll('.equipment-textarea, .spell-textarea').forEach(el => {
+        el.style.height = "";
+      });
+      document.querySelectorAll('.equipment-grid-row, .spells-grid-row').forEach(row => {
+        row.removeAttribute('data-saved-height');
+      });
+
+      // 8. Switch back to the main tab
+      const mainTabBtn = document.querySelector(".tab-btn");
+      if (mainTabBtn && typeof switchSheetTab === "function") {
+        switchSheetTab('tab-main', mainTabBtn);
+      }
+
+      // 9. Run your original layout calculations to reset dynamic stress tracks/caps back to zero
+      if (typeof updateAllCalculations === "function") {
+        updateAllCalculations();
+      }
+      
+      alert("New character sheet successfully created and selected!");
+    } catch (error) {
+      console.error("Failed to initialize new cloud sheet: ", error);
+      alert("Error creating sheet: " + error.message);
+    }
+  });
+
+  // Delete Routine
+ btnDeleteCharacter.addEventListener("click", async () => {
+    
+    try {
+      const docRef = doc(db, "users", currentUser.uid, "characters", activeSlotId);
+      await deleteDoc(docRef);
+      alert("Slot deleted.");
+      activeSlotId = "slot_1";
+      await loadCharacterList();
+    } catch (error) {
+      alert("Deletion Error: " + error.message);
+    }
+  });
+
+  // ==========================================
+  //  PHASE D: EXPORT & IMPORT MODULES
+  // ==========================================
+
+  // Export Button Handler
+  btnExportSheet.addEventListener("click", () => {
+    const dataString = localStorage.getItem("achtung_cthulhu_save");
+    if (!dataString) return alert("No character data found to export.");
+    
+    // Grab character name for the filename fallback
+    const currentData = JSON.parse(dataString);
+    const filename = (currentData.char_name || "character").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+    const blob = new Blob([dataString], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}_backup.json`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  // Import Button click acts as virtual trigger for input window
+  btnImportSheet.addEventListener("click", () => {
+    cloudImportFile.click();
+  });
+
+ // Read uploaded backup file and create a NEW slot for it
+  cloudImportFile.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        
+        // Generate a fresh slot ID so we never overwrite an existing sheet
+        const newSlotId = "slot_" + Date.now();
+        activeSlotId = newSlotId;
+        
+        // Write imported data into local cache under the new slot
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(importedData));
+        
+        // Apply to the UI
+        if (typeof applyCharacterData === "function") {
+          applyCharacterData(importedData);
+        }
+        
+        // Push as a brand new Firestore document
+        const docRef = doc(db, "users", currentUser.uid, "characters", newSlotId);
+        await setDoc(docRef, importedData, { merge: false });
+        
+        // Refresh the dropdown and select the new slot
+        await loadCharacterList();
+        characterSelect.value = newSlotId;
+        
+        alert("Character sheet successfully imported as a new slot!");
+      } catch (err) {
+        alert("Error parsing backup file.");
+      }
+    };
+    reader.readAsText(file);
+    cloudImportFile.value = "";
+  });
+
+  // Live-update dropdown list label as name types, then re-sort alphabetically
+  document.getElementById("char_name").addEventListener("input", (e) => {
+    if (!currentUser || !activeSlotId) return;
+    const activeOption = characterSelect.querySelector(`option[value="${activeSlotId}"]`);
+    if (activeOption) {
+      activeOption.textContent = e.target.value.trim() || `Saved Sheet (${activeSlotId})`;
+    }
+    const options = Array.from(characterSelect.options);
+    options.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
+    characterSelect.innerHTML = "";
+    options.forEach(opt => {
+      opt.text = opt.text.length > 28 ? opt.text.slice(0, 28) + "…" : opt.text;
+      characterSelect.add(opt);
+    });
+    characterSelect.value = activeSlotId;
+  });
+
+  // ==========================================
+  //  PHASE E: OVERRIDE AUTOSAVE HOOKS
+  // ==========================================
+  if (typeof queueAutosave === "function") {
+    const originalQueueAutosave = queueAutosave;
+    queueAutosave = function() {
+      originalQueueAutosave();
+      saveCharacterToCloud();
+    };
+  }
+</script>
+
+  </body>
+</html>
