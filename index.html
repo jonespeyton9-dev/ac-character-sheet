@@ -1870,7 +1870,8 @@ const TICKER_NON_NEGATIVE = new Set(["ticker_fortune", "ticker_exp", "ticker_pow
 
 function adjustTickerField(id, amount) {
     if (TICKER_NON_NEGATIVE.has(id)) {
-        tickerManualOffsets[id] = Math.max(0, (tickerManualOffsets[id] || 0) + amount);
+    const max = id === "ticker_fortune" ? 5 : Infinity;
+    tickerManualOffsets[id] = Math.max(0, Math.min(max, (tickerManualOffsets[id] || 0) + amount));
     } else {
         tickerManualOffsets[id] = (tickerManualOffsets[id] || 0) + amount;
     }
