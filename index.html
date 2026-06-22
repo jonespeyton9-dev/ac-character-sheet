@@ -2559,10 +2559,12 @@ updateAllCalculations();
   //  PHASE E: OVERRIDE AUTOSAVE HOOKS
   // ==========================================
   if (typeof queueAutosave === "function") {
-    const originalQueueAutosave = queueAutosave;
     queueAutosave = function() {
-      originalQueueAutosave();
-      saveCharacterToCloud();
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        localStorage.setItem("achtung_cthulhu_save", JSON.stringify(compileCharacterData()));
+        saveCharacterToCloud();
+      }, 450);
     };
   }
 </script>
